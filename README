@@ -1,1 +1,1 @@
-This repository contains the two programs for Team 772's FTC Robot.  Auto.c is the program that is run during autonomous mode and Teleop.c is the program that is run during tele-operated mode.
+This repository contains the two programs for Team 772's FTC Robot.  Auto.c is the program that is run during Autonomous mode and TeleOp.c is the program that is run during TeleOperated mode.
