@@ -21,20 +21,44 @@
 
 #include "JoystickDriver.c"
 
-task joystickControl() {
-	//Big fancy statement to set the left forward motors equal to the converted joystick's left y axis unless it is in the natural variant range.
-	motor[LeftBackForward] = motor[LeftFrontForward] = joystick.joy1_y1 > 10 || joystick.joy1_y1 < -10 ? joystick.joy1_y1 / 128.0 * 100 : 0;
-	//Same for right and for sideways (but use the second y axis for right side and use the x axes for sideways motors)
-	motor[RightBackForward] = motor[RightFrontForward] = joystick.joy1_y2 > 10 || joystick.joy1_y2 < -10 ? joystick.joy1_y2 / 128.0 * 100 : 0;
-	motor[LeftBackSideways] = motor[LeftFrontSideways] = joystick.joy1_x1 > 10 || joystick.joy1_x1 < -10 ? joystick.joy1_x1 / 128.0 * 100 : 0;
-	motor[RightBackSideways] = motor[RightFrontSideways] = joystick.joy1_x2 > 10 || joystick.joy1_x2 < -10 ? joystick.joy1_x2 / 128.0 * 100 : 0;
+//Initialize our globals
+ubyte joystickFactor = 100; //Used to scale down robot movements
+bool forward = true; //Used for direction locking
+bool sideways = true;
+
+task joystickControl() { //Asynchronous task for joystick control
+	while(true) {
+		if(forward) { //Part of direction locking mechanism
+			//Big fancy statement to set the left forward motors equal to the converted joystick's left y axis unless it is in the natural variant range.
+			motor[LeftBackForward] = motor[LeftFrontForward] = joystick.joy1_y1 > 10 || joystick.joy1_y1 < -10 ? joystick.joy1_y1 / 128.0 * joystickFactor : 0;
+			//Same for right and for sideways (but use the second y axis for right side and use the x axes for sideways motors)
+			motor[RightBackForward] = motor[RightFrontForward] = joystick.joy1_y2 > 10 || joystick.joy1_y2 < -10 ? joystick.joy1_y2 / 128.0 * joystickFactor : 0;
+		}
+  	if(sideways) {
+			motor[LeftBackSideways] = motor[LeftFrontSideways] = joystick.joy1_x1 > 10 || joystick.joy1_x1 < -10 ? joystick.joy1_x1 / 128.0 * joystickFactor : 0;
+			motor[RightBackSideways] = motor[RightFrontSideways] = joystick.joy1_x2 > 10 || joystick.joy1_x2 < -10 ? joystick.joy1_x2 / 128.0 * joystickFactor : 0;
+		}
+	}
 }
 
 task main() {
 	//Initialize
+	motor[LeftBackForward] = motor[LeftFrontForward] = motor[RightBackForward] = motor[RightFrontForward]
+		= motor[LeftBackSideways] = motor[LeftFrontSideways] = motor[RightBackSideways] = motor[RightFrontSideways] = 0; //Turn off the motors
 	waitForStart();
-	StartTask(joystickControl);
+	StartTask(joystickControl); //Go ahead and start joysticks in their own task
 	while(true) {
-		//Teleop
-  }
+		if(joy1Btn(6)) //If the driver is pressing button 6, scale down robot movements
+			joystickFactor = 30;
+		else
+			joystickFactor = 100;
+		if(joy1Btn(5)) //If the driver is pressing button 5, lock to y-axis movement
+			sideways = false;
+		else
+			sideways = true;
+		if(joy1Btn(7)) //If the driver is pressing button 7, lock to x-axis movement
+			forward = false;
+		else
+			forward = true;
+	}
 }
