@@ -23,6 +23,14 @@
 
 task main() {
 	//Initialize
+	motor[LeftBackForward] = motor[LeftFrontForward] = motor[RightBackForward] = motor[RightFrontForward]
+		= motor[LeftBackSideways] = motor[LeftFrontSideways] = motor[RightBackSideways] = motor[RightFrontSideways] = 0; //Turn off the motors
 	waitForStart();
 	//Autonomous
+	/* Here is the autonomous idea:
+	*			Read the IR sensor to get a general area of the Beacon.  Use that to figure out the proper column (shouldn't be too hard)
+	*			Then decide which autonomous set of commands to run.  Proper a bunch of if...else if... else if... else statements.  And
+	*			If we can't find the IR Beacon (which we should make code for that just in case) then we will just put the ring on the
+	*			center peg (or some other predefined spot if necessary).  The movements will be hardcoded so we can tune to the best accuracy.
+	*/
 }
