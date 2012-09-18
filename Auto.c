@@ -25,6 +25,8 @@ task main() {
 	//Initialize
 	motor[LeftBackForward] = motor[LeftFrontForward] = motor[RightBackForward] = motor[RightFrontForward]
 		= motor[LeftBackSideways] = motor[LeftFrontSideways] = motor[RightBackSideways] = motor[RightFrontSideways] = 0; //Turn off the motors
+	nMotorEncoder[LeftBackForward] = nMotorEncoder[LeftFrontForward] = nMotorEncoder[RightBackForward] = nMotorEncoder[RightFrontForward]
+		= nMotorEncoder[LeftBackSideways] = nMotorEncoder[LeftFrontSideways] = nMotorEncoder[RightBackSideways] = nMotorEncoder[RightFrontSideways] = 0; //Might as well reset the encoders too
 	waitForStart();
 	//Autonomous
 	/* Here is the autonomous idea:
