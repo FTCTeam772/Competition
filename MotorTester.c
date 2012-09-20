@@ -9,47 +9,66 @@
 
 #include "JoystickDriver.c"
 
+#define ENCODERSTOP 1440
+
+bool motorLeftForward = false; //Says whether we are testing an encoder or not
+bool motorRightForward = false;
+bool motorBackSideways = false;
+bool motorFrontSideways = false;
+
 task main() {
 	while(true) {
-		if(joy1Btn(1))
+		if(joy1Btn(1)) //If button 1 is pressed, start the motor
 			motor[LeftForward] = 100;
-		else
+		else if(!motorLeftForward) //If we aren't testing the encoder, stop the motor
 			motor[LeftForward] = 0;
 		if(joy1Btn(2))
 			motor[RightForward] = 100;
-		else
+		else if(!motorRightForward)
 			motor[RightForward] = 0;
 		if(joy1Btn(3))
 			motor[BackSideways] = 100;
-		else
+		else if(!motorBackSideways)
 			motor[BackSideways] = 0;
 		if(joy1Btn(4))
 			motor[FrontSideways] = 100;
-		else
+		else if(!motorFrontSideways)
 			motor[FrontSideways] = 0;
-		if(joystick.joy1_TopHat == 0) {
-			nMotorEncoder = 0;
-			motor[LeftForward] = 100;
-			while(nMotorEncoder != 1440);
-			motor[LeftForward] = 0;
+		if(joystick.joy1_TopHat == 0) { //Start testing encoder if top D-Pad button is pressed
+			nMotorEncoder[LeftForward] = 0; //Reset the encoder
+			motor[LeftForward] = 100; //Go!
+			motorLeftForward = true; //Now testing LeftForward
 		}
-		if(joystick.joy1_TopHat == 2) {
-			nMotorEncoder = 0;
+		if(joystick.joy1_TopHat == 2) { //Right D-Pad button
+			nMotorEncoder[RightForward] = 0;
 			motor[RightForward] = 100;
-			while(nMotorEncoder != 1440);
-			motor[RightForward] = 0;
+			motorRightForward = true;
 		}
-		if(joystick.joy1_TopHat == 4) {
-			nMotorEncoder = 0;
+		if(joystick.joy1_TopHat == 4) { //Bottom D-Pad button
+			nMotorEncoder[BackSideways] = 0;
 			motor[BackSideways] = 100;
-			while(nMotorEncoder != 1440);
-			motor[BackSideways] = 0;
+			motorBackSideways = true;
 		}
-		if(joystick.joy1_TopHat == 6) {
-			nMotorEncoder = 0;
+		if(joystick.joy1_TopHat == 6) { //Left D-Pad button
+			nMotorEncoder[FrontSideways] = 0;
 			motor[FrontSideways] = 100;
-			while(nMotorEncoder != 1440);
+			motorFrontSideways = true;
+		}
+		if(motorLeftForward && nMotorEncoder[LeftForward] > ENCODERSTOP) { //If we are testing encoder and time to stop, stop the motor
+			motor[LeftForward] = 0;
+			motorLeftForward = false;
+		}
+		if(motorRightForward && nMotorEncoder[RightForward] > ENCODERSTOP) {
+			motor[RightForward] = 0;
+			motorRightForward = false;
+		}
+		if(motorBackSideways && nMotorEncoder[BackSideways] > ENCODERSTOP) {
+			motor[BackSideways] = 0;
+			motorBackSideways = false;
+		}
+		if(motorFrontSideways && nMotorEncoder[FrontSideways] > ENCODERSTOP) {
 			motor[FrontSideways] = 0;
+			motorFrontSideways = false;
 		}
 	}
 }
