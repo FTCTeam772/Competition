@@ -10,7 +10,7 @@
 #include "JoystickDriver.c"
 
 //Initialize our globals
-ubyte joystickFactor = 100; //Used to scale down robot movements
+byte joystickFactor = 100; //Used to scale down robot movements
 bool forward = true; //Used for direction locking
 bool sideways = true;
 

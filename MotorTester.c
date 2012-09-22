@@ -17,6 +17,10 @@ bool motorBackSideways = false;
 bool motorFrontSideways = false;
 
 task main() {
+	//Initialize
+	motor[LeftForward] = motor[RightForward] = motor[BackSideways] = motor[FrontSideways] = 0; //Turn off the motors
+	nMotorEncoder[LeftForward] = nMotorEncoder[RightForward] = nMotorEncoder[BackSideways] = nMotorEncoder[FrontSideways] = 0; //Might as well reset the encoders too
+	waitForStart();
 	while(true) {
 		if(joy1Btn(1)) //If button 1 is pressed, start the motor
 			motor[LeftForward] = 100;
@@ -54,19 +58,19 @@ task main() {
 			motor[FrontSideways] = 100;
 			motorFrontSideways = true;
 		}
-		if(motorLeftForward && nMotorEncoder[LeftForward] > ENCODERSTOP) { //If we are testing encoder and time to stop, stop the motor
+		if(motorLeftForward && nMotorEncoder[LeftForward] >= ENCODERSTOP) { //If we are testing encoder and time to stop, stop the motor
 			motor[LeftForward] = 0;
 			motorLeftForward = false;
 		}
-		if(motorRightForward && nMotorEncoder[RightForward] > ENCODERSTOP) {
+		if(motorRightForward && nMotorEncoder[RightForward] >= ENCODERSTOP) {
 			motor[RightForward] = 0;
 			motorRightForward = false;
 		}
-		if(motorBackSideways && nMotorEncoder[BackSideways] > ENCODERSTOP) {
+		if(motorBackSideways && nMotorEncoder[BackSideways] >= ENCODERSTOP) {
 			motor[BackSideways] = 0;
 			motorBackSideways = false;
 		}
-		if(motorFrontSideways && nMotorEncoder[FrontSideways] > ENCODERSTOP) {
+		if(motorFrontSideways && nMotorEncoder[FrontSideways] >= ENCODERSTOP) {
 			motor[FrontSideways] = 0;
 			motorFrontSideways = false;
 		}
