@@ -20,4 +20,7 @@ task main() {
 	*			If we can't find the IR Beacon (which we should make code for that just in case) then we will just put the ring on the
 	*			center peg (or some other predefined spot if necessary).  The movements will be hardcoded so we can tune to the best accuracy.
 	*/
+	while(true) {
+
+	}
 }
