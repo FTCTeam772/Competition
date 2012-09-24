@@ -8,6 +8,28 @@
 
 #include "JoystickDriver.c"
 
+#define FORWARD 1440 //Number of encoder revolutions to go forward
+#define SIDEWAYS 1400 //Number of encoder revolutions to go sideways (for left or right)
+
+void right() {
+	//Do something similar as going forward but using sideways motors
+	nMotorEncoder[FrontSideways] = nMotorEncoder[BackSideways] = 0;
+	motor[FrontSideways] = motor[BackSideways] = 100;
+	while(nMotorEncoder[FrontSideways] < SIDEWAYS && nMotorEncoder[BackSideways] < SIDEWAYS);
+	motor[FrontSideways] = motor[BackSideways] = 0;
+}
+
+void left() {
+	nMotorEncoder[FrontSideways] = nMotorEncoder[BackSideways] = SIDEWAYS; //Since encoder will count down now, set it to SIDEWAYS revolutions...
+	motor[FrontSideways] = motor[BackSideways] = -100;
+	while(nMotorEncoder[FrontSideways] > 0 && nMotorEncoder[BackSideways] > 0);//... and wait until it is 0
+	motor[FrontSideways] = motor[BackSideways] = 0;
+}
+
+void placeRing() {
+	//To be done when the arm is finished and decided
+}
+
 task main() {
 	//Initialize
 	motor[LeftForward] = motor[RightForward] = motor[BackSideways] = motor[FrontSideways] = 0; //Turn off the motors
@@ -20,7 +42,28 @@ task main() {
 	*			If we can't find the IR Beacon (which we should make code for that just in case) then we will just put the ring on the
 	*			center peg (or some other predefined spot if necessary).  The movements will be hardcoded so we can tune to the best accuracy.
 	*/
-	while(true) {
-
+	//Go forward for FORWARD revolutions up to the columns
+	nMotorEncoder[RightForward] = nMotorEncoder[LeftForward] = 0; //Reset the encoders
+	motor[RightForward] = motor[LeftForward] = 100; //Turn the motors on
+	while(nMotorEncoder[RightForward] < FORWARD && nMotorEncoder[LeftForward] < FORWARD); //Wait until the encoders hit FORWARD
+	motor[RightForward] = motor[LeftForward] = 0; //Stop the motors
+	placeRing(); //Place the ring
+	switch(SensorValue[IR]) { //0 if not found, else 1-9
+		case 1: //For values 1-4, assume the beacon is on the left column
+		case 2:
+		case 3:
+		case 4:
+			left();
+			break;
+		case 5: //For value 5 (center), assume the beacon is on the center column and just place the ring
+			break;
+		case 6: //For values 6-9, assume the beacon is on the right column
+		case 7:
+		case 8:
+		case 9:
+			right();
+			break;
+		default: //For value 0 (or other uncaught numbers), just put it on the center peg and hope for the best
 	}
+	placeRing(); //Go ahead and place the ring now that we are positioned
 }
