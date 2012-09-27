@@ -48,19 +48,17 @@ task main() {
 	while(nMotorEncoder[RightForward] < FORWARD && nMotorEncoder[LeftForward] < FORWARD); //Wait until the encoders hit FORWARD
 	motor[RightForward] = motor[LeftForward] = 0; //Stop the motors
 	placeRing(); //Place the ring
-	switch(SensorValue[IR]) { //0 if not found, else 1-9
-		case 1: //For values 1-4, assume the beacon is on the left column
+	switch(SensorValue[IR]) { //0 if not found, else 1-9, 4 is a narrow area and will be positioned to be center
+		case 1: //For values 1-3, assume the beacon is on the left column
 		case 2:
 		case 3:
-		case 4:
 			left();
 			break;
-		case 5: //For value 5 (center), assume the beacon is on the center column and just place the ring
+		case 4: //For value 4 (center), assume the beacon is on the center column and just place the ring
 			break;
-		case 6: //For values 6-9, assume the beacon is on the right column
+		case 5: //For values 5-7, assume the beacon is on the right column
+		case 6:
 		case 7:
-		case 8:
-		case 9:
 			right();
 			break;
 		default: //For value 0 (or other uncaught numbers), just put it on the center peg and hope for the best
