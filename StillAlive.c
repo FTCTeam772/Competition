@@ -40,7 +40,7 @@ task control() {
 				speed += 10;
 				nxtDisplayTextLine(7, "[]speed:%d     ", speed);
 			}
-			AbortTimeslice();
+			abortTimeslice();
 		}
 		while(nNxtButtonPressed == 3);
 		nxtDisplayTextLine(7, "[]volume: %d   ", nVolume);
@@ -54,7 +54,7 @@ task control() {
 				nVolume += 1;
 				nxtDisplayTextLine(7, "[]volume: %d   ", nVolume);
 			}
-			AbortTimeslice();
+			abortTimeslice();
 		}
 		while(nNxtButtonPressed == 3);
 	}
