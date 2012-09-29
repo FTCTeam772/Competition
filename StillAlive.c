@@ -11,11 +11,11 @@
 unsigned short speed = 90;
 
 void tone(unsigned short frequency, unsigned short duration) {
-	PlayTone(frequency, duration*speed/100);
+	PlayTone(frequency, duration*100/speed);
 }
 
 void wait(unsigned short ms) {
-	wait10Msec(ms*speed/100);
+	wait10Msec(ms*100/speed);
 }
 
 void clearLyrics() {
@@ -378,9 +378,9 @@ task main() {
   tone(659,20);
   wait(24);
   tone(659,30);
-  wait(360);
+  wait(36);
   tone(740,30);
-  wait(360);
+  wait(36);
   wait(48);
   wait(96);
 
@@ -1075,7 +1075,7 @@ task main() {
   nxtDisplayTextLine(1, "FINAL THOUGHT PS");
   nxtDisplayTextLine(3, "And when you're ");
   nxtDisplayTextLine(4, "dead I will be  ");
-  nxtDisplayTextLine(6, "    still alvie.");
+  nxtDisplayTextLine(6, "    still alive.");
   tone(880,20);
   wait(24);
   tone(880,20);
@@ -1122,4 +1122,5 @@ task main() {
   wait(70);
   wait(48);
   wait(96);
+  StopAllTasks();
 }
