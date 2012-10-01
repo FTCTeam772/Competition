@@ -8,7 +8,7 @@
 
 #include "JoystickDriver.c"
 
-#define ENCODERSTOP 1440
+#define ENCODERSTOP 2880
 
 bool motorLeftForward = false; //Says whether we are testing an encoder or not
 bool motorRightForward = false;
