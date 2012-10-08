@@ -8,8 +8,10 @@
 
 #include "JoystickDriver.c"
 
-#define FORWARD 1440 //Number of encoder revolutions to go forward
-#define SIDEWAYS 1400 //Number of encoder revolutions to go sideways (for left or right)
+#define FORWARD 7000 //Number of encoder revolutions to go forward
+#define TURN 1200 //Same as above but for turn
+#define CENTERFORWARD 1500 //For going forward to the center
+#define SIDEWAYS 800 //Number of encoder revolutions to go sideways (for left or right)
 
 void right() {
 	//Do something similar as going forward but using sideways motors
@@ -20,9 +22,9 @@ void right() {
 }
 
 void left() {
-	nMotorEncoder[FrontSideways] = nMotorEncoder[BackSideways] = SIDEWAYS; //Since encoder will count down now, set it to SIDEWAYS revolutions...
+	nMotorEncoder[FrontSideways] = nMotorEncoder[BackSideways] = 0; //Since the encoder will be counting backwards, set the encoder to 0 ...
 	motor[FrontSideways] = motor[BackSideways] = -100;
-	while(nMotorEncoder[FrontSideways] > 0 && nMotorEncoder[BackSideways] > 0);//... and wait until it is 0
+	while(nMotorEncoder[FrontSideways] > -SIDEWAYS && nMotorEncoder[BackSideways] > -SIDEWAYS);//... and wait until it is -SIDEWAYS
 	motor[FrontSideways] = motor[BackSideways] = 0;
 }
 
@@ -47,7 +49,36 @@ task main() {
 	motor[RightForward] = motor[LeftForward] = 100; //Turn the motors on
 	while(nMotorEncoder[RightForward] < FORWARD && nMotorEncoder[LeftForward] < FORWARD); //Wait until the encoders hit FORWARD
 	motor[RightForward] = motor[LeftForward] = 0; //Stop the motors
-	placeRing(); //Place the ring
+	//Turn
+	while(nMotorEncoder[RightForward] != 0 && nMotorEncoder[LeftForward] != 0) { //Reset the encoders - wait until they level out at 0 (make sure we are stopped)
+		nMotorEncoder[RightForward] = 0;
+		nMotorEncoder[BackSideways] = 0;
+		nMotorEncoder[LeftForward] = 0;
+		nMotorEncoder[FrontSideways] = 0;
+		wait10Msec(10);
+	}
+	motor[RightForward] = motor[BackSideways] = 100; //Set motors in opposite directions
+	motor[LeftForward] = motor[FrontSideways] = -100;
+	while(nMotorEncoder[RightForward] < TURN && nMotorEncoder[BackSideways] < TURN && nMotorEncoder[LeftForward] > -TURN && nMotorEncoder[FrontSideways] > -TURN); //Wait until right encoder counts up to TURN and left counts down to -TURN
+	motor[RightForward] = motor[BackSideways] = motor[LeftForward] = motor[FrontSideways] = 0; //Stop
+	//Forward to center
+	while(nMotorEncoder[RightForward] != 0 && nMotorEncoder[LeftForward] != 0) {
+		nMotorEncoder[RightForward] = 0;
+		nMotorEncoder[BackSideways] = 0;
+		nMotorEncoder[LeftForward] = 0;
+		nMotorEncoder[FrontSideways] = 0;
+		wait10Msec(10);
+	}
+	motor[RightForward] = motor[LeftForward] = 100;
+	while(nMotorEncoder[RightForward] < CENTERFORWARD && nMotorEncoder[LeftForward] < CENTERFORWARD);
+	motor[RightForward] = motor[LeftForward] = 0;
+	while(nMotorEncoder[RightForward] != 0 && nMotorEncoder[LeftForward] != 0) { //Reset the encoders again for left or right
+		nMotorEncoder[RightForward] = 0;
+		nMotorEncoder[BackSideways] = 0;
+		nMotorEncoder[LeftForward] = 0;
+		nMotorEncoder[FrontSideways] = 0;
+		wait10Msec(10);
+	}
 	switch(SensorValue[IR]) { //0 if not found, else 1-9, 4 is a narrow area and will be positioned to be center
 		case 1: //For values 1-3, assume the beacon is on the left column
 		case 2:
