@@ -8,7 +8,7 @@
 
 //sheet music: http://www.scribd.com/doc/2183619/Portals-Still-Alive-Sheet-Music
 
-unsigned short speed = 90;
+unsigned short speed = 100;
 
 void tone(unsigned short frequency, unsigned short duration) {
 	PlayTone(frequency, duration*100/speed);
@@ -31,7 +31,7 @@ task control() {
 	while(true) {
 		nxtDisplayTextLine(7, "[]speed:%d     ", speed);
     while(nNxtButtonPressed != 3) {
-			wait1Msec(175);
+			wait1Msec(200);
 			if (nNxtButtonPressed == 2 && speed > 10) {
 				speed -= 10;
 				nxtDisplayTextLine(7, "[]speed:%d     ", speed);
@@ -45,7 +45,7 @@ task control() {
 		while(nNxtButtonPressed == 3);
 		nxtDisplayTextLine(7, "[]volume: %d   ", nVolume);
 		while(nNxtButtonPressed != 3) {
-			wait1Msec(175);
+			wait1Msec(200);
 			if (nNxtButtonPressed == 2 && nVolume > 0) {
 				nVolume -= 1;
 				nxtDisplayTextLine(7, "[]volume: %d   ", nVolume);
