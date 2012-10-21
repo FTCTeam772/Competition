@@ -13,6 +13,9 @@
 
 #include "JoystickDriver.c"
 
+//Flag for whether to use tank drive or not
+//#define TANKDRIVE
+
 //Constants
 #define JOYSTICKHIGH 100
 #define JOYSTICKLOW 30
@@ -30,17 +33,30 @@ bool sideways = true;
 
 task joystickControl() { //Asynchronous task for joystick control
 	while(true) {
-		//Jostick 1 - Driver
+		//Joystick 1 - Driver
+#ifdef TANKDRIVE
 		if(forward) { //Part of direction locking mechanism
 			//Big fancy statement to set the left forward motors equal to the converted joystick's left y axis unless it is in the natural variant range.
 			motor[LeftForward] = joystick.joy1_y1 > 10 || joystick.joy1_y1 < -10 ? joystick.joy1_y1 / 128.0 * joystickFactor : 0;
 			//Same for right and for sideways (but use the second y axis for right side and use the x axes for sideways motors)
 			motor[RightForward] = joystick.joy1_y2 > 10 || joystick.joy1_y2 < -10 ? joystick.joy1_y2 / 128.0 * joystickFactor : 0;
 		}
-  	if(sideways) {
+		if(sideways) {
 			motor[BackSideways] = joystick.joy1_x1 > 10 || joystick.joy1_x1 < -10 ? joystick.joy1_x1 / 128.0 * joystickFactor : 0;
 			motor[FrontSideways] = joystick.joy1_x2 > 10 || joystick.joy1_x2 < -10 ? joystick.joy1_x2 / 128.0 * joystickFactor : 0;
 		}
+#else
+		if(forward) { //Part of direction locking mechanism
+			//Big fancy statement to set the left forward motors equal to the converted joystick's left y axis unless it is in the natural variant range and adds/subtracts to turn based on the joystick's right x axis.
+			motor[LeftForward] = (joystick.joy1_y1 > 10 || joystick.joy1_y1 < -10 ? joystick.joy1_y1 : 0 + (int)(joystick.joy1_x2 > 10 || joystick.joy1_x2 < -10 ? joystick.joy1_x2 : 0)) / (128.0 + joystick.joy1_x2) * joystickFactor;
+			motor[RightForward] = (joystick.joy1_y1 > 10 || joystick.joy1_y1 < -10 ? joystick.joy1_y1 : 0 - (int)(joystick.joy1_x2 > 10 || joystick.joy1_x2 < -10 ? joystick.joy1_x2 : 0)) / (128.0 + joystick.joy1_x2) * joystickFactor;
+		}
+  	if(sideways) {
+  		//Same for sideways wheels but using the joystick's left x axis for sideways but still the joystick's right x axis for turning.
+			motor[BackSideways] = (joystick.joy1_x1 > 10 || joystick.joy1_x1 < -10 ? joystick.joy1_x1 : 0 - (int)(joystick.joy1_x2 > 10 || joystick.joy1_x2 < -10 ? joystick.joy1_x2 : 0)) / (128.0 + joystick.joy1_x2) * joystickFactor;
+			motor[FrontSideways] = (joystick.joy1_x1 > 10 || joystick.joy1_x1 < -10 ? joystick.joy1_x1 : 0 + (int)(joystick.joy1_x2 > 10 || joystick.joy1_x2 < -10 ? joystick.joy1_x2 : 0)) / (128.0 + joystick.joy1_x2) * joystickFactor;
+		}
+#endif
 		//Joystick 2 - Operator
 		if(joy2Btn(7))
 			servoFactor = SERVOLOW;
