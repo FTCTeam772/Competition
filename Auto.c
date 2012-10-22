@@ -57,8 +57,9 @@ void placeRing() {
 
 task main() {
 	//Initialize
-	motor[LeftForward] = motor[RightForward] = motor[BackSideways] = motor[FrontSideways] = 0; //Turn off the motors
-	nMotorEncoder[LeftForward] = nMotorEncoder[RightForward] = nMotorEncoder[BackSideways] = nMotorEncoder[FrontSideways] = 0; //Might as well reset the encoders too
+	motor[LeftForward] = motor[RightForward] = motor[BackSideways] = motor[FrontSideways] = motor[ArmLeft] = motor[ArmRight] = 0; //Turn off the motors
+	nMotorEncoder[LeftForward] = nMotorEncoder[RightForward] = nMotorEncoder[BackSideways] = nMotorEncoder[FrontSideways] = nMotorEncoder[ArmLeft] = nMotorEncoder[ArmRight] = 0; //Might as well reset the encoders too
+	servo[ArmServoLeft] = servo[ArmServoRight] = 0; //And set the servos
 	waitForStart();
 	//Autonomous
 	/* Here is the autonomous idea:

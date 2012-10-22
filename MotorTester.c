@@ -22,8 +22,9 @@ bool motorFrontSideways = false;
 
 task main() {
 	//Initialize
-	motor[LeftForward] = motor[RightForward] = motor[BackSideways] = motor[FrontSideways] = 0; //Turn off the motors
-	nMotorEncoder[LeftForward] = nMotorEncoder[RightForward] = nMotorEncoder[BackSideways] = nMotorEncoder[FrontSideways] = 0; //Might as well reset the encoders too
+	motor[LeftForward] = motor[RightForward] = motor[BackSideways] = motor[FrontSideways] = motor[ArmLeft] = motor[ArmRight] = 0; //Turn off the motors
+	nMotorEncoder[LeftForward] = nMotorEncoder[RightForward] = nMotorEncoder[BackSideways] = nMotorEncoder[FrontSideways] = nMotorEncoder[ArmLeft] = nMotorEncoder[ArmRight] = 0; //Might as well reset the encoders too
+	servo[ArmServoLeft] = servo[ArmServoRight] = 0; //And set the servos
 	waitForStart();
 	while(true) {
 		if(joy1Btn(1)) //If button 1 is pressed, start the motor

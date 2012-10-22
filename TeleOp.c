@@ -58,23 +58,15 @@ task joystickControl() { //Asynchronous task for joystick control
 		}
 #endif
 		//Joystick 2 - Operator
-		if(joy2Btn(7))
-			servoFactor = SERVOLOW;
-		else
-			servoFactor = SERVOHIGH;
-		if(joy2Btn(8))
-			armFactor = ARMLOW;
-		else
-			armFactor = ARMHIGH;
-		if(joy2Btn(5)) {
+		if(joy2Btn(5) && servoValue[ArmServoLeft] < 255 && servoValue[ArmServoRight] < 255) {
 			servo[ArmServoLeft] += servoFactor;
 			servo[ArmServoRight] += servoFactor;
 		}
-		if(joy2Btn(6)) {
+		if(joy2Btn(6) && servoValue[ArmServoLeft] > 0 && servoValue[ArmServoRight] > 0) {
 			servo[ArmServoLeft] -= servoFactor;
 			servo[ArmServoRight] -= servoFactor;
 		}
-		switch(joystick.joy2_TopHat) {
+		switch(joystick.joy2_TopHat) { //Check the tophat
 			case 7: //If tophat is one of the top three states, move arm up
 			case 0:
 			case 1:
@@ -92,11 +84,13 @@ task joystickControl() { //Asynchronous task for joystick control
 
 task main() {
 	//Initialize
-	motor[LeftForward] = motor[RightForward] = motor[BackSideways] = motor[FrontSideways] = 0; //Turn off the motors
-	nMotorEncoder[LeftForward] = nMotorEncoder[RightForward] = nMotorEncoder[BackSideways] = nMotorEncoder[FrontSideways] = 0; //Might as well reset the encoders too
+	motor[LeftForward] = motor[RightForward] = motor[BackSideways] = motor[FrontSideways] = motor[ArmLeft] = motor[ArmRight] = 0; //Turn off the motors
+	nMotorEncoder[LeftForward] = nMotorEncoder[RightForward] = nMotorEncoder[BackSideways] = nMotorEncoder[FrontSideways] = nMotorEncoder[ArmLeft] = nMotorEncoder[ArmRight] = 0; //Might as well reset the encoders too
+	servo[ArmServoLeft] = servo[ArmServoRight] = 0; //And set the servos
 	waitForStart();
 	StartTask(joystickControl); //Go ahead and start joysticks in their own task
 	while(true) {
+		//Joystick 1 - Driver
 		if(joy1Btn(6)) //If the driver is pressing button 6, scale down robot movements
 			joystickFactor = JOYSTICKLOW;
 		else
@@ -109,5 +103,14 @@ task main() {
 			forward = false;
 		else
 			forward = true;
+		//Joystick 2 - Operator
+		if(joy2Btn(7))
+			servoFactor = SERVOLOW;
+		else
+			servoFactor = SERVOHIGH;
+		if(joy2Btn(8))
+			armFactor = ARMLOW;
+		else
+			armFactor = ARMHIGH;
 	}
 }
