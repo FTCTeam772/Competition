@@ -60,11 +60,11 @@ task joystickControl() { //Asynchronous task for joystick control
 		}
 #endif
 		//Joystick 2 - Operator
-		if(joy2Btn(5) && servoValue[ArmServoLeft] < 255 && servoValue[ArmServoRight] < 255) { //If button 5 is pressed and servos aren't at maximum, open hand
+		if(joy2Btn(5) && ServoValue[ArmServoLeft] < 255 && ServoValue[ArmServoRight] < 255) { //If button 5 is pressed and servos aren't at maximum, open hand
 			servo[ArmServoLeft] += servoFactor; //Increase servo positions
 			servo[ArmServoRight] += servoFactor;
 		}
-		if(joy2Btn(6) && servoValue[ArmServoLeft] > 0 && servoValue[ArmServoRight] > 0) { //If button 6 is pressed and servos aren't at minimum, close hand
+		if(joy2Btn(6) && ServoValue[ArmServoLeft] > 0 && ServoValue[ArmServoRight] > 0) { //If button 6 is pressed and servos aren't at minimum, close hand
 			servo[ArmServoLeft] -= servoFactor; //Decrease servo positions
 			servo[ArmServoRight] -= servoFactor;
 		}
@@ -80,7 +80,7 @@ task joystickControl() { //Asynchronous task for joystick control
 			case 3: //If tophat is one of the bottom three states, move arm down
 			case 4:
 			case 5:
-				if(nMotorEncoder[ArmRight] > -ARMTOP) //Protects from operator forcing the arm below its lowest point
+				if(nMotorEncoder[ArmRight] > ARMBOTTOM) //Protects from operator forcing the arm below its lowest point
 					motor[ArmLeft] = motor[ArmRight] = -armFactor;
 				break;
 			default: //Else stop it

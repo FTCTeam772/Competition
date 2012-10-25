@@ -13,7 +13,10 @@
 
 #include "JoystickDriver.c"
 
+//Constants
 #define ENCODERSTOP 4096
+#define ARMTOP 1440
+#define ARMBOTTOM -1440
 
 bool motorLeftForward = false; //Says whether we are testing an encoder or not
 bool motorRightForward = false;
@@ -88,18 +91,18 @@ task main() {
 				motor[ArmLeft] = motor[ArmRight] = 0;
 		}
 		if(joy1Btn(7)) { //If button 7 is pressed, start arm down
-			if(nMotorEncoder[ArmLeft] > -ARMTOP) //Protects from operator forcing the arm below its lowest point
+			if(nMotorEncoder[ArmLeft] > ARMBOTTOM) //Protects from operator forcing the arm below its lowest point
 				motor[ArmLeft] = motor[ArmRight] = -100;
 			else
 				motor[ArmLeft] = motor[ArmRight] = 0;
 		}
-		if(joy1Btn(6) && servoValue[ArmServoLeft] < 255 && servoValue[ArmServoRight] < 255) { //If button 6 is pressed and servos aren't at maximum, open hand
-			servo[ArmServoLeft] += servoFactor; //Increase servo positions
-			servo[ArmServoRight] += servoFactor;
+		if(joy1Btn(6) && ServoValue[ArmServoLeft] < 255 && ServoValue[ArmServoRight] < 255) { //If button 6 is pressed and servos aren't at maximum, open hand
+			servo[ArmServoLeft] += 10; //Increase servo positions
+			servo[ArmServoRight] += 10;
 		}
-		if(joy1Btn(8) && servoValue[ArmServoLeft] > 0 && servoValue[ArmServoRight] > 0) { //If button 8 is pressed and servos aren't at minimum, close hand
-			servo[ArmServoLeft] -= servoFactor; //Decrease servo positions
-			servo[ArmServoRight] -= servoFactor;
+		if(joy1Btn(8) && ServoValue[ArmServoLeft] > 0 && ServoValue[ArmServoRight] > 0) { //If button 8 is pressed and servos aren't at minimum, close hand
+			servo[ArmServoLeft] -= 10; //Decrease servo positions
+			servo[ArmServoRight] -= 10;
 		}
 	}
 }
