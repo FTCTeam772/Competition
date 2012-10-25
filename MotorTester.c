@@ -27,6 +27,7 @@ task main() {
 	servo[ArmServoLeft] = servo[ArmServoRight] = 0; //And set the servos
 	waitForStart();
 	while(true) {
+		//Motors
 		if(joy1Btn(1)) //If button 1 is pressed, start the motor
 			motor[LeftForward] = 100;
 		else if(!motorLeftForward) //If we aren't testing the encoder, stop the motor
@@ -78,6 +79,27 @@ task main() {
 		if(motorFrontSideways && nMotorEncoder[FrontSideways] >= ENCODERSTOP) {
 			motor[FrontSideways] = 0;
 			motorFrontSideways = false;
+		}
+		//Arm
+		if(joy1Btn(5)) { //If button 5 is pressed, start arm up
+			if(nMotorEncoder[ArmRight] < ARMTOP) //Protects from operator forcing the arm above its highest point
+				motor[ArmLeft] = motor[ArmRight] = 100;
+			else
+				motor[ArmLeft] = motor[ArmRight] = 0;
+		}
+		if(joy1Btn(7)) { //If button 7 is pressed, start arm down
+			if(nMotorEncoder[ArmLeft] > -ARMTOP) //Protects from operator forcing the arm below its lowest point
+				motor[ArmLeft] = motor[ArmRight] = -100;
+			else
+				motor[ArmLeft] = motor[ArmRight] = 0;
+		}
+		if(joy1Btn(6) && servoValue[ArmServoLeft] < 255 && servoValue[ArmServoRight] < 255) { //If button 6 is pressed and servos aren't at maximum, open hand
+			servo[ArmServoLeft] += servoFactor; //Increase servo positions
+			servo[ArmServoRight] += servoFactor;
+		}
+		if(joy1Btn(8) && servoValue[ArmServoLeft] > 0 && servoValue[ArmServoRight] > 0) { //If button 8 is pressed and servos aren't at minimum, close hand
+			servo[ArmServoLeft] -= servoFactor; //Decrease servo positions
+			servo[ArmServoRight] -= servoFactor;
 		}
 	}
 }

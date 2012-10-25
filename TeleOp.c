@@ -21,6 +21,8 @@
 #define JOYSTICKLOW 30
 #define ARMHIGH 100
 #define ARMLOW 30
+#define ARMTOP 1440
+#define ARMBOTTOM -1440
 #define SERVOHIGH 10
 #define SERVOLOW 2
 
@@ -58,24 +60,29 @@ task joystickControl() { //Asynchronous task for joystick control
 		}
 #endif
 		//Joystick 2 - Operator
-		if(joy2Btn(5) && servoValue[ArmServoLeft] < 255 && servoValue[ArmServoRight] < 255) {
-			servo[ArmServoLeft] += servoFactor;
+		if(joy2Btn(5) && servoValue[ArmServoLeft] < 255 && servoValue[ArmServoRight] < 255) { //If button 5 is pressed and servos aren't at maximum, open hand
+			servo[ArmServoLeft] += servoFactor; //Increase servo positions
 			servo[ArmServoRight] += servoFactor;
 		}
-		if(joy2Btn(6) && servoValue[ArmServoLeft] > 0 && servoValue[ArmServoRight] > 0) {
-			servo[ArmServoLeft] -= servoFactor;
+		if(joy2Btn(6) && servoValue[ArmServoLeft] > 0 && servoValue[ArmServoRight] > 0) { //If button 6 is pressed and servos aren't at minimum, close hand
+			servo[ArmServoLeft] -= servoFactor; //Decrease servo positions
 			servo[ArmServoRight] -= servoFactor;
 		}
 		switch(joystick.joy2_TopHat) { //Check the tophat
 			case 7: //If tophat is one of the top three states, move arm up
 			case 0:
 			case 1:
-				motor[ArmLeft] = motor[ArmRight] = armFactor;
+				if(nMotorEncoder[ArmLeft] < ARMTOP) //Protects from operator forcing arm above its highest point
+					motor[ArmLeft] = motor[ArmRight] = armFactor;
+				else
+					motor[ArmLeft] = motor[ArmRight] = 0;
 				break;
 			case 3: //If tophat is one of the bottom three states, move arm down
 			case 4:
 			case 5:
-				motor[ArmLeft] = motor[ArmRight] = -armFactor;
+				if(nMotorEncoder[ArmRight] > -ARMTOP) //Protects from operator forcing the arm below its lowest point
+					motor[ArmLeft] = motor[ArmRight] = -armFactor;
+				break;
 			default: //Else stop it
 				motor[ArmLeft] = motor[ArmRight] = 0;
 		}
