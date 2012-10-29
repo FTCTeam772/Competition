@@ -100,7 +100,7 @@ task main() {
 		//Joystick 1 - Driver
 		if(joy1Btn(6)) //If the driver is pressing button 6, scale down robot movements
 			joystickFactor = JOYSTICKLOW;
-		else
+		else //Else leave at full speed
 			joystickFactor = JOYSTICKHIGH;
 		if(joy1Btn(5)) //If the driver is pressing button 5, lock to y-axis movement
 			sideways = false;
@@ -111,11 +111,11 @@ task main() {
 		else
 			forward = true;
 		//Joystick 2 - Operator
-		if(joy2Btn(7))
+		if(joy2Btn(7)) //If the operator is pressing button 7, scale down hand movements
 			servoFactor = SERVOLOW;
 		else
 			servoFactor = SERVOHIGH;
-		if(joy2Btn(8))
+		if(joy2Btn(8)) //If the operator is pressing button 8, scale down arm movements
 			armFactor = ARMLOW;
 		else
 			armFactor = ARMHIGH;

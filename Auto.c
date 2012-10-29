@@ -14,9 +14,9 @@
 #include "JoystickDriver.c"
 
 //Constants
-#define FORWARD 6000 //Number of encoder revolutions to go forward
-#define TURN 600 //Same as above but for turn
-#define CENTERFORWARD 1800 //For going forward to the center
+#define FORWARD 5800 //Number of encoder revolutions to go forward
+#define TURN 700 //Same as above but for turn
+#define CENTERFORWARD 2700 //For going forward to the center
 #define SIDEWAYS 1800 //Number of encoder revolutions to go sideways (for left or right)
 
 void turn() {
@@ -73,13 +73,13 @@ task main() {
 	motor[RightForward] = motor[LeftForward] = 100; //Turn the motors on
 	while(nMotorEncoder[RightForward] < FORWARD && nMotorEncoder[LeftForward] < FORWARD); //Wait until the encoders hit FORWARD
 	motor[RightForward] = motor[LeftForward] = 0; //Stop the motors
-	wait10Msec(300); //Wait on motors to stop
+	wait10Msec(50); //Wait on motors to stop
 	//Turn
 	turn();
-	wait10Msec(300);
+	wait10Msec(50);
 	//Forward to center
 	forward();
-	wait10Msec(300);
+	wait10Msec(50);
 	switch(SensorValue[IR]) { //0 if not found, else 1-9, 4 is a narrow area and will be positioned to be center
 		case 1: //For values 1-3, assume the beacon is on the left column
 		case 2:
