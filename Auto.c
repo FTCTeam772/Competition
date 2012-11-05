@@ -14,45 +14,75 @@
 #include "JoystickDriver.c"
 
 //Constants
+#define ARMTOP 1440 //How high the arm must go for the top peg
 #define FORWARD 5800 //Number of encoder revolutions to go forward
 #define TURN 700 //Same as above but for turn
 #define CENTERFORWARD 2700 //For going forward to the center
 #define SIDEWAYS 1800 //Number of encoder revolutions to go sideways (for left or right)
+#define PLACEFORWARD 500 //Number of encoder revolutions to go forward to get the ring around the peg
+#define BACKWARDS 1440 //Number of encoder revolutions to go backward off of the platform
+#define TURNTORINGS 1200 //Number of encoder revolutions to turn toward the rings
+#define FORWARDTORINGS 2400 //Number of encoder revolutions to go forward to get in a good position to start the game
 
-void turn() {
+void turnLeft(byte encoderCount) {
 	//Reset encoders, set motors opposite their counterparts and in a turning motion (left - backward, front - left, right - forward, back - right), wait on encoders, then stop the motors
 	nMotorEncoder[LeftForward] = nMotorEncoder[RightForward] = nMotorEncoder[BackSideways] = nMotorEncoder[FrontSideways] = 0;
 	motor[LeftForward] = motor[FrontSideways] = -100; //Set motors in opposite directions
 	motor[RightForward] = motor[BackSideways] = 100;
-	while(nMotorEncoder[LeftForward] > -TURN && nMotorEncoder[FrontSideways] > -TURN && nMotorEncoder[RightForward] < TURN && nMotorEncoder[BackSideways] < TURN); //Wait until right encoder counts up to TURN and left counts down to -TURN
+	while(nMotorEncoder[LeftForward] > -encoderCount && nMotorEncoder[FrontSideways] > -encoderCount && nMotorEncoder[RightForward] < encoderCount && nMotorEncoder[BackSideways] < encoderCount); //Wait until left encoder counts down to -encoderCount and right encoder counts up to TURN
 	motor[LeftForward] = motor[RightForward] = motor[BackSideways] = motor[FrontSideways] = 0; //Stop
 }
 
-void forward() {
-	//Reset encoders, set motors to forward, wait on encoders, then stop the motors
-	nMotorEncoder[LeftForward] = nMotorEncoder[RightForward] = 0;
-	motor[LeftForward] = motor[RightForward] = 100;
-	while(nMotorEncoder[LeftForward] < CENTERFORWARD && nMotorEncoder[RightForward] < CENTERFORWARD);
-	motor[LeftForward] = motor[RightForward] = 0;
+void turnRight(byte encoderCount) {
+	//Same as left but motors go in opposite directions
+	nMotorEncoder[LeftForward] = nMotorEncoder[RightForward] = nMotorEncoder[BackSideways] = nMotorEncoder[FrontSideways] = 0;
+	motor[LeftForward] = motor[FrontSideways] = 100;
+	motor[RightForward] = motor[BackSideways] = -100;
+	while(nMotorEncoder[LeftForward] < encoderCount && nMotorEncoder[FrontSideways] < encoderCount && nMotorEncoder[RightForward] > -encoderCount && nMotorEncoder[BackSideways] > -encoderCount);
+	motor[LeftForward] = motor[RightForward] = motor[BackSideways] = motor[FrontSideways] = 0;
 }
 
-void right() {
+void forward(byte encoderCount, byte power) {
+	//Reset encoders, set motors to forward, wait on encoders, then stop the motors
+	nMotorEncoder[LeftForward] = nMotorEncoder[RightForward] = 0; //Reset the encoders
+	motor[LeftForward] = motor[RightForward] = power; //Turn the motors on
+	while(nMotorEncoder[LeftForward] < encoderCount && nMotorEncoder[RightForward] < encoderCount); //Wait until the encoders hit encoderCount
+	motor[LeftForward] = motor[RightForward] = 0; //Stop the motors
+}
+
+void right(byte encoderCount) {
 	//Do something similar as going forward but using sideways motors
 	nMotorEncoder[BackSideways] = nMotorEncoder[FrontSideways] = 0;
 	motor[BackSideways] = motor[FrontSideways] = 100;
-	while(nMotorEncoder[BackSideways] < SIDEWAYS && nMotorEncoder[FrontSideways] < SIDEWAYS);
+	while(nMotorEncoder[BackSideways] < encoderCount && nMotorEncoder[FrontSideways] < encoderCount);
 	motor[BackSideways] = motor[FrontSideways] = 0;
 }
 
-void left() {
+void left(byte encoderCount) {
 	nMotorEncoder[BackSideways] = nMotorEncoder[FrontSideways] = 0; //Since the encoder will be counting backwards, set the encoder to 0 ...
 	motor[BackSideways] = motor[FrontSideways] = -100;
-	while(nMotorEncoder[BackSideways] > -SIDEWAYS && nMotorEncoder[FrontSideways] > -SIDEWAYS);//... and wait until it is -SIDEWAYS
+	while(nMotorEncoder[BackSideways] > -encoderCount && nMotorEncoder[FrontSideways] > -encoderCount);//... and wait until it is -SIDEWAYS
 	motor[BackSideways] = motor[FrontSideways] = 0;
 }
 
 void placeRing() {
-	//To be done when the arm is finished and decided
+	//Move forward until ring is around peg at a slow pace
+	forward(PLACEFORWARD, 30);
+	wait10Msec(50); //Wait on motors to stop
+	//Now open the hand
+	servo[ArmServoLeft] = servo[ArmServoRight] = 255;
+}
+
+void goToStart() {
+	//Go backwards
+	nMotorEncoder[LeftForward] = motor[RightForward] = 0;
+	motor[LeftForward] = motor[RightForward] = -100;
+	while(nMotorEncoder[LeftForward] > -BACKWARDS && nMotorEncoder[RightForward] > -BACKWARDS);
+	motor[LeftForward] = motor[RightForward] = 0;
+	//Turn right in the direction of the rings
+	turnRight(TURNTORINGS);
+	//Go forward toward the rings
+	forward(FORWARDTORINGS, 100);
 }
 
 task main() {
@@ -64,36 +94,40 @@ task main() {
 	//Autonomous
 	/* Here is the autonomous idea:
 	*			Read the IR sensor to get a general area of the Beacon.  Use that to figure out the proper column (shouldn't be too hard)
-	*			Then decide which autonomous set of commands to run.  Proper a bunch of if...else if... else if... else statements.  And
+	*			Then decide which autonomous set of commands to run.  We will use a switch statement.
 	*			If we can't find the IR Beacon (which we should make code for that just in case) then we will just put the ring on the
 	*			center peg (or some other predefined spot if necessary).  The movements will be hardcoded so we can tune to the best accuracy.
 	*/
+	//Raise autonomous ring to level of top pegs
+	nMotorEncoder[ArmLeft] = nMotorEncoder[ArmRight] = 0;
+	motor[ArmLeft] = motor[ArmRight] = 100;
+	while(nMotorEncoder[ArmLeft] < ARMTOP && nMotorEncoder[ArmRight] < ARMTOP);
+	motor[ArmLeft] = motor[ArmRight] = 0;
+	wait10Msec(50);
 	//Go forward for FORWARD revolutions up to the columns
-	nMotorEncoder[RightForward] = nMotorEncoder[LeftForward] = 0; //Reset the encoders
-	motor[RightForward] = motor[LeftForward] = 100; //Turn the motors on
-	while(nMotorEncoder[RightForward] < FORWARD && nMotorEncoder[LeftForward] < FORWARD); //Wait until the encoders hit FORWARD
-	motor[RightForward] = motor[LeftForward] = 0; //Stop the motors
+	forward(FORWARD, 100);
 	wait10Msec(50); //Wait on motors to stop
 	//Turn
-	turn();
+	turnLeft(TURN);
 	wait10Msec(50);
 	//Forward to center
-	forward();
+	forward(CENTERFORWARD, 100);
 	wait10Msec(50);
 	switch(SensorValue[IR]) { //0 if not found, else 1-9, 4 is a narrow area and will be positioned to be center
 		case 1: //For values 1-3, assume the beacon is on the left column
 		case 2:
 		case 3:
-			left();
+			left(SIDEWAYS);
 			break;
 		case 4: //For value 4 (center), assume the beacon is on the center column and just place the ring
 			break;
 		case 5: //For values 5-7, assume the beacon is on the right column
 		case 6:
 		case 7:
-			right();
+			right(SIDEWAYS);
 			break;
 		default: //For value 0 (or other uncaught numbers), just put it on the center peg and hope for the best
 	}
 	placeRing(); //Go ahead and place the ring now that we are positioned
+	goToStart(); //And back up to a good starting position and wait for the start of a round
 }
