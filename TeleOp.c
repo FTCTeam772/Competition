@@ -21,10 +21,13 @@
 #define JOYSTICKLOW 30
 #define ARMHIGH 100
 #define ARMLOW 30
-#define ARMTOP 1440
-#define ARMBOTTOM -1440
+#define ARMTOP 2880
+#define ARMBOTTOM 0
 #define SERVOHIGH 10
 #define SERVOLOW 2
+#define LOWPEG 0
+#define MIDDLEPEG 1440
+#define TOPPEG 2880
 
 //Initialize our globals
 byte joystickFactor = JOYSTICKHIGH; //Used to scale down robot movements
@@ -111,6 +114,33 @@ task main() {
 		else
 			forward = true;
 		//Joystick 2 - Operator
+		if(joy1Btn(1)) { //If the operator is pressing button 1, set arm to lowest peg
+			if(nMotorEncoder[ArmLeft] < LOWPEG && nMotorEncoder[ArmRight] < LOWPEG) //If the arm is below the peg, set it positive and wait until it gets to the peg
+				while(nMotorEncoder[ArmLeft] < LOWPEG && nMotorEncoder[ArmRight] < LOWPEG)
+					motor[ArmLeft] = motor[ArmRight] = 100;
+			else //Else just go down until the arm gets to the peg
+				while(nMotorEncoder[ArmLeft] > LOWPEG && nMotorEncoder[ArmRight] > LOWPEG)
+					motor[ArmLeft] = motor[ArmRight] = -100;
+			motor[ArmLeft] = motor[ArmRight] = 0;
+		}
+		if(joy1Btn(2)) { //If the operator is pressing button 2, set arm to middle peg
+			if(nMotorEncoder[ArmLeft] < MIDDLEPEG && nMotorEncoder[ArmRight] < MIDDLEPEG)
+				while(nMotorEncoder[ArmLeft] < MIDDLEPEG && nMotorEncoder[ArmRight] < MIDDLEPEG)
+					motor[ArmLeft] = motor[ArmRight] = 100;
+			else
+				while(nMotorEncoder[ArmLeft] > MIDDLEPEG && nMotorEncoder[ArmRight] > MIDDLEPEG)
+					motor[ArmLeft] = motor[ArmRight] = -100;
+			motor[ArmLeft] = motor[ArmRight] = 0;
+		}
+		if(joy1Btn(3)) { //If the operator is pressing button 3, set arm to top peg
+			if(nMotorEncoder[ArmLeft] < TOPPEG && nMotorEncoder[ArmRight] < TOPPEG)
+				while(nMotorEncoder[ArmLeft] < TOPPEG && nMotorEncoder[ArmRight] < TOPPEG)
+					motor[ArmLeft] = motor[ArmRight] = 100;
+			else
+				while(nMotorEncoder[ArmLeft] > TOPPEG && nMotorEncoder[ArmRight] > TOPPEG)
+					motor[ArmLeft] = motor[ArmRight] = -100;
+			motor[ArmLeft] = motor[ArmRight] = 0;
+		}
 		if(joy2Btn(7)) //If the operator is pressing button 7, scale down hand movements
 			servoFactor = SERVOLOW;
 		else
