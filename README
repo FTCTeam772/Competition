@@ -2,6 +2,6 @@ This repository contains all RobotC programs used by Team 772 for the FIRST Tech
 
 Auto.c: Autonomous mode program.
 TeleOp.c: TeleOperated mode program; contains code for both tank drive and Isaac's own drive design.
-IRTester.c: Used to test the IR Seeker, find its optimal position and to calibrate autonomous mode.
+SensorTester.c: Used to test the IR Seeker and Force Sensor by displaying their values.
 MotorTester.c: Used to test each of the four motors and their respective encoders.
 StillAlive.c: This was a triumph...
