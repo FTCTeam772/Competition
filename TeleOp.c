@@ -28,6 +28,8 @@
 #define LOWPEG 0
 #define MIDDLEPEG 1440
 #define TOPPEG 2880
+#define HANDMAX 255
+#define HANDMIN 0
 
 //Initialize our globals
 byte joystickFactor = JOYSTICKHIGH; //Used to scale down robot movements
@@ -63,13 +65,13 @@ task joystickControl() { //Asynchronous task for joystick control
 		}
 #endif
 		//Joystick 2 - Operator
-		if(joy2Btn(5) && ServoValue[ArmServoLeft] < 255 && ServoValue[ArmServoRight] < 255) { //If button 5 is pressed and servos aren't at maximum, open hand
+		if(joy2Btn(5) && ServoValue[ArmServoLeft] < HANDMAX && ServoValue[ArmServoRight] > HANDMIN) { //If button 5 is pressed and servos aren't at maximum, open hand
 			servo[ArmServoLeft] += servoFactor; //Increase servo positions
-			servo[ArmServoRight] += servoFactor;
-		}
-		if(joy2Btn(6) && ServoValue[ArmServoLeft] > 0 && ServoValue[ArmServoRight] > 0) { //If button 6 is pressed and servos aren't at minimum, close hand
-			servo[ArmServoLeft] -= servoFactor; //Decrease servo positions
 			servo[ArmServoRight] -= servoFactor;
+		}
+		if(joy2Btn(6) && ServoValue[ArmServoLeft] > HANDMIN && ServoValue[ArmServoRight] < HANDMAX) { //If button 6 is pressed and servos aren't at minimum, close hand
+			servo[ArmServoLeft] -= servoFactor; //Decrease servo positions
+			servo[ArmServoRight] += servoFactor;
 		}
 		switch(joystick.joy2_TopHat) { //Check the tophat
 			case 7: //If tophat is one of the top three states, move arm up
