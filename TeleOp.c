@@ -1,10 +1,10 @@
 #pragma config(Hubs, S1, HTMotor, HTMotor, none, none)
 #pragma config(Hubs, S2, HTMotor, HTServo, none, none)
 #pragma config(Sensor, S3, IR, sensorHiTechnicIRSeeker1200)
-#pragma config(Motor, mtr_S1_C1_1, LeftForward, tmotorTetrix, PIDControl, reversed, encoder)
-#pragma config(Motor, mtr_S1_C1_2, FrontSideways, tmotorTetrix, PIDControl, reversed, encoder)
-#pragma config(Motor, mtr_S1_C2_1, BackSideways, tmotorTetrix, PIDControl, encoder)
-#pragma config(Motor, mtr_S1_C2_2, RightForward, tmotorTetrix, PIDControl, encoder)
+#pragma config(Motor, mtr_S1_C1_1, BackSideways, tmotorTetrix, PIDControl, encoder)
+#pragma config(Motor, mtr_S1_C1_2, RightForward, tmotorTetrix, PIDControl, encoder)
+#pragma config(Motor, mtr_S1_C2_1, LeftForward, tmotorTetrix, PIDControl, reversed, encoder)
+#pragma config(Motor, mtr_S1_C2_2, FrontSideways, tmotorTetrix, PIDControl, reversed, encoder)
 #pragma config(Motor, mtr_S2_C1_1, Shoulder, tmotorTetrix, PIDControl, encoder)
 #pragma config(Motor, mtr_S2_C1_2, Arm, tmotorTetrix, PIDControl, reversed, encoder)
 #pragma config(Servo, srvo_S2_C2_1, ArmServoLeft, tServoStandard)
@@ -17,24 +17,32 @@
 //#define TANKDRIVE
 
 //Constants
+//Scaling
 #define JOYSTICKHIGH 100
 #define JOYSTICKLOW 30
 #define ARMHIGH 100
 #define ARMLOW 30
-#define ARMTOP 2880
-#define ARMBOTTOM 0
 #define SERVOHIGH 10
 #define SERVOLOW 2
-#define BOTTOMPEG 0
-#define MIDDLEPEG 1440
-#define TOPPEG 2880
+//Robot Constants
 #define HANDMAX 255
 #define HANDMIN 0
+#define ARMTOP 2880
+#define ARMBOTTOM -1440
+#define SHOULDERTOP 2880
+#define SHOULDERBOTTOM 0
+#define SHOULDERUPRIGHT 1440
+//Field Constants
+#define RINGPEGARM 24
+#define RINGPEGSHOULDER 24
+#define BOTTOMPEG -1440
+#define MIDDLEPEG 0
+#define TOPPEG 1440
 
 //Initialize our globals
-byte joystickFactor = JOYSTICKHIGH; //Used to scale down robot movements
-byte armFactor = ARMHIGH; //Used to scale arm movements
-byte servoFactor = SERVOHIGH;
+byte joystickScale = JOYSTICKHIGH; //Used to scale down robot movements
+byte armScale = ARMHIGH; //Used to scale arm movements
+byte servoScale = SERVOHIGH;
 bool forward = true; //Used for direction locking
 bool sideways = true;
 
@@ -44,41 +52,41 @@ task joystickControl() { //Asynchronous task for joystick control
 #ifdef TANKDRIVE
 		if(forward) { //Part of direction locking mechanism
 			//Big fancy statement to set the left forward motors equal to the converted joystick's left y axis unless it is in the natural variant range.
-			motor[LeftForward] = joystick.joy1_y1 > 10 || joystick.joy1_y1 < -10 ? joystick.joy1_y1 / 128.0 * joystickFactor : 0;
+			motor[LeftForward] = joystick.joy1_y1 > 10 || joystick.joy1_y1 < -10 ? joystick.joy1_y1 / 128.0 * joystickScale : 0;
 			//Same for right and for sideways (but use the second y axis for right side and use the x axes for sideways motors)
-			motor[RightForward] = joystick.joy1_y2 > 10 || joystick.joy1_y2 < -10 ? joystick.joy1_y2 / 128.0 * joystickFactor : 0;
+			motor[RightForward] = joystick.joy1_y2 > 10 || joystick.joy1_y2 < -10 ? joystick.joy1_y2 / 128.0 * joystickScale : 0;
 		}
 		if(sideways) {
-			motor[BackSideways] = joystick.joy1_x1 > 10 || joystick.joy1_x1 < -10 ? joystick.joy1_x1 / 128.0 * joystickFactor : 0;
-			motor[FrontSideways] = joystick.joy1_x2 > 10 || joystick.joy1_x2 < -10 ? joystick.joy1_x2 / 128.0 * joystickFactor : 0;
+			motor[BackSideways] = joystick.joy1_x1 > 10 || joystick.joy1_x1 < -10 ? joystick.joy1_x1 / 128.0 * joystickScale : 0;
+			motor[FrontSideways] = joystick.joy1_x2 > 10 || joystick.joy1_x2 < -10 ? joystick.joy1_x2 / 128.0 * joystickScale : 0;
 		}
 #else
 		if(forward) { //Part of direction locking mechanism
 			//Big fancy statement to set the left forward motors equal to the converted joystick's left y axis unless it is in the natural variant range and adds/subtracts to turn based on the joystick's right x axis.
-			motor[LeftForward] = (joystick.joy1_y1 > 10 || joystick.joy1_y1 < -10 ? joystick.joy1_y1 : 0 + (int)(joystick.joy1_x2 > 10 || joystick.joy1_x2 < -10 ? joystick.joy1_x2 : 0)) / (128.0 + joystick.joy1_x2) * joystickFactor;
-			motor[RightForward] = (joystick.joy1_y1 > 10 || joystick.joy1_y1 < -10 ? joystick.joy1_y1 : 0 - (int)(joystick.joy1_x2 > 10 || joystick.joy1_x2 < -10 ? joystick.joy1_x2 : 0)) / (128.0 + joystick.joy1_x2) * joystickFactor;
+			motor[LeftForward] = (joystick.joy1_y1 > 10 || joystick.joy1_y1 < -10 ? joystick.joy1_y1 : 0 + (int)(joystick.joy1_x2 > 10 || joystick.joy1_x2 < -10 ? joystick.joy1_x2 : 0)) / (128.0 + joystick.joy1_x2) * joystickScale;
+			motor[RightForward] = (joystick.joy1_y1 > 10 || joystick.joy1_y1 < -10 ? joystick.joy1_y1 : 0 - (int)(joystick.joy1_x2 > 10 || joystick.joy1_x2 < -10 ? joystick.joy1_x2 : 0)) / (128.0 + joystick.joy1_x2) * joystickScale;
 		}
   	if(sideways) {
   		//Same for sideways wheels but using the joystick's left x axis for sideways but still the joystick's right x axis for turning.
-			motor[BackSideways] = (joystick.joy1_x1 > 10 || joystick.joy1_x1 < -10 ? joystick.joy1_x1 : 0 - (int)(joystick.joy1_x2 > 10 || joystick.joy1_x2 < -10 ? joystick.joy1_x2 : 0)) / (128.0 + joystick.joy1_x2) * joystickFactor;
-			motor[FrontSideways] = (joystick.joy1_x1 > 10 || joystick.joy1_x1 < -10 ? joystick.joy1_x1 : 0 + (int)(joystick.joy1_x2 > 10 || joystick.joy1_x2 < -10 ? joystick.joy1_x2 : 0)) / (128.0 + joystick.joy1_x2) * joystickFactor;
+			motor[BackSideways] = (joystick.joy1_x1 > 10 || joystick.joy1_x1 < -10 ? joystick.joy1_x1 : 0 - (int)(joystick.joy1_x2 > 10 || joystick.joy1_x2 < -10 ? joystick.joy1_x2 : 0)) / (128.0 + joystick.joy1_x2) * joystickScale;
+			motor[FrontSideways] = (joystick.joy1_x1 > 10 || joystick.joy1_x1 < -10 ? joystick.joy1_x1 : 0 + (int)(joystick.joy1_x2 > 10 || joystick.joy1_x2 < -10 ? joystick.joy1_x2 : 0)) / (128.0 + joystick.joy1_x2) * joystickScale;
 		}
 #endif
 		//Joystick 2 - Operator
 		if(joy2Btn(5) && ServoValue[ArmServoLeft] < HANDMAX && ServoValue[ArmServoRight] > HANDMIN) { //If button 5 is pressed and servos aren't at maximum, open hand
-			servo[ArmServoLeft] += servoFactor; //Increase servo positions
-			servo[ArmServoRight] -= servoFactor;
+			servo[ArmServoLeft] += servoScale; //Increase servo positions
+			servo[ArmServoRight] -= servoScale;
 		}
 		if(joy2Btn(6) && ServoValue[ArmServoLeft] > HANDMIN && ServoValue[ArmServoRight] < HANDMAX) { //If button 6 is pressed and servos aren't at minimum, close hand
-			servo[ArmServoLeft] -= servoFactor; //Decrease servo positions
-			servo[ArmServoRight] += servoFactor;
+			servo[ArmServoLeft] -= servoScale; //Decrease servo positions
+			servo[ArmServoRight] += servoScale;
 		}
 		switch(joystick.joy2_TopHat) { //Check the tophat
 			case 7: //If tophat is one of the top three states, move arm up
 			case 0:
 			case 1:
 				if(nMotorEncoder[Arm] < ARMTOP) //Protects from operator forcing arm above its highest point
-					motor[Arm] = armFactor;
+					motor[Arm] = armScale;
 				else
 					motor[Arm] = 0;
 				break;
@@ -86,7 +94,7 @@ task joystickControl() { //Asynchronous task for joystick control
 			case 4:
 			case 5:
 				if(nMotorEncoder[Arm] > ARMBOTTOM) //Protects from operator forcing the arm below its lowest point
-					motor[Arm] = -armFactor;
+					motor[Arm] = -armScale;
 				break;
 			default: //Else stop it
 				motor[Arm] = 0;
@@ -101,13 +109,13 @@ task main() {
 	servo[ArmServoLeft] = 0; //And set the servos
 	servo[ArmServoRight] = 255;
 	waitForStart();
-	StartTask(joystickControl); //Go ahead and start joysticks in their own task
+	StartTask(joystickControl); //Go ahead and start critical joystick functions in their own task
 	while(true) {
 		//Joystick 1 - Driver
 		if(joy1Btn(6)) //If the driver is pressing button 6, scale down robot movements
-			joystickFactor = JOYSTICKLOW;
+			joystickScale = JOYSTICKLOW;
 		else //Else leave at full speed
-			joystickFactor = JOYSTICKHIGH;
+			joystickScale = JOYSTICKHIGH;
 		if(joy1Btn(5)) //If the driver is pressing button 5, lock to y-axis movement
 			sideways = false;
 		else
@@ -118,40 +126,44 @@ task main() {
 			forward = true;
 		//Joystick 2 - Operator
 		if(joy2Btn(1)) { //If the operator is pressing button 1, set arm to lowest peg
-			nMotorEncoderTarget[Arm] = BOTTOMPEG; //Set the motor target
-			motor[Arm] = nMotorEncoder[Arm] < BOTTOMPEG ? 100 : -100; //Start them in the direction of the target
-			while(nMotorRunState[Arm] != runStateIdle); //Wait until they get there
-			motor[Arm] = 0; //Then stop them
+			nMotorEncoderTarget[Shoulder] = SHOULDERUPRIGHT; //Set shoulder to upright
+			nMotorEncoderTarget[Arm] = BOTTOMPEG; //Set arm to its target
+			motor[Shoulder] = nMotorEncoder[Shoulder] < SHOULDERUPRIGHT ? 100 : -100; //Start the motors in the direction of the target
+			motor[Arm] = nMotorEncoder[Arm] < BOTTOMPEG ? 100 : -100;
+			while(nMotorRunState[Shoulder] != runStateIdle && nMotorRunState[Arm] != runStateIdle); //Wait until they get there
+			motor[Shoulder] = motor[Arm] = 0; //Then stop them
 		}
 		if(joy2Btn(2)) { //If the operator is pressing button 2, set arm to middle peg
+			nMotorEncoderTarget[Shoulder] = SHOULDERUPRIGHT;
 			nMotorEncoderTarget[Arm] = MIDDLEPEG;
+			motor[Shoulder] = nMotorEncoder[Shoulder] < SHOULDERUPRIGHT ? 100 : -100;
 			motor[Arm] = nMotorEncoder[Arm] < MIDDLEPEG ? 100 : -100;
-			while(nMotorRunState[Arm] != runStateIdle);
-			motor[Arm] = 0;
+			while(nMotorRunState[Shoulder] != runStateIdle && nMotorRunState[Arm] != runStateIdle);
+			motor[Shoulder] = motor[Arm] = 0;
 		}
 		if(joy2Btn(3)) { //If the operator is pressing button 3, set arm to top peg
+			nMotorEncoderTarget[Shoulder] = SHOULDERUPRIGHT;
 			nMotorEncoderTarget[Arm] = TOPPEG;
+			motor[Shoulder] = nMotorEncoder[Shoulder] < SHOULDERUPRIGHT ? 100 : -100;
 			motor[Arm] = nMotorEncoder[Arm] < TOPPEG ? 100 : -100;
-			while(nMotorRunState[Arm] != runStateIdle);
-			motor[Arm] = 0;
+			while(nMotorRunState[Shoulder] != runStateIdle && nMotorRunState[Arm] != runStateIdle);
+			motor[Shoulder] = motor[Arm] = 0;
 		}
 		if(joy2Btn(4)) { //If the operator is pressing button 4, set arm to home position
 			nMotorEncoderTarget[Shoulder] = 0; //Set shoulder to home
-			motor[Shoulder] = -100;
-			while(nMotorRunState[Shoulder] != runStateIdle);
-			motor[Shoulder] = 0;
 			nMotorEncoderTarget[Arm] = 0; //Then set arm to home
-			motor[Arm] = -100;
-			while(nMotorRunState[Arm] != runStateIdle);
-			motor[Arm] = 0;
+			motor[Shoulder] = -100;
+			motor[Arm] = nMotorEncoder[Arm] < 0 ? 100 : -100;
+			while(nMotorRunState[Shoulder] != runStateIdle && nMotorRunState[Arm] != runStateIdle);
+			motor[Shoulder] = motor[Arm] = 0;
 		}
 		if(joy2Btn(7)) //If the operator is pressing button 7, scale down hand movements
-			servoFactor = SERVOLOW;
+			servoScale = SERVOLOW;
 		else
-			servoFactor = SERVOHIGH;
+			servoScale = SERVOHIGH;
 		if(joy2Btn(8)) //If the operator is pressing button 8, scale down arm movements
-			armFactor = ARMLOW;
+			armScale = ARMLOW;
 		else
-			armFactor = ARMHIGH;
+			armScale = ARMHIGH;
 	}
 }
