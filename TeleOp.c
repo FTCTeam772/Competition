@@ -20,8 +20,8 @@
 //Scaling
 #define JOYSTICKHIGH 100
 #define JOYSTICKLOW 30
-#define ARMHIGH 100
-#define ARMLOW 30
+#define ARMHIGH 50
+#define ARMLOW 10
 #define SERVOHIGH 10
 #define SERVOLOW 2
 //Robot Constants
