@@ -5,7 +5,7 @@
 #pragma config(Motor, mtr_S1_C1_2, RightForward, tmotorTetrix, PIDControl, encoder)
 #pragma config(Motor, mtr_S1_C2_1, LeftForward, tmotorTetrix, PIDControl, reversed, encoder)
 #pragma config(Motor, mtr_S1_C2_2, FrontSideways, tmotorTetrix, PIDControl, reversed, encoder)
-#pragma config(Motor, mtr_S2_C1_1, Shoulder, tmotorTetrix, PIDControl, encoder)
+#pragma config(Motor, mtr_S2_C1_1, Shoulder, tmotorTetrix, PIDControl, reversed, encoder)
 #pragma config(Motor, mtr_S2_C1_2, Arm, tmotorTetrix, PIDControl, reversed, encoder)
 #pragma config(Servo, srvo_S2_C2_1, ArmServoLeft, tServoStandard)
 #pragma config(Servo, srvo_S2_C2_2, ArmServoRight, tServoStandard)
@@ -20,21 +20,21 @@
 //Scaling
 #define JOYSTICKHIGH 100
 #define JOYSTICKLOW 30
-#define ARMHIGH 50
-#define ARMLOW 10
-#define SERVOHIGH 10
-#define SERVOLOW 2
+#define ARMHIGH 5
+#define ARMLOW 1
+#define SERVOHIGH 3
+#define SERVOLOW 1
 //Robot Constants
-#define HANDMAX 255
-#define HANDMIN 0
-#define ARMTOP 2880
-#define ARMBOTTOM -1440
-#define SHOULDERTOP 2880
+#define SHOULDERTOP -2880
 #define SHOULDERBOTTOM 0
 #define SHOULDERUPRIGHT 1440
+#define ARMTOP 2880
+#define ARMBOTTOM -1440
+#define HANDMAX 215
+#define HANDMIN 40
 //Field Constants
-#define RINGPEGARM 24
 #define RINGPEGSHOULDER 24
+#define RINGPEGARM 24
 #define BOTTOMPEG -1440
 #define MIDDLEPEG 0
 #define TOPPEG 1440
@@ -73,31 +73,25 @@ task joystickControl() { //Asynchronous task for joystick control
 		}
 #endif
 		//Joystick 2 - Operator
+		if(joystick.joy2_y2 < -10 && nMotorEncoder[Shoulder] < SHOULDERBOTTOM) //If shoulder is going positive and we aren't at the top, follow the joystick
+			motor[Shoulder] = joystick.joy2_y2 / 128.0 * armScale;
+		else if(joystick.joy2_y2 > 10 && nMotorEncoder[Shoulder] > SHOULDERTOP) //Else if we are going down and aren't at the bottom, go negative
+			motor[Shoulder] = joystick.joy2_y2 / 128.0 * armScale;
+		else
+			motor[Shoulder] = 0;
+		if(joystick.joy2_y1 > 10 && nMotorEncoder[Shoulder] < ARMTOP) //Same thing for arm
+			motor[Arm] = joystick.joy2_y1 / 128.0 * armScale;
+		else if(joystick.joy2_y1 < -10 && nMotorEncoder[Shoulder] > ARMBOTTOM)
+			motor[Arm] = joystick.joy2_y1 / 128.0 * armScale;
+		else
+			motor[Arm] = 0;
 		if(joy2Btn(5) && ServoValue[ArmServoLeft] < HANDMAX && ServoValue[ArmServoRight] > HANDMIN) { //If button 5 is pressed and servos aren't at maximum, open hand
-			servo[ArmServoLeft] += servoScale; //Increase servo positions
-			servo[ArmServoRight] -= servoScale;
+			servo[ArmServoLeft] = ServoValue[ArmServoLeft] + servoScale; //Increase servo positions
+			servo[ArmServoRight] = ServoValue[ArmServoRight] - servoScale;
 		}
 		if(joy2Btn(6) && ServoValue[ArmServoLeft] > HANDMIN && ServoValue[ArmServoRight] < HANDMAX) { //If button 6 is pressed and servos aren't at minimum, close hand
-			servo[ArmServoLeft] -= servoScale; //Decrease servo positions
-			servo[ArmServoRight] += servoScale;
-		}
-		switch(joystick.joy2_TopHat) { //Check the tophat
-			case 7: //If tophat is one of the top three states, move arm up
-			case 0:
-			case 1:
-				if(nMotorEncoder[Arm] < ARMTOP) //Protects from operator forcing arm above its highest point
-					motor[Arm] = armScale;
-				else
-					motor[Arm] = 0;
-				break;
-			case 3: //If tophat is one of the bottom three states, move arm down
-			case 4:
-			case 5:
-				if(nMotorEncoder[Arm] > ARMBOTTOM) //Protects from operator forcing the arm below its lowest point
-					motor[Arm] = -armScale;
-				break;
-			default: //Else stop it
-				motor[Arm] = 0;
+			servo[ArmServoLeft] = ServoValue[ArmServoLeft] - servoScale; //Decrease servo positions
+			servo[ArmServoRight] = ServoValue[ArmServoRight] + servoScale;
 		}
 	}
 }
@@ -106,8 +100,8 @@ task main() {
 	//Initialize
 	motor[LeftForward] = motor[RightForward] = motor[BackSideways] = motor[FrontSideways] = motor[Arm] = motor[Shoulder] = 0; //Turn off the motors
 	nMotorEncoder[LeftForward] = nMotorEncoder[RightForward] = nMotorEncoder[BackSideways] = nMotorEncoder[FrontSideways] = nMotorEncoder[Arm] = nMotorEncoder[Shoulder] = 0; //Might as well reset the encoders too
-	servo[ArmServoLeft] = 0; //And set the servos
-	servo[ArmServoRight] = 255;
+	servo[ArmServoLeft] = HANDMAX; //And set the servos
+	servo[ArmServoRight] = HANDMIN;
 	waitForStart();
 	StartTask(joystickControl); //Go ahead and start critical joystick functions in their own task
 	while(true) {
@@ -125,7 +119,7 @@ task main() {
 		else
 			forward = true;
 		//Joystick 2 - Operator
-		if(joy2Btn(1)) { //If the operator is pressing button 1, set arm to lowest peg
+		/*if(joy2Btn(1)) { //If the operator is pressing button 1, set arm to lowest peg
 			nMotorEncoderTarget[Shoulder] = SHOULDERUPRIGHT; //Set shoulder to upright
 			nMotorEncoderTarget[Arm] = BOTTOMPEG; //Set arm to its target
 			motor[Shoulder] = nMotorEncoder[Shoulder] < SHOULDERUPRIGHT ? 100 : -100; //Start the motors in the direction of the target
@@ -149,21 +143,21 @@ task main() {
 			while(nMotorRunState[Shoulder] != runStateIdle && nMotorRunState[Arm] != runStateIdle);
 			motor[Shoulder] = motor[Arm] = 0;
 		}
-		if(joy2Btn(4)) { //If the operator is pressing button 4, set arm to home position
+		if(joy2Btn(4)) { //If the operator is pressing button 4, set arm to ring peg
 			nMotorEncoderTarget[Shoulder] = 0; //Set shoulder to home
 			nMotorEncoderTarget[Arm] = 0; //Then set arm to home
-			motor[Shoulder] = -100;
-			motor[Arm] = nMotorEncoder[Arm] < 0 ? 100 : -100;
+			motor[Shoulder] = nMotorEncoder[Shoulder] < RINGPEGSHOULDER ? 100 : -100;
+			motor[Arm] = nMotorEncoder[Arm] < RINGPEGARM ? 100 : -100;
 			while(nMotorRunState[Shoulder] != runStateIdle && nMotorRunState[Arm] != runStateIdle);
 			motor[Shoulder] = motor[Arm] = 0;
-		}
-		if(joy2Btn(7)) //If the operator is pressing button 7, scale down hand movements
-			servoScale = SERVOLOW;
-		else
-			servoScale = SERVOHIGH;
-		if(joy2Btn(8)) //If the operator is pressing button 8, scale down arm movements
+		}*/
+		if(joy2Btn(8)) { //If the operator is pressing button 7, scale down hand movements
 			armScale = ARMLOW;
-		else
+			servoScale = SERVOLOW;
+		}
+		else {
 			armScale = ARMHIGH;
+			servoScale = SERVOHIGH;
+		}
 	}
 }
