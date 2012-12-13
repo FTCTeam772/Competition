@@ -28,29 +28,30 @@
 #define JOYSTICKHIGH 100
 #define JOYSTICKLOW 30
 #define SHOULDERHIGH 50
-#define SHOULDERLOW 10
+#define SHOULDERLOW 20
 #define SHOULDERDOWNHIGH 10
 #define SHOULDERDOWNLOW 5
 #define ARMHIGH 30
-#define ARMLOW 10
+#define ARMLOW 15
 #define ARMDOWNHIGH 5
-#define ARMDOWNLOW 1
+#define ARMDOWNLOW 3
 //Robot Constants
-#define SHOULDERTOP 2345
+#define SHOULDERTOP 2300
 #define SHOULDERBOTTOM 0
-#define SHOULDERUPRIGHT 1440
+#define SHOULDERUPRIGHT 2300
 #define ARMTOP 2880
 #define ARMBOTTOM -1440
+#define ARMUPRIGHT 64
 //#define HANDMAX 300
 //#define HANDMIN 0
-#define HANDMAX 235
-#define HANDMIN 20
+#define HANDMAX 255
+#define HANDMIN 0
 #define SERVOHIGH 5
 #define SERVOLOW 1
 //Field Constants
-#define RINGPEGSHOULDER 24
-#define RINGPEGARM 24
-#define BOTTOMPEG -1440
+#define RINGPEGSHOULDER 410
+#define RINGPEGARM 320
+#define BOTTOMPEG 280
 #define MIDDLEPEG 0
 #define TOPPEG 1440
 
@@ -145,37 +146,53 @@ task main() {
 			forward = true;
 		//Joystick 2 - Operator
 		/*if(joy2Btn(1)) { //If the operator is pressing button 1, set arm to lowest peg
-			nMotorEncoderTarget[Shoulder] = SHOULDERUPRIGHT; //Set shoulder to upright
-			nMotorEncoderTarget[Arm] = BOTTOMPEG; //Set arm to its target
-			motor[Shoulder] = nMotorEncoder[Shoulder] < SHOULDERUPRIGHT ? 100 : -100; //Start the motors in the direction of the target
-			motor[Arm] = nMotorEncoder[Arm] < BOTTOMPEG ? 100 : -100;
-			while(nMotorRunState[Shoulder] != runStateIdle && nMotorRunState[Arm] != runStateIdle); //Wait until they get there
-			motor[Shoulder] = motor[Arm] = 0; //Then stop them
+			nMotorEncoderTarget[ShoulderLeft] = SHOULDERUPRIGHT; //Set shoulder to upright
+			nMotorEncoderTarget[ArmLeft] = BOTTOMPEG; //Set arm to its target
+			motor[ShoulderLeft] = motor[ShoulderRight] = nMotorEncoder[ShoulderLeft] < SHOULDERUPRIGHT ? shoulderScale : -shoulderScaleDown; //Start the motors in the direction of the target
+			motor[ArmLeft] = motor[ArmRight] = nMotorEncoder[ArmLeft] < BOTTOMPEG ? armScale : -armScaleDown;
+			while(nMotorRunState[ShoulderLeft] != runStateIdle && nMotorRunState[ArmLeft] != runStateIdle); //Wait until they get there
+			motor[ShoulderLeft] = motor[ShoulderRight] = motor[ArmLeft] = motor[ArmRight] = 0; //Then stop them
 		}
 		if(joy2Btn(2)) { //If the operator is pressing button 2, set arm to middle peg
-			nMotorEncoderTarget[Shoulder] = SHOULDERUPRIGHT;
-			nMotorEncoderTarget[Arm] = MIDDLEPEG;
-			motor[Shoulder] = nMotorEncoder[Shoulder] < SHOULDERUPRIGHT ? 100 : -100;
-			motor[Arm] = nMotorEncoder[Arm] < MIDDLEPEG ? 100 : -100;
-			while(nMotorRunState[Shoulder] != runStateIdle && nMotorRunState[Arm] != runStateIdle);
-			motor[Shoulder] = motor[Arm] = 0;
+			nMotorEncoderTarget[ShoulderLeft] = SHOULDERUPRIGHT;
+			nMotorEncoderTarget[ArmLeft] = MIDDLEPEG;
+			motor[ShoulderLeft] = motor[ShoulderRight] = nMotorEncoder[ShoulderLeft] < SHOULDERUPRIGHT ? shoulderScale : -shoulderScaleDown;
+			motor[ArmLeft] = motor[ArmRight] = nMotorEncoder[ArmLeft] < MIDDLEPEG ? armScale : -armScaleDown;
+			while(nMotorRunState[ShoulderLeft] != runStateIdle && nMotorRunState[ArmLeft] != runStateIdle);
+			motor[ShoulderLeft] = motor[ShoulderRight] = motor[ArmLeft] = motor[ArmRight] = 0;
 		}
 		if(joy2Btn(3)) { //If the operator is pressing button 3, set arm to top peg
-			nMotorEncoderTarget[Shoulder] = SHOULDERUPRIGHT;
-			nMotorEncoderTarget[Arm] = TOPPEG;
-			motor[Shoulder] = nMotorEncoder[Shoulder] < SHOULDERUPRIGHT ? 100 : -100;
-			motor[Arm] = nMotorEncoder[Arm] < TOPPEG ? 100 : -100;
-			while(nMotorRunState[Shoulder] != runStateIdle && nMotorRunState[Arm] != runStateIdle);
-			motor[Shoulder] = motor[Arm] = 0;
-		}
-		if(joy2Btn(4)) { //If the operator is pressing button 4, set arm to ring peg
-			nMotorEncoderTarget[Shoulder] = 0; //Set shoulder to home
-			nMotorEncoderTarget[Arm] = 0; //Then set arm to home
-			motor[Shoulder] = nMotorEncoder[Shoulder] < RINGPEGSHOULDER ? 100 : -100;
-			motor[Arm] = nMotorEncoder[Arm] < RINGPEGARM ? 100 : -100;
-			while(nMotorRunState[Shoulder] != runStateIdle && nMotorRunState[Arm] != runStateIdle);
-			motor[Shoulder] = motor[Arm] = 0;
+			nMotorEncoderTarget[ShoulderLeft] = SHOULDERUPRIGHT;
+			nMotorEncoderTarget[ArmLeft] = TOPPEG;
+			motor[ShoulderLeft] = motor[ShoulderRight] = nMotorEncoder[ShoulderLeft] < SHOULDERUPRIGHT ? shoulderScale : -shoulderScaleDown;
+			motor[ArmLeft] = motor[ArmRight] = nMotorEncoder[ArmLeft] < TOPPEG ? armScale : -armScaleDown;
+			while(nMotorRunState[ShoulderLeft] != runStateIdle && nMotorRunState[ArmLeft] != runStateIdle);
+			motor[ShoulderLeft] = motor[ShoulderRight] = motor[ArmLeft] = motor[ArmRight] = 0;
 		}*/
+		if(joy2Btn(4)) { //If the operator is pressing button 4, set arm to ring peg
+			nMotorEncoderTarget[ShoulderLeft] = RINGPEGSHOULDER; //Set shoulder to home
+			nMotorEncoderTarget[ArmLeft] = RINGPEGARM; //Then set arm to home
+			motor[ShoulderLeft] = motor[ShoulderRight] = nMotorEncoder[ShoulderLeft] < RINGPEGSHOULDER ? shoulderScale : -shoulderScaleDown;
+			motor[ArmLeft] = motor[ArmRight] = nMotorEncoder[ArmLeft] < RINGPEGARM ? armScale : -armScaleDown;
+			while(nMotorRunState[ShoulderLeft] != runStateIdle && nMotorRunState[ArmLeft] != runStateIdle);
+			motor[ShoulderLeft] = motor[ShoulderRight] = motor[ArmLeft] = motor[ArmRight] = 0;
+		}
+		if(joy2Btn(9)) { //If the operator is pressing button 9, set arm to upright
+			nMotorEncoderTarget[ShoulderLeft] = SHOULDERUPRIGHT;
+			nMotorEncoderTarget[ArmLeft] = ARMUPRIGHT;
+			motor[ShoulderLeft] = motor[ShoulderRight] = nMotorEncoder[ShoulderLeft] < SHOULDERUPRIGHT ? shoulderScale : -shoulderScaleDown;
+			motor[ArmLeft] = motor[ArmRight] = nMotorEncoder[ArmLeft] < ARMUPRIGHT ? armScale : -armScaleDown;
+			while(nMotorRunState[ShoulderLeft] != runStateIdle && nMotorRunState[ArmLeft] != runStateIdle);
+			motor[ShoulderLeft] = motor[ShoulderRight] = motor[ArmLeft] = motor[ArmRight] = 0;
+		}
+		if(joy2Btn(10)) { //If the operator is pressing button 10, set arm to home position
+			nMotorEncoderTarget[ShoulderLeft] = 0;
+			nMotorEncoderTarget[ArmLeft] = 0;
+			motor[ShoulderLeft] = motor[ShoulderRight] = nMotorEncoder[ShoulderLeft] < 0 ? shoulderScale : -shoulderScaleDown;
+			motor[ArmLeft] = motor[ArmRight] = nMotorEncoder[ArmLeft] < 0 ? armScale : -armScaleDown;
+			while(nMotorRunState[ShoulderLeft] != runStateIdle && nMotorRunState[ArmLeft] != runStateIdle);
+			motor[ShoulderLeft] = motor[ShoulderRight] = motor[ArmLeft] = motor[ArmRight] = 0;
+		}
 		if(joy2Btn(8)) { //If the operator is pressing button 8, scale down hand movements
 			armScale = ARMLOW;
 			armScaleDown = ARMDOWNLOW;
@@ -188,6 +205,6 @@ task main() {
 			shoulderScale = SHOULDERHIGH;
 			shoulderScaleDown = SHOULDERDOWNHIGH;
 		}
-		writeDebugStream("%d, %d\n", nMotorEncoder[ShoulderLeft], nMotorEncoder[ArmLeft]);
+		//writeDebugStream("%d, %d\n", nMotorEncoder[ShoulderLeft], nMotorEncoder[ArmLeft]);
 	}
 }
