@@ -96,13 +96,5 @@ task main() {
 			else
 				motor[ArmLeft] = motor[ArmRight] = 0;
 		}
-		if(joy1Btn(6) && ServoValue[ArmServoLeft] < 255 && ServoValue[ArmServoRight] < 255) { //If button 6 is pressed and servos aren't at maximum, open hand
-			servo[ArmServoLeft] += 10; //Increase servo positions
-			servo[ArmServoRight] += 10;
-		}
-		if(joy1Btn(8) && ServoValue[ArmServoLeft] > 0 && ServoValue[ArmServoRight] > 0) { //If button 8 is pressed and servos aren't at minimum, close hand
-			servo[ArmServoLeft] -= 10; //Decrease servo positions
-			servo[ArmServoRight] -= 10;
-		}
 	}
 }
