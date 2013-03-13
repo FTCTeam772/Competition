@@ -15,8 +15,17 @@
 
 //Constants
 #define ENCODERSTOP 4096
-#define ARMTOP 1440
+#define SHOULDERHIGH 50
+#define SHOULDERDOWNHIGH 10
+#define ARMHIGH 30
+#define ARMDOWNHIGH 5
+//Robot Constants
+#define SHOULDERTOP 2100
+#define SHOULDERBOTTOM 0
+#define ARMTOP 2880
 #define ARMBOTTOM -1440
+#define HANDMAX 300
+#define HANDMIN 0
 
 bool motorLeftForward = false; //Says whether we are testing an encoder or not
 bool motorRightForward = false;
@@ -25,8 +34,8 @@ bool motorFrontSideways = false;
 
 task main() {
 	//Initialize
-	motor[LeftForward] = motor[RightForward] = motor[BackSideways] = motor[FrontSideways] = motor[ArmLeft] = motor[ArmRight] = 0; //Turn off the motors
-	nMotorEncoder[LeftForward] = nMotorEncoder[RightForward] = nMotorEncoder[BackSideways] = nMotorEncoder[FrontSideways] = nMotorEncoder[ArmLeft] = nMotorEncoder[ArmRight] = 0; //Might as well reset the encoders too
+	motor[LeftForward] = motor[RightForward] = motor[BackSideways] = motor[FrontSideways] = motor[ArmLeft] = motor[ArmRight] = motor[ShoulderLeft] = motor[ShoulderRight] = motor[ArmHandLeft] = motor[ArmHandRight] = 0; //Turn off the motors
+	nMotorEncoder[LeftForward] = nMotorEncoder[RightForward] = nMotorEncoder[BackSideways] = nMotorEncoder[FrontSideways] = nMotorEncoder[ArmLeft] = nMotorEncoder[ShoulderLeft] = nMotorEncoder[ArmHandLeft] = 0; //Might as well reset the encoders too
 	servo[ArmServoLeft] = servo[ArmServoRight] = 0; //And set the servos
 	waitForStart();
 	while(true) {
@@ -86,15 +95,41 @@ task main() {
 		//Arm
 		if(joy1Btn(5)) { //If button 5 is pressed, start arm up
 			if(nMotorEncoder[ArmRight] < ARMTOP) //Protects from operator forcing the arm above its highest point
-				motor[ArmLeft] = motor[ArmRight] = 100;
+				motor[ArmLeft] = motor[ArmRight] = ARMHIGH;
 			else
 				motor[ArmLeft] = motor[ArmRight] = 0;
 		}
 		if(joy1Btn(7)) { //If button 7 is pressed, start arm down
 			if(nMotorEncoder[ArmLeft] > ARMBOTTOM) //Protects from operator forcing the arm below its lowest point
-				motor[ArmLeft] = motor[ArmRight] = -100;
+				motor[ArmLeft] = motor[ArmRight] = -ARMDOWNHIGH;
 			else
 				motor[ArmLeft] = motor[ArmRight] = 0;
+		}
+		//Shoulder
+		if(joy1Btn(6)) { //If button 6 pressed, start shoulder up
+			if(nMotorEncoder[ArmLeft] < SHOULDERTOP) //Protects from operator forcing the arm above its highest point
+				motor[ArmLeft] = motor[ArmRight] = SHOULDHIGH;
+			else
+				motor[ArmLeft] = motor[ArmRight] = 0;
+		}
+		if(joy1Btn(8)) { //If button 8 is pressed, start shoulder down
+			if(nMotorEncoder[ShoulderLeft] > SHOULDERBOTTOM) //Protects from operator forcing the arm below its lowest point
+				motor[ShoulderLeft] = motor[ShoulderRight] = -SHOULDERDOWNHIGH;
+			else
+				motor[ShoulderLeft] = motor[ShoulderRight] = 0;
+		}
+		//Hand
+		if(joy1Btn(9)) { //If button 9 pressed, open hand
+			if(nMotorEncoder[ArmHandLeft] < HANDMAX) //Protects from operator forcing the hand past its open point
+				motor[ArmHandLeft] = motor[ArmHandRight] = ARMHIGH;
+			else
+				motor[ArmHandLeft] = motor[ArmHandRight] = 0;
+		}
+		if(joy1Btn(10)) { //If button 10 is pressed, close hand
+			if(nMotorEncoder[ArmLeft] > HANDMIN) //Protects from operator forcing the hand past its closed point
+				motor[ArmHandLeft] = motor[ArmHandRight] = -ARMHIGH;
+			else
+				motor[ArmHandLeft] = motor[ArmHandRight] = 0;
 		}
 	}
 }
