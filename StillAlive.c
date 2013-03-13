@@ -30,7 +30,8 @@ void clearLyrics() {
 task control() {
 	while(true) {
 		nxtDisplayTextLine(7, "[]speed:%d     ", speed);
-    while(nNxtButtonPressed != 3) {
+
+		while(nNxtButtonPressed != 3) {
 			wait1Msec(200);
 			if (nNxtButtonPressed == 2 && speed > 10) {
 				speed -= 10;
@@ -43,7 +44,9 @@ task control() {
 			abortTimeslice();
 		}
 		while(nNxtButtonPressed == 3);
+
 		nxtDisplayTextLine(7, "[]volume: %d   ", nVolume);
+
 		while(nNxtButtonPressed != 3) {
 			wait1Msec(200);
 			if (nNxtButtonPressed == 2 && nVolume > 0) {

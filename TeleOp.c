@@ -63,6 +63,7 @@ bool positioningArm = false; //Whether or not we are positioning the arm and dis
 task joystickControl() { //Asynchronous task for joystick control
 	while(true) {
 		//Joystick 1 - Driver
+
 #ifdef TANKDRIVE
 		if(forward) { //Part of direction locking mechanism
 			//Big fancy statement to set the left forward motors equal to the converted joystick's left y axis unless it is in the natural variant range.
@@ -86,7 +87,9 @@ task joystickControl() { //Asynchronous task for joystick control
 			motor[FrontSideways] = (joystick.joy1_x1 > 10 || joystick.joy1_x1 < -10 ? joystick.joy1_x1 : 0 + (int)(joystick.joy1_x2 > 10 || joystick.joy1_x2 < -10 ? joystick.joy1_x2 : 0)) / (128.0 + joystick.joy1_x2) * joystickScale;
 		}
 #endif
+
 		//Joystick 2 - Operator
+
 		/*if(joy2Btn(1)) { //If the operator is pressing button 1, set arm to lowest peg
 			nMotorEncoderTarget[ShoulderLeft] = SHOULDERUPRIGHT; //Set shoulder to upright
 			nMotorEncoderTarget[ArmLeft] = BOTTOMPEG; //Set arm to its target
@@ -123,6 +126,7 @@ task joystickControl() { //Asynchronous task for joystick control
 			motor[ShoulderLeft] = motor[ShoulderRight] = nMotorEncoder[ShoulderLeft] < 0 ? shoulderScale : -shoulderScaleDown;
 			motor[ArmLeft] = motor[ArmRight] = nMotorEncoder[ArmLeft] < 0 ? armScale : -armScaleDown;
 		}
+
 		if(positionArm) { //If we are positioning the arm
 			if(nMotorRunState[ShoulderLeft] == runStateIdle && nMotorRunState[ArmLeft] == runStateIdle) { //Check if we are there
 				motor[ShoulderLeft] = motor[ArmLeft] = 0; //And stop the motors and clear the flag if we are
@@ -143,6 +147,7 @@ task joystickControl() { //Asynchronous task for joystick control
 			else
 				motor[ArmLeft] = motor[ArmRight] = 0;
 		}
+
 		if(joy2Btn(5) && (nMotorEncoder[ArmHandLeft] < HANDMAX || joy2Btn(7))) //If the operator is pressing button 5 and it isn't open, open the hand
 			motor[ArmHandLeft] = motor[ArmHandRight] = armScale;
 		else if(joy2Btn(6) && (nMotorEncoder[ArmHandLeft] > HANDMIN || joy2Btn(7))) //Else if the operator is pressing button 6 and it isn't closed, closed the hand
@@ -156,10 +161,13 @@ task main() {
 	//Initialize
 	motor[LeftForward] = motor[RightForward] = motor[BackSideways] = motor[FrontSideways] = motor[ArmLeft] = motor[ArmRight] = motor[ShoulderLeft] = motor[ShoulderRight] = motor[ArmHandLeft] = motor[ArmHandRight] = 0; //Turn off the motors
 	nMotorEncoder[LeftForward] = nMotorEncoder[RightForward] = nMotorEncoder[BackSideways] = nMotorEncoder[FrontSideways] = nMotorEncoder[ArmLeft] = nMotorEncoder[ShoulderLeft] = nMotorEncoder[ArmHandLeft] = 0; //Might as well reset the encoders too
+
 	waitForStart();
+
 	StartTask(joystickControl); //Go ahead and start critical joystick functions in their own task
 	while(true) {
 		//Joystick 1 - Driver
+
 		if(joy1Btn(6)) //If the driver is pressing button 6, scale down robot movements
 			joystickScale = JOYSTICKLOW;
 		else //Else leave at full speed
@@ -172,7 +180,9 @@ task main() {
 			forward = false;
 		else
 			forward = true;
+
 		//Joystick 2 - Operator
+
 		if(joy2Btn(8)) { //If the operator is pressing button 8, scale down hand movements
 			armScale = ARMLOW;
 			armScaleDown = ARMDOWNLOW;
