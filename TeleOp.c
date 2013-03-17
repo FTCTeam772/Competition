@@ -127,7 +127,7 @@ task joystickControl() { //Asynchronous task for joystick control
 			motor[ArmLeft] = motor[ArmRight] = nMotorEncoder[ArmLeft] < 0 ? armScale : -armScaleDown;
 		}
 
-		if(positionArm) { //If we are positioning the arm
+		if(positioningArm) { //If we are positioning the arm
 			if(nMotorRunState[ShoulderLeft] == runStateIdle && nMotorRunState[ArmLeft] == runStateIdle) { //Check if we are there
 				motor[ShoulderLeft] = motor[ArmLeft] = 0; //And stop the motors and clear the flag if we are
 				positioningArm = false;
