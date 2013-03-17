@@ -60,6 +60,10 @@ bool sideways = true;
 
 bool positioningArm = false; //Whether or not we are positioning the arm and disabling operator control
 
+task motorEncoderTarget() {
+
+}
+
 task joystickControl() { //Asynchronous task for joystick control
 	while(true) {
 		//Joystick 1 - Driver
@@ -95,36 +99,42 @@ task joystickControl() { //Asynchronous task for joystick control
 			nMotorEncoderTarget[ArmLeft] = BOTTOMPEG; //Set arm to its target
 			motor[ShoulderLeft] = motor[ShoulderRight] = nMotorEncoder[ShoulderLeft] < SHOULDERUPRIGHT ? shoulderScale : -shoulderScaleDown; //Start the motors in the direction of the target
 			motor[ArmLeft] = motor[ArmRight] = nMotorEncoder[ArmLeft] < BOTTOMPEG ? armScale : -armScaleDown;
+			positioningArm = true;
 		}
 		if(joy2Btn(2)) { //If the operator is pressing button 2, set arm to middle peg
 			nMotorEncoderTarget[ShoulderLeft] = SHOULDERUPRIGHT;
 			nMotorEncoderTarget[ArmLeft] = MIDDLEPEG;
 			motor[ShoulderLeft] = motor[ShoulderRight] = nMotorEncoder[ShoulderLeft] < SHOULDERUPRIGHT ? shoulderScale : -shoulderScaleDown;
 			motor[ArmLeft] = motor[ArmRight] = nMotorEncoder[ArmLeft] < MIDDLEPEG ? armScale : -armScaleDown;
+			positioningArm = true;
 		}
 		if(joy2Btn(3)) { //If the operator is pressing button 3, set arm to top peg
 			nMotorEncoderTarget[ShoulderLeft] = SHOULDERUPRIGHT;
 			nMotorEncoderTarget[ArmLeft] = TOPPEG;
 			motor[ShoulderLeft] = motor[ShoulderRight] = nMotorEncoder[ShoulderLeft] < SHOULDERUPRIGHT ? shoulderScale : -shoulderScaleDown;
 			motor[ArmLeft] = motor[ArmRight] = nMotorEncoder[ArmLeft] < TOPPEG ? armScale : -armScaleDown;
+			positioningArm = true;
 		}*/
 		if(joy2Btn(4)) { //If the operator is pressing button 4, set arm to ring peg
 			nMotorEncoderTarget[ShoulderLeft] = RINGPEGSHOULDER; //Set shoulder to home
 			nMotorEncoderTarget[ArmLeft] = RINGPEGARM; //Then set arm to home
 			motor[ShoulderLeft] = motor[ShoulderRight] = nMotorEncoder[ShoulderLeft] < RINGPEGSHOULDER ? shoulderScale : -shoulderScaleDown;
 			motor[ArmLeft] = motor[ArmRight] = nMotorEncoder[ArmLeft] < RINGPEGARM ? armScale : -armScaleDown;
+			positioningArm = true;
 		}
 		if(joy2Btn(9)) { //If the operator is pressing button 9, set arm to upright
 			nMotorEncoderTarget[ShoulderLeft] = SHOULDERUPRIGHT;
 			nMotorEncoderTarget[ArmLeft] = ARMUPRIGHT;
 			motor[ShoulderLeft] = motor[ShoulderRight] = nMotorEncoder[ShoulderLeft] < SHOULDERUPRIGHT ? shoulderScale : -shoulderScaleDown;
 			motor[ArmLeft] = motor[ArmRight] = nMotorEncoder[ArmLeft] < ARMUPRIGHT ? armScale : -armScaleDown;
+			positioningArm = true;
 		}
 		if(joy2Btn(10)) { //If the operator is pressing button 10, set arm to home position
 			nMotorEncoderTarget[ShoulderLeft] = 0;
 			nMotorEncoderTarget[ArmLeft] = 0;
 			motor[ShoulderLeft] = motor[ShoulderRight] = nMotorEncoder[ShoulderLeft] < 0 ? shoulderScale : -shoulderScaleDown;
 			motor[ArmLeft] = motor[ArmRight] = nMotorEncoder[ArmLeft] < 0 ? armScale : -armScaleDown;
+			positioningArm = true;
 		}
 
 		if(positioningArm) { //If we are positioning the arm
@@ -195,5 +205,7 @@ task main() {
 			shoulderScale = SHOULDERHIGH;
 			shoulderScaleDown = SHOULDERDOWNHIGH;
 		}
+
+		writeDebugStreamLine("%d\n%d", nMotorEncoder[ShoulderLeft], nMotorEncoder[ArmLeft]);
 	}
 }
