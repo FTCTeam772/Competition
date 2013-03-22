@@ -19,6 +19,7 @@
 
 //Flag for whether to use tank drive or not
 //#define TANKDRIVE
+#define LOGTARGET
 
 //Constants
 //Scaling
@@ -58,12 +59,6 @@ byte shoulderScaleDown = SHOULDERDOWNHIGH;
 bool forward = true; //Used for direction locking
 bool sideways = true;
 
-bool positioningArm = false; //Whether or not we are positioning the arm and disabling operator control
-
-task motorEncoderTarget() {
-
-}
-
 task joystickControl() { //Asynchronous task for joystick control
 	while(true) {
 		//Joystick 1 - Driver
@@ -94,8 +89,82 @@ task joystickControl() { //Asynchronous task for joystick control
 
 		//Joystick 2 - Operator
 
-		/*if(joy2Btn(1)) { //If the operator is pressing button 1, set arm to lowest peg
-			nMotorEncoderTarget[ShoulderLeft] = SHOULDERUPRIGHT; //Set shoulder to upright
+		//Hand control
+		if(joy2Btn(5) && (nMotorEncoder[ArmHandLeft] < HANDMAX || joy2Btn(7))) //If the operator is pressing button 5 and it isn't open, open the hand
+			motor[ArmHandLeft] = motor[ArmHandRight] = armScale;
+		else if(joy2Btn(6) && (nMotorEncoder[ArmHandLeft] > HANDMIN || joy2Btn(7))) //Else if the operator is pressing button 6 and it isn't closed, closed the hand
+			motor[ArmHandLeft] = motor[ArmHandRight] = -armScale;
+		else //Otherwise just don't move
+			motor[ArmHandLeft] = motor[ArmHandRight] = 0;
+	}
+}
+
+void targetMotorSpeed(int total, int current) {
+#ifdef LOGTARGET
+
+#else
+
+#endif
+}
+
+void moveArm(int shoulderTarget, int armTarget) {
+	bool shoulderDown;
+	int shoulderTotal;
+	if(nMotorEncoder[ShoulderLeft] < shoulderTarget) { //If we are below the target, go up like normal
+		shoulderDown = false;
+		motor[ShoulderLeft] = motor[ShoulderRight] = shoulderScale;
+		shoulderTotal = shoulderTarget - nMotorEncoder[ShoulderLeft];
+	}
+	else { //Else go slower down and notify the loop so that it can test correctly
+		shoulderDown = true;
+		motor[ShoulderLeft] = motor[ShoulderRight] = -shoulderScaleDown;
+		shoulderTotal = nMotorEncoder[ShoulderLeft] - shoulderTarget;
+	}
+
+	bool armDown;
+	int armTotal;
+	if(nMotorEncoder[ArmLeft] < armTarget) { //Same for arm motors
+		armDown = false;
+		motor[ArmLeft] = motor[ArmRight] = armScale;
+		armTotal = armTarget - nMotorEncoder[ArmLeft];
+	}
+	else {
+		armDown = true;
+		motor[ArmLeft] = motor[ArmRight] = -armScaleDown;
+		armTotal = nMotorEncoder[ArmLeft] - armTarget;
+	}
+
+	bool shoulderDone = false
+	bool armDone = false;
+	while(!((shoulderDone && armDone) || joy2Btn(7))) { //While the motors are not done and the operator is not overriding
+		if(!shoulderDone) { //Test if the shoulder is done before changing it
+			if((!shoulderDown && nMotorEncoder[ShoulderLeft] < shoulderTarget) || (shoulderDown && nMotorEncoder[ShoulderLeft] > shoulderTarget)) { //If we are still going to our target, set the motor speed based on a function
+				motor[ShoulderLeft] = motor[ShoulderRight] = targetMotorSpeed(shoulderTotal, nMotorEncoder[ShoulderLeft]);
+			}
+			else { //Else tell the loop the shoulder is done and set the motors off
+				motor[ShoulderLeft] = motor[ShoulderRight] = 0;
+				shoulderDone = true;
+			}
+		}
+
+		if(!armDone) { //Same thing for the arm
+			if((!armDown && nMotorEncoder[ArmLeft] < armTarget) || (armDown && nMotorEncoder[ArmLeft] > armTarget)) {
+				motor[ArmLeft] = motor[ArmRight] = targetMotorSpeed(armTotal, nMotorEncoder[ArmLeft]);
+			}
+			else {
+				motor[ArmLeft] = motor[ArmRight] = 0;
+				armDone = true;
+			}
+		}
+	}
+}
+
+task armControl() { //Another asynchronous task to move the arm
+	while(true) {
+		//Joystick 2 - Operator
+
+	/*if(joy2Btn(1)) { //If the operator is pressing button 1, set arm to lowest peg
+			shoulderTarget = SHOULDERUPRIGHT; //Set shoulder to upright
 			nMotorEncoderTarget[ArmLeft] = BOTTOMPEG; //Set arm to its target
 			motor[ShoulderLeft] = motor[ShoulderRight] = nMotorEncoder[ShoulderLeft] < SHOULDERUPRIGHT ? shoulderScale : -shoulderScaleDown; //Start the motors in the direction of the target
 			motor[ArmLeft] = motor[ArmRight] = nMotorEncoder[ArmLeft] < BOTTOMPEG ? armScale : -armScaleDown;
@@ -157,13 +226,6 @@ task joystickControl() { //Asynchronous task for joystick control
 			else
 				motor[ArmLeft] = motor[ArmRight] = 0;
 		}
-
-		if(joy2Btn(5) && (nMotorEncoder[ArmHandLeft] < HANDMAX || joy2Btn(7))) //If the operator is pressing button 5 and it isn't open, open the hand
-			motor[ArmHandLeft] = motor[ArmHandRight] = armScale;
-		else if(joy2Btn(6) && (nMotorEncoder[ArmHandLeft] > HANDMIN || joy2Btn(7))) //Else if the operator is pressing button 6 and it isn't closed, closed the hand
-			motor[ArmHandLeft] = motor[ArmHandRight] = -armScale;
-		else //Otherwise just don't move
-			motor[ArmHandLeft] = motor[ArmHandRight] = 0;
 	}
 }
 
@@ -175,6 +237,7 @@ task main() {
 	waitForStart();
 
 	StartTask(joystickControl); //Go ahead and start critical joystick functions in their own task
+	StartTask(armControl); //Start arm functions in their own task too
 	while(true) {
 		//Joystick 1 - Driver
 
