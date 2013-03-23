@@ -3,10 +3,10 @@
 #pragma config(Sensor, S1, , sensorI2CMuxController)
 #pragma config(Sensor, S2, , sensorI2CMuxController)
 #pragma config(Sensor, S3, IR, sensorHiTechnicIRSeeker1200)
-#pragma config(Motor, mtr_S1_C1_1, LeftForward, tmotorTetrix, PIDControl, reversed, encoder)
-#pragma config(Motor, mtr_S1_C1_2, FrontSideways, tmotorTetrix, PIDControl, reversed, encoder)
-#pragma config(Motor, mtr_S1_C2_1, BackSideways, tmotorTetrix, PIDControl, encoder)
-#pragma config(Motor, mtr_S1_C2_2, RightForward, tmotorTetrix, PIDControl, encoder)
+#pragma config(Motor, mtr_S1_C1_1, BackSideways, tmotorTetrix, PIDControl, encoder)
+#pragma config(Motor, mtr_S1_C1_2, RightForward, tmotorTetrix, PIDControl, encoder)
+#pragma config(Motor, mtr_S1_C2_1, LeftForward, tmotorTetrix, PIDControl, reversed, encoder)
+#pragma config(Motor, mtr_S1_C2_2, FrontSideways, tmotorTetrix, PIDControl, reversed, encoder)
 #pragma config(Motor, mtr_S2_C1_1, ShoulderLeft, tmotorTetrix, openLoop, encoder)
 #pragma config(Motor, mtr_S2_C1_2, ShoulderRight, tmotorTetrix, openLoop, reversed)
 #pragma config(Motor, mtr_S2_C2_1, ArmLeft, tmotorTetrix, openLoop, encoder)
@@ -18,18 +18,7 @@
 #include "JoystickDriver.c"
 
 //Constants
-#define ENCODERSTOP 4096
-#define SHOULDERHIGH 50
-#define SHOULDERDOWNHIGH 10
-#define ARMHIGH 30
-#define ARMDOWNHIGH 5
-//Robot Constants
-#define SHOULDERTOP 2100
-#define SHOULDERBOTTOM 0
-#define ARMTOP 2880
-#define ARMBOTTOM -1440
-#define HANDMAX 300
-#define HANDMIN 0
+#include "constants.h"
 
 bool motorLeftForward = false; //Says whether we are testing an encoder or not
 bool motorRightForward = false;
@@ -82,19 +71,19 @@ task main() {
 			motor[FrontSideways] = 100;
 			motorFrontSideways = true;
 		}
-		if(motorLeftForward && nMotorEncoder[LeftForward] >= ENCODERSTOP) { //If we are testing encoder and time to stop, stop the motor
+		if(motorLeftForward && nMotorEncoder[LeftForward] >= ENCODERTEST) { //If we are testing encoder and time to stop, stop the motor
 			motor[LeftForward] = 0;
 			motorLeftForward = false;
 		}
-		if(motorRightForward && nMotorEncoder[RightForward] >= ENCODERSTOP) {
+		if(motorRightForward && nMotorEncoder[RightForward] >= ENCODERTEST) {
 			motor[RightForward] = 0;
 			motorRightForward = false;
 		}
-		if(motorBackSideways && nMotorEncoder[BackSideways] >= ENCODERSTOP) {
+		if(motorBackSideways && nMotorEncoder[BackSideways] >= ENCODERTEST) {
 			motor[BackSideways] = 0;
 			motorBackSideways = false;
 		}
-		if(motorFrontSideways && nMotorEncoder[FrontSideways] >= ENCODERSTOP) {
+		if(motorFrontSideways && nMotorEncoder[FrontSideways] >= ENCODERTEST) {
 			motor[FrontSideways] = 0;
 			motorFrontSideways = false;
 		}
@@ -118,7 +107,7 @@ task main() {
 
 		if(joy1Btn(6)) { //If button 6 pressed, start shoulder up
 			if(nMotorEncoder[ArmLeft] < SHOULDERTOP) //Protects from operator forcing the arm above its highest point
-				motor[ArmLeft] = motor[ArmRight] = SHOULDHIGH;
+				motor[ArmLeft] = motor[ArmRight] = SHOULDERHIGH;
 			else
 				motor[ArmLeft] = motor[ArmRight] = 0;
 		}

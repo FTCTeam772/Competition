@@ -39,3 +39,6 @@
 #define BACKWARDS 1440
 #define TURNTORINGS 1200
 #define FORWARDTORINGS 2400
+
+//Testing
+#define ENCODERTEST 4800
