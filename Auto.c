@@ -22,7 +22,7 @@
 
 void placeRing() {
 	//Get arm in position
-	moveArm(SHOULDERTOP, ARMTOP);
+	moveArm((float)SHOULDERTOP, (float)ARMTOP);
 	//Move forward until ring is around peg
 	forward(PLACEFORWARD, 30);
 	//Now open the hand

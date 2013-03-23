@@ -1,20 +1,21 @@
 //Flag for whether to use tank drive or not
 //#define TANKDRIVE
-//#define LOGTARGET
+//#define NONLINEARTARGET
 
 //Scaling
 #define JOYSTICKHIGH 100
 #define JOYSTICKLOW 30
 #define SHOULDERHIGH 50
 #define SHOULDERLOW 20
-#define SHOULDERDOWNHIGH 10
-#define SHOULDERDOWNLOW 5
+#define SHOULDERDOWNHIGH 2
+#define SHOULDERDOWNLOW 1
 #define ARMHIGH 30
 #define ARMLOW 15
-#define ARMDOWNHIGH 5
-#define ARMDOWNLOW 3
+#define ARMDOWNHIGH 2
+#define ARMDOWNLOW 1
+#define HANDHIGH 100
 //Robot Constants
-#define SHOULDERTOP 2100
+#define SHOULDERTOP 2200
 #define SHOULDERBOTTOM 0
 #define SHOULDERUPRIGHT 2100
 #define ARMTOP 1800
@@ -23,8 +24,8 @@
 #define HANDMAX 300
 #define HANDMIN 0
 //Field Constants
-#define RINGPEGSHOULDER 410
-#define RINGPEGARM 320
+#define RINGPEGSHOULDER 0
+#define RINGPEGARM 180
 #define BOTTOMPEG 280
 #define MIDDLEPEG 0
 #define TOPPEG 1440

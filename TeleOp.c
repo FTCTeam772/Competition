@@ -63,9 +63,9 @@ task joystickControl() { //Asynchronous task for joystick control
 
 		//Hand control
 		if(joy2Btn(5) && (nMotorEncoder[ArmHandLeft] < HANDMAX || joy2Btn(7))) //If the operator is pressing button 5 and it isn't open, open the hand
-			motor[ArmHandLeft] = motor[ArmHandRight] = armScale;
+			motor[ArmHandLeft] = motor[ArmHandRight] = HANDHIGH;
 		else if(joy2Btn(6) && (nMotorEncoder[ArmHandLeft] > HANDMIN || joy2Btn(7))) //Else if the operator is pressing button 6 and it isn't closed, closed the hand
-			motor[ArmHandLeft] = motor[ArmHandRight] = -armScale;
+			motor[ArmHandLeft] = motor[ArmHandRight] = -HANDHIGH;
 		else //Otherwise just don't move
 			motor[ArmHandLeft] = motor[ArmHandRight] = 0;
 	}
@@ -76,19 +76,19 @@ task armControl() { //Another asynchronous task to move the arm
 		//Joystick 2 - Operator
 
 	/*if(joy2Btn(1)) { //If the operator is pressing button 1, set arm to lowest peg
-			moveArm(SHOULDERUPRIGHT, BOTTOMPEG);
+			moveArm((float)SHOULDERUPRIGHT, (float)BOTTOMPEG);
 		}
 		if(joy2Btn(2)) { //If the operator is pressing button 2, set arm to middle peg
-			moveArm(SHOULDERUPRIGHT, MIDDLEPEG);
+			moveArm((float)SHOULDERUPRIGHT, (float)MIDDLEPEG);
 		}
 		if(joy2Btn(3)) { //If the operator is pressing button 3, set arm to top peg
-			moveArm(SHOULDERUPRIGHT, TOPPEG);
+			moveArm((float)SHOULDERUPRIGHT, (float)TOPPEG);
 		}*/
 		if(joy2Btn(4)) { //If the operator is pressing button 4, set arm to ring peg
-			moveArm(RINGPEGSHOULDER, RINGPEGARM);
+			moveArm((float)RINGPEGSHOULDER, (float)RINGPEGARM);
 		}
 		if(joy2Btn(9)) { //If the operator is pressing button 9, set arm to upright
-			moveArm(SHOULDERUPRIGHT, ARMUPRIGHT);
+			moveArm((float)SHOULDERUPRIGHT, (float)ARMUPRIGHT);
 		}
 		if(joy2Btn(10)) { //If the operator is pressing button 10, set arm to home position
 			moveArm(0, 0);

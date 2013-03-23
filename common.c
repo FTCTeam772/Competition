@@ -18,9 +18,9 @@
 #include "JoystickDriver.c"
 #include "constants.h"
 
-int targetMotorSpeed(int total, int current) {
-#ifdef LOGTARGET
-	return 100;
+int targetMotorSpeed(float total, float current, float offset) {
+#ifdef NONLINEARTARGET
+	return 100 * (1 - sqrt((1 / total) * (current - offset)));
 #else
 	return 100;
 #endif
@@ -29,6 +29,7 @@ int targetMotorSpeed(int total, int current) {
 void moveArm(int shoulderTarget, int armTarget) {
 	bool shoulderDown;
 	int shoulderTotal;
+	int shoulderOffset = nMotorEncoder[ShoulderLeft];
 	if(nMotorEncoder[ShoulderLeft] < shoulderTarget) { //If we are below the target, go up like normal
 		shoulderDown = false;
 		shoulderTotal = shoulderTarget - nMotorEncoder[ShoulderLeft];
@@ -40,6 +41,7 @@ void moveArm(int shoulderTarget, int armTarget) {
 
 	bool armDown;
 	int armTotal;
+	int armOffset = nMotorEncoder[ArmLeft];
 	if(nMotorEncoder[ArmLeft] < armTarget) { //Same for arm motors
 		armDown = false;
 		armTotal = armTarget - nMotorEncoder[ArmLeft];
@@ -54,10 +56,10 @@ void moveArm(int shoulderTarget, int armTarget) {
 	while(!((shoulderDone && armDone) || joy2Btn(7))) { //While the motors are not done and the operator is not overriding
 		if(!shoulderDone) { //Test if the shoulder is done before changing it
 			if(!shoulderDown && nMotorEncoder[ShoulderLeft] < shoulderTarget) { //If we are still going to our target, set the motor speed based on a function
-				motor[ShoulderLeft] = motor[ShoulderRight] = SHOULDERHIGH * targetMotorSpeed(shoulderTotal, nMotorEncoder[ShoulderLeft]);
+				motor[ShoulderLeft] = motor[ShoulderRight] = SHOULDERHIGH * targetMotorSpeed(shoulderTotal, nMotorEncoder[ShoulderLeft], shoulderOffset) / 100;
 			}
 			else if(shoulderDown && nMotorEncoder[ShoulderLeft] > shoulderTarget) {
-				motor[ShoulderLeft] = motor[ShoulderRight] = -SHOULDERDOWNHIGH * targetMotorSpeed(shoulderTotal, nMotorEncoder[ShoulderLeft]);
+				motor[ShoulderLeft] = motor[ShoulderRight] = -SHOULDERDOWNHIGH * targetMotorSpeed(shoulderTotal, nMotorEncoder[ShoulderLeft], shoulderOffset) / 100;
 			}
 			else { //Else tell the loop the shoulder is done and set the motors off
 				motor[ShoulderLeft] = motor[ShoulderRight] = 0;
@@ -67,10 +69,10 @@ void moveArm(int shoulderTarget, int armTarget) {
 
 		if(!armDone) { //Same thing for the arm
 			if(!armDown && nMotorEncoder[ArmLeft] < armTarget) {
-				motor[ArmLeft] = motor[ArmRight] = ARMHIGH * targetMotorSpeed(armTotal, nMotorEncoder[ArmLeft]);
+				motor[ArmLeft] = motor[ArmRight] = ARMHIGH * targetMotorSpeed(armTotal, nMotorEncoder[ArmLeft], armOffset) / 100;
 			}
 			else if(armDown && nMotorEncoder[ArmLeft] > armTarget) {
-				motor[ArmLeft] = motor[ArmRight] = -ARMDOWNHIGH * targetMotorSpeed(armTotal, nMotorEncoder[ArmLeft]);
+				motor[ArmLeft] = motor[ArmRight] = -ARMDOWNHIGH * targetMotorSpeed(armTotal, nMotorEncoder[ArmLeft], armOffset) / 100;
 			}
 			else {
 				motor[ArmLeft] = motor[ArmRight] = 0;
@@ -131,7 +133,7 @@ void left(byte encoderCount) {
 }
 
 void openHand() {
-	motor[ArmHandLeft] = motor[ArmHandRight] = ARMHIGH;
+	motor[ArmHandLeft] = motor[ArmHandRight] = HANDHIGH;
 	while(nMotorEncoder[ArmHandLeft] < HANDMAX);
 	motor[ArmHandLeft] = motor[ArmHandRight] = 0;
 }
