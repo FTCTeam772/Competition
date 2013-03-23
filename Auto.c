@@ -23,7 +23,7 @@
 void placeRing() {
 	//Get arm in position
 	moveArm(SHOULDERTOP, ARMTOP);
-	//Move forward until ring is around peg at a slow pace
+	//Move forward until ring is around peg
 	forward(PLACEFORWARD, 30);
 	//Now open the hand
 	openHand();
@@ -46,8 +46,8 @@ task main() {
 	waitForStart();
 
 	//Get up to detect the beacon
-	forward(FORWARD);
-	turnRight(RIGHT);
+	forward(STARTFORWARD, 100);
+	turnRight(TURN);
 
 	//Go up toward the pegs
 	switch(SensorValue[IR]) { //0 - not found, 1-4 - Left, 5 - Center, 6-9 - Right
@@ -56,20 +56,20 @@ task main() {
 		case 3:
 		case 4:
 			left(SIDEWAYS);
-			forward(CENTERFORWARD);
+			forward(CENTERFORWARD, 100);
 			break;
 		case 5:
-			forward(CENTERFORWARD);
+			forward(CENTERFORWARD, 100);
 			break;
 		case 6:
 		case 7:
 		case 8:
 		case 9:
 			right(SIDEWAYS);
-			forward(CENTERFORWARD);
+			forward(CENTERFORWARD, 100);
 			break;
 		default:
-			forward(CENTERFORWARD);
+			forward(CENTERFORWARD, 100);
 	}
 
 	//Place the ring then get ready for the match

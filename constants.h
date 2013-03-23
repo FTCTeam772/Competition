@@ -30,7 +30,7 @@
 #define TOPPEG 1440
 
 //Autonomous
-#define FORWARD 5800
+#define STARTFORWARD 5800
 #define TURN 700
 #define CENTERFORWARD 2700
 #define SIDEWAYS 1800
