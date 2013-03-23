@@ -46,7 +46,7 @@ task main() {
 	waitForStart();
 
 	//Get up to detect the beacon
-	forward(STARTFORWARD, 100);
+	right(STARTFORWARD);
 	turnRight(SENSORTURN);
 
 	int IRValue = SensorValue[IR];
