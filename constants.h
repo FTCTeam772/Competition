@@ -31,7 +31,8 @@
 
 //Autonomous
 #define STARTFORWARD 5800
-#define TURN 700
+#define SENSORTURN 700
+#define TURN 800
 #define CENTERFORWARD 2700
 #define SIDEWAYS 1800
 #define PLACEFORWARD 500

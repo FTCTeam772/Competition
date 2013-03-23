@@ -47,30 +47,30 @@ task main() {
 
 	//Get up to detect the beacon
 	forward(STARTFORWARD, 100);
+	turnRight(SENSORTURN);
+
+	int IRValue = SensorValue[IR];
+
 	turnRight(TURN);
 
 	//Go up toward the pegs
-	switch(SensorValue[IR]) { //0 - not found, 1-4 - Left, 5 - Center, 6-9 - Right
+	switch(IRValue) { //0 - not found, 1-4 - Left, 5 - Center, 6-9 - Right
 		case 1:
 		case 2:
 		case 3:
 		case 4:
 			left(SIDEWAYS);
-			forward(CENTERFORWARD, 100);
-			break;
-		case 5:
-			forward(CENTERFORWARD, 100);
 			break;
 		case 6:
 		case 7:
 		case 8:
 		case 9:
 			right(SIDEWAYS);
-			forward(CENTERFORWARD, 100);
 			break;
 		default:
-			forward(CENTERFORWARD, 100);
 	}
+
+	forward(CENTERFORWARD, 100);
 
 	//Place the ring then get ready for the match
 	placeRing();
