@@ -82,7 +82,7 @@ void moveArm(int shoulderTarget, int armTarget) {
 	}
 }
 
-void turnLeft(byte encoderCount) {
+void turnLeft(int encoderCount) {
 	//Reset encoders, set motors opposite their counterparts and in a turning motion (left - backward, front - left, right - forward, back - right), wait on encoders, then stop the motors
 	nMotorEncoder[LeftForward] = nMotorEncoder[RightForward] = nMotorEncoder[BackSideways] = nMotorEncoder[FrontSideways] = 0;
 	motor[LeftForward] = motor[FrontSideways] = -100; //Set motors in opposite directions
@@ -91,7 +91,7 @@ void turnLeft(byte encoderCount) {
 	motor[LeftForward] = motor[RightForward] = motor[BackSideways] = motor[FrontSideways] = 0; //Stop
 }
 
-void turnRight(byte encoderCount) {
+void turnRight(int encoderCount) {
 	//Same as left but motors go in opposite directions
 	nMotorEncoder[LeftForward] = nMotorEncoder[RightForward] = nMotorEncoder[BackSideways] = nMotorEncoder[FrontSideways] = 0;
 	motor[LeftForward] = motor[FrontSideways] = 100;
@@ -100,7 +100,7 @@ void turnRight(byte encoderCount) {
 	motor[LeftForward] = motor[RightForward] = motor[BackSideways] = motor[FrontSideways] = 0;
 }
 
-void forward(byte encoderCount, byte power) {
+void forward(int encoderCount, byte power) {
 	//Reset encoders, set motors to forward, wait on encoders, then stop the motors
 	nMotorEncoder[LeftForward] = nMotorEncoder[RightForward] = 0; //Reset the encoders
 	motor[LeftForward] = motor[RightForward] = power; //Turn the motors on
@@ -108,7 +108,7 @@ void forward(byte encoderCount, byte power) {
 	motor[LeftForward] = motor[RightForward] = 0; //Stop the motors
 }
 
-void backward(byte encoderCount) {
+void backward(int encoderCount) {
 	//Same as forward, but backward
 	nMotorEncoder[LeftForward] = motor[RightForward] = 0;
 	motor[LeftForward] = motor[RightForward] = -100;
@@ -116,7 +116,7 @@ void backward(byte encoderCount) {
 	motor[LeftForward] = motor[RightForward] = 0;
 }
 
-void right(byte encoderCount) {
+void right(int encoderCount) {
 	//Do something similar as going forward but using sideways motors
 	nMotorEncoder[BackSideways] = nMotorEncoder[FrontSideways] = 0;
 	motor[BackSideways] = motor[FrontSideways] = 100;
@@ -124,7 +124,7 @@ void right(byte encoderCount) {
 	motor[BackSideways] = motor[FrontSideways] = 0;
 }
 
-void left(byte encoderCount) {
+void left(int encoderCount) {
 	//Same as right but opposite in direction
 	nMotorEncoder[BackSideways] = nMotorEncoder[FrontSideways] = 0; //Since the encoder will be counting backwards, set the encoder to 0 ...
 	motor[BackSideways] = motor[FrontSideways] = -100;

@@ -75,15 +75,15 @@ task armControl() { //Another asynchronous task to move the arm
 	while(true) {
 		//Joystick 2 - Operator
 
-	/*if(joy2Btn(1)) { //If the operator is pressing button 1, set arm to lowest peg
-			moveArm((float)SHOULDERUPRIGHT, (float)BOTTOMPEG);
+		if(joy2Btn(1)) { //If the operator is pressing button 1, set arm to lowest peg
+			moveArm((float)BOTTOMPEGSHOULDER, (float)BOTTOMPEGARM);
 		}
 		if(joy2Btn(2)) { //If the operator is pressing button 2, set arm to middle peg
-			moveArm((float)SHOULDERUPRIGHT, (float)MIDDLEPEG);
+			moveArm((float)MIDDLEPEGSHOULDER, (float)MIDDLEPEGARM);
 		}
 		if(joy2Btn(3)) { //If the operator is pressing button 3, set arm to top peg
-			moveArm((float)SHOULDERUPRIGHT, (float)TOPPEG);
-		}*/
+			moveArm((float)TOPPEGSHOULDER, (float)TOPPEGARM);
+		}
 		if(joy2Btn(4)) { //If the operator is pressing button 4, set arm to ring peg
 			moveArm((float)RINGPEGSHOULDER, (float)RINGPEGARM);
 		}
@@ -91,7 +91,7 @@ task armControl() { //Another asynchronous task to move the arm
 			moveArm((float)SHOULDERUPRIGHT, (float)ARMUPRIGHT);
 		}
 		if(joy2Btn(10)) { //If the operator is pressing button 10, set arm to home position
-			moveArm(0, 0);
+			moveArm((float)0, (float)0);
 		}
 
 		if(joystick.joy2_y2 > 10 && (nMotorEncoder[ShoulderLeft] < SHOULDERTOP || joy2Btn(7))) //If shoulder is going positive and we aren't at the top, follow the joystick.  If the operator is pressing button 7, override checks
@@ -149,6 +149,18 @@ task main() {
 			shoulderScaleDown = SHOULDERDOWNHIGH;
 		}
 
-		writeDebugStreamLine("%d\n%d", nMotorEncoder[ShoulderLeft], nMotorEncoder[ArmLeft]);
+		if(joy1Btn(10)) {
+			writeDebugStreamLine("LeftForward: %d\nRightForward: %d\nFrontSideways: %d\nBackSideways: %d", nMotorEncoder[LeftForward], nMotorEncoder[RightForward], nMotorEncoder[FrontSideways], nMotorEncoder[BackSideways]);
+			nMotorEncoder[LeftForward] = nMotorEncoder[RightForward] = nMotorEncoder[FrontSideways] = nMotorEncoder[BackSideways] = 0;
+			while(joy1Btn(10));
+		}
+		if(joy1Btn(9)) {
+			writeDebugStreamLine("Shoulder: %d\nArm: %d", nMotorEncoder[ShoulderLeft], nMotorEncoder[ArmLeft]);
+			while(joy1Btn(9));
+		}
+		if(joy1Btn(8)) {
+			writeDebugStreamLine("IR: %d", SensorValue[IR]);
+			while(joy1Btn(8));
+		}
 	}
 }

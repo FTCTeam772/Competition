@@ -19,10 +19,11 @@
 #include "common.c"
 
 //Constants
+#include "constants.h"
 
 void placeRing() {
 	//Get arm in position
-	moveArm((float)SHOULDERTOP, (float)ARMTOP);
+	moveArm((float)TOPPEGSHOULDER, (float)TOPPEGARM);
 	//Move forward until ring is around peg
 	forward(PLACEFORWARD, 30);
 	//Now open the hand
@@ -47,11 +48,15 @@ task main() {
 
 	//Get up to detect the beacon
 	right(STARTFORWARD);
+	wait10Msec(20);
 	turnRight(SENSORTURN);
+	wait10Msec(20);
 
 	int IRValue = SensorValue[IR];
+	writeDebugStreamLine("%d", IRValue);
 
 	turnRight(TURN);
+	wait10Msec(20);
 
 	//Go up toward the pegs
 	switch(IRValue) { //0 - not found, 1-4 - Left, 5 - Center, 6-9 - Right
@@ -59,20 +64,24 @@ task main() {
 		case 2:
 		case 3:
 		case 4:
-			left(SIDEWAYS);
+			forward(SIDEWAYS, 100);
+			wait10Msec(20);
 			break;
 		case 6:
 		case 7:
 		case 8:
 		case 9:
-			right(SIDEWAYS);
+			backward(SIDEWAYS);
+			wait10Msec(20);
 			break;
 		default:
 	}
 
 	forward(CENTERFORWARD, 100);
+	wait10Msec(20);
 
 	//Place the ring then get ready for the match
 	placeRing();
+	wait10Msec(20);
 	goToStart();
 }
