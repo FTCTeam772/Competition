@@ -4,4 +4,6 @@ Auto.c: Autonomous mode program.
 TeleOp.c: TeleOperated mode program; contains code for both tank drive and Isaac's own drive design.
 SensorTester.c: Used to test the IR Seeker and Force Sensor by displaying their values.
 MotorTester.c: Used to test each of the four motors and their respective encoders.
+common.c: Various functions useful between Autonomous, TeleOp, and other programs.
+constants.h: Constants to calibrate the programs to the robot and the field.
 StillAlive.c: This was a triumph...
