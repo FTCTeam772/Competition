@@ -16,8 +16,7 @@ int targetMotorSpeed(float total, float current, float offset) {
 	return 100;
 #endif
 }
-
-void moveArm(int shoulderTarget, int armTarget) {
+/**void moveArm(int shoulderTarget, int armTarget) {
 	bool shoulderDown;
 	int shoulderTotal;
 	int shoulderOffset = nMotorEncoder[ShoulderLeft];
@@ -73,7 +72,7 @@ void moveArm(int shoulderTarget, int armTarget) {
 	}
 }
 
-void turnLeft(int encoderCount) {
+ void turnLeft(int encoderCount) {
 	//Reset encoders, set motors opposite their counterparts and in a turning motion (left - backward, front - left, right - forward, back - right), wait on encoders, then stop the motors
 	nMotorEncoder[LeftForward] = nMotorEncoder[RightForward] = nMotorEncoder[BackSideways] = nMotorEncoder[FrontSideways] = 0;
 	motor[LeftForward] = motor[FrontSideways] = -100; //Set motors in opposite directions
@@ -82,7 +81,7 @@ void turnLeft(int encoderCount) {
 	motor[LeftForward] = motor[RightForward] = motor[BackSideways] = motor[FrontSideways] = 0; //Stop
 }
 
-void turnRight(int encoderCount) {
+ void turnRight(int encoderCount) {
 	//Same as left but motors go in opposite directions
 	nMotorEncoder[LeftForward] = nMotorEncoder[RightForward] = nMotorEncoder[BackSideways] = nMotorEncoder[FrontSideways] = 0;
 	motor[LeftForward] = motor[FrontSideways] = 100;
@@ -127,4 +126,4 @@ void openHand() {
 	motor[ArmHandLeft] = motor[ArmHandRight] = HANDHIGH;
 	while(nMotorEncoder[ArmHandLeft] < HANDMAX);
 	motor[ArmHandLeft] = motor[ArmHandRight] = 0;
-}
+}*/

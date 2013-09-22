@@ -14,10 +14,6 @@
 
 //Initialize our globals
 byte joystickScale = JOYSTICKHIGH; //Used to scale down robot movements
-byte armScale = ARMHIGH; //Used to scale arm movements
-byte armScaleDown = ARMDOWNHIGH; //Second scale for going down since the arm will be moving much faster
-byte shoulderScale = SHOULDERHIGH; //Same for shoulder
-byte shoulderScaleDown = SHOULDERDOWNHIGH;
 
 bool forwardlock = true; //Used for direction locking
 bool sidelock = true;
@@ -25,6 +21,8 @@ bool sidelock = true;
 task joystickControl() { //Asynchronous task for joystick control
 	while(true) {
 		//Joystick 1 - Driver
+
+
 	}
 }
 
@@ -36,8 +34,8 @@ task armControl() { //Another asynchronous task to move the arm
 
 task main() {
 	//Initialize
-	motor[] = 0; //Turn off the motors
-	nMotorEncoder[] = 0; //Might as well reset the encoders too
+	motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor[BackRight] = 0; //Turn off the motors
+	nMotorEncoder[FrontLeft] = nMotorEncoder[FrontRight] = nMotorEncoder[BackLeft] = nMotorEncoder[BackRight] = 0; //Might as well reset the encoders too
 
 	waitForStart();
 
