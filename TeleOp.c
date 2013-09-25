@@ -18,25 +18,31 @@ byte joystickScale = JOYSTICKHIGH; //Used to scale down robot movements
 bool forwardlock = true; //Used for direction locking
 bool sidelock = true;
 
-//task joystickControl() { //Asynchronous task for joystick control
-	//while(true) {
+task joystickControl() { //Asynchronous task for joystick control
+	while(true) {
 		//Joystick 1 - Driver
-	// }
-//}
+
+		//Deadband between -10 to 10
+		//Scale linearly for all other values
+	}
+}
 
 
-//task armControl() { //Another asynchronous task to move the arm
-//	while(true) {
+task armControl() { //Another asynchronous task to move the arm
+	while(true) {
 		//Joystick 2 - Operator
-//	}
-//}
+
+		break;
+	}
+}
 
 task main() {
 	//Initialize
 	motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor[BackRight] = 0; //Turn off the motors
 	nMotorEncoder[FrontLeft] = nMotorEncoder[FrontRight] = nMotorEncoder[BackLeft] = nMotorEncoder[BackRight] = 0; // Might as well reset the encoders too
 
-	//Moving Forward
+	/*
+	//Moving forward
 	motor[FrontLeft] = -20;
 	motor[FrontRight] = 20;
 	motor[BackLeft] = -20;
@@ -66,9 +72,10 @@ task main() {
 	motor[FrontRight] = -20;
 	motor[BackLeft] = -20;
 	motor[BackRight] = -20;
+	*/
 
 	waitForStart();
-/**	StartTask(joystickControl); //Go ahead and start critical joystick functions in their own task
+	StartTask(joystickControl); //Go ahead and start critical joystick functions in their own task
 	StartTask(armControl); //Start arm functions in their own task too
 	while(true) {
 		//Joystick 1 - Driver
@@ -86,6 +93,6 @@ task main() {
 		if(joy1Btn(7)) //If the driver is pressing button 7, lock to x-axis movement
 			forwardlock = false;
 		else
-			forwardlock = true; */
-	// }
+			forwardlock = true;
+	}
 }
