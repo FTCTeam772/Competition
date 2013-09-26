@@ -18,28 +18,60 @@ byte joystickScale = JOYSTICKHIGH; //Used to scale down robot movements
 bool forwardlock = true; //Used for direction locking
 bool sidelock = true;
 
-task joystickControl() { //Asynchronous task for joystick control
-	while(true) {
+task joystickControl(){ //Asynchronous task for joystick control
+	while(true){
 		//Joystick 1 - Driver
 
 		//Deadband between -10 to 10
 		//Scale linearly for all other values
 	 	float x1;
+	 	float y1;
+	 	float x2;
+	 	float y2;
 		if(joystick.joy1_x1 > 15 || joystick.joy1_x1 < -15)
 			x1 = joystick.joy1_x1 / 128.0 * 100;
 		else
 			x1 = 0;
+		if(joystick.joy1_y1 > 15 || joystick.joy1_y1 < -15)
+			y1 = joystick.joy1_y1 / 128.0 * 100;
+		else
+			y1 = 0;
+		if(joystick.joy1_x2 > 15 || joystick.joy1_x2 < -15)
+			x2 = joystick.joy1_x2 / 128.0 * 100;
+		else
+			x2 = 0;
+		if(joystick.joy1_y2 > 15 || joystick.joy1_y2 < -15)
+			y2 = joystick.joy1_y2 / 128.0 * 100;
+		else
+			y2 = 0;
 
-		// Moving straight to the left
-		motor[FrontLeft] = -x1;
-		motor[FrontRight] = -x1;
-		motor[BackLeft] = x1;
-		motor[BackRight]= x1;
-		/*Moving straight to the right
-		motor[FrontLeft] = -x1;
-		motor[FrontRight] = -x1;
-		motor[BackLeft] = x1;
-		motor[BackRight]= x1; */
+		//Moving straight to the left or right.
+		//motor[FrontLeft] = -x1;
+		//motor[FrontRight] = -x1;
+		//motor[BackLeft] = x1;
+		//motor[BackRight]= x1;
+		if(x1 < -15 || x1 > 15 || y1 < -15 | y1 > 15)
+		{
+			//Moving forward or backwards
+	  	motor[FrontLeft] = -y1 + -x1;
+			motor[FrontRight] = y1 + -x1;
+			motor[BackLeft] = -y1 + x1;
+			motor[BackRight]= y1 + x1;
+		}
+		else if(x2 < -15 || x2 > 15)
+		{
+			motor[FrontLeft] = -x2;
+			motor[FrontRight] = -x2;
+			motor[BackLeft] = -x2;
+			motor[BackRight]= -x2;
+		}
+		else
+		{
+			motor[FrontLeft] = 0;
+			motor[FrontRight] = 0;
+			motor[BackLeft] = 0;
+			motor[BackRight]= 0;
+		}
 
 	}
 }
@@ -48,7 +80,6 @@ task joystickControl() { //Asynchronous task for joystick control
 task armControl() { //Another asynchronous task to move the arm
 	while(true) {
 		//Joystick 2 - Operator
-
 		break;
 	}
 }
@@ -59,17 +90,17 @@ task main() {
 	nMotorEncoder[FrontLeft] = nMotorEncoder[FrontRight] = nMotorEncoder[BackLeft] = nMotorEncoder[BackRight] = 0; // Might as well reset the encoders too
 
 	/*
-	//Moving forward
-	motor[FrontLeft] = -20;
-	motor[FrontRight] = 20;
-	motor[BackLeft] = -20;
-	motor[BackRight]= 20;
+
 	// Moving backwards
 	motor[FrontLeft] = 20;
 	motor[FrontRight] = -20;
 	motor[BackLeft] = 20;
 	motor[BackRight]= -20;
-
+	/*Moving straight to the right
+	motor[FrontLeft] = -x1;
+	motor[FrontRight] = -x1;
+	motor[BackLeft] = x1;
+	motor[BackRight]= x1;
 	// Turning in place to the left.
 	motor[FrontLeft] = 20;
 	motor[FrontRight] = 20;
