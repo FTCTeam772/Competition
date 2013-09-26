@@ -24,6 +24,23 @@ task joystickControl() { //Asynchronous task for joystick control
 
 		//Deadband between -10 to 10
 		//Scale linearly for all other values
+	 	float x1;
+		if(joystick.joy1_x1 > 15 || joystick.joy1_x1 < -15)
+			x1 = joystick.joy1_x1 / 128.0 * 100;
+		else
+			x1 = 0;
+
+		// Moving straight to the left
+		motor[FrontLeft] = -x1;
+		motor[FrontRight] = -x1;
+		motor[BackLeft] = x1;
+		motor[BackRight]= x1;
+		/*Moving straight to the right
+		motor[FrontLeft] = -x1;
+		motor[FrontRight] = -x1;
+		motor[BackLeft] = x1;
+		motor[BackRight]= x1; */
+
 	}
 }
 
@@ -52,16 +69,7 @@ task main() {
 	motor[FrontRight] = -20;
 	motor[BackLeft] = 20;
 	motor[BackRight]= -20;
-	// Moving straight to the left
-	motor[FrontLeft] = 20;
-	motor[FrontRight] = 20;
-	motor[BackLeft] = -20;
-	motor[BackRight]= -20;
-	//Moving straight to the right
-	motor[FrontLeft] = -20;
-	motor[FrontRight] = -20;
-	motor[BackLeft] = 20;
-	motor[BackRight]= 20;
+
 	// Turning in place to the left.
 	motor[FrontLeft] = 20;
 	motor[FrontRight] = 20;
