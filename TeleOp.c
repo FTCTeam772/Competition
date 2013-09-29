@@ -60,6 +60,10 @@ task main() {
 	motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor[BackRight] = 0; //Turn off the motors
 	nMotorEncoder[FrontLeft] = nMotorEncoder[FrontRight] = nMotorEncoder[BackLeft] = nMotorEncoder[BackRight] = 0; // Might as well reset the encoders too
 
+	//Display the robot's name
+	nxtDisplayCenteredTextLine(0, "Codex");
+
+	//Go time!
 	waitForStart();
 	StartTask(joystickControl); //Go ahead and start critical joystick functions in their own task
 

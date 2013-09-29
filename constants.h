@@ -6,4 +6,4 @@
 #define DRIVE_LOW 30
 
 //Testing
-#define ENCODERTEST 4800
+#define TEST_ENCODER 4800
