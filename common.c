@@ -16,114 +16,27 @@ int targetMotorSpeed(float total, float current, float offset) {
 	return 100;
 #endif
 }
-/**void moveArm(int shoulderTarget, int armTarget) {
-	bool shoulderDown;
-	int shoulderTotal;
-	int shoulderOffset = nMotorEncoder[ShoulderLeft];
-	if(nMotorEncoder[ShoulderLeft] < shoulderTarget) { //If we are below the target, go up like normal
-		shoulderDown = false;
-		shoulderTotal = shoulderTarget - nMotorEncoder[ShoulderLeft];
-	}
-	else { //Else go slower down and notify the loop so that it can test correctly
-		shoulderDown = true;
-		shoulderTotal = nMotorEncoder[ShoulderLeft] - shoulderTarget;
-	}
 
-	bool armDown;
-	int armTotal;
-	int armOffset = nMotorEncoder[ArmLeft];
-	if(nMotorEncoder[ArmLeft] < armTarget) { //Same for arm motors
-		armDown = false;
-		armTotal = armTarget - nMotorEncoder[ArmLeft];
-	}
-	else {
-		armDown = true;
-		armTotal = nMotorEncoder[ArmLeft] - armTarget;
-	}
-
-	bool shoulderDone = false;
-	bool armDone = false;
-	while(!((shoulderDone && armDone) || joy2Btn(7))) { //While the motors are not done and the operator is not overriding
-		if(!shoulderDone) { //Test if the shoulder is done before changing it
-			if(!shoulderDown && nMotorEncoder[ShoulderLeft] < shoulderTarget) { //If we are still going to our target, set the motor speed based on a function
-				motor[ShoulderLeft] = motor[ShoulderRight] = SHOULDERHIGH * targetMotorSpeed(shoulderTotal, nMotorEncoder[ShoulderLeft], shoulderOffset) / 100;
-			}
-			else if(shoulderDown && nMotorEncoder[ShoulderLeft] > shoulderTarget) {
-				motor[ShoulderLeft] = motor[ShoulderRight] = -SHOULDERDOWNHIGH * targetMotorSpeed(shoulderTotal, nMotorEncoder[ShoulderLeft], shoulderOffset) / 100;
-			}
-			else { //Else tell the loop the shoulder is done and set the motors off
-				motor[ShoulderLeft] = motor[ShoulderRight] = 0;
-				shoulderDone = true;
-			}
-		}
-
-		if(!armDone) { //Same thing for the arm
-			if(!armDown && nMotorEncoder[ArmLeft] < armTarget) {
-				motor[ArmLeft] = motor[ArmRight] = ARMHIGH * targetMotorSpeed(armTotal, nMotorEncoder[ArmLeft], armOffset) / 100;
-			}
-			else if(armDown && nMotorEncoder[ArmLeft] > armTarget) {
-				motor[ArmLeft] = motor[ArmRight] = -ARMDOWNHIGH * targetMotorSpeed(armTotal, nMotorEncoder[ArmLeft], armOffset) / 100;
-			}
-			else {
-				motor[ArmLeft] = motor[ArmRight] = 0;
-				armDone = true;
-			}
-		}
-	}
+void turnLeft(int encoderCount) {
+	//TODO
 }
 
- void turnLeft(int encoderCount) {
-	//Reset encoders, set motors opposite their counterparts and in a turning motion (left - backward, front - left, right - forward, back - right), wait on encoders, then stop the motors
-	nMotorEncoder[LeftForward] = nMotorEncoder[RightForward] = nMotorEncoder[BackSideways] = nMotorEncoder[FrontSideways] = 0;
-	motor[LeftForward] = motor[FrontSideways] = -100; //Set motors in opposite directions
-	motor[RightForward] = motor[BackSideways] = 100;
-	while(nMotorEncoder[LeftForward] > -encoderCount && nMotorEncoder[FrontSideways] > -encoderCount && nMotorEncoder[RightForward] < encoderCount && nMotorEncoder[BackSideways] < encoderCount); //Wait until left encoder counts down to -encoderCount and right encoder counts up to TURN
-	motor[LeftForward] = motor[RightForward] = motor[BackSideways] = motor[FrontSideways] = 0; //Stop
+void turnRight(int encoderCount) {
+	//TODO
 }
 
- void turnRight(int encoderCount) {
-	//Same as left but motors go in opposite directions
-	nMotorEncoder[LeftForward] = nMotorEncoder[RightForward] = nMotorEncoder[BackSideways] = nMotorEncoder[FrontSideways] = 0;
-	motor[LeftForward] = motor[FrontSideways] = 100;
-	motor[RightForward] = motor[BackSideways] = -100;
-	while(nMotorEncoder[LeftForward] < encoderCount && nMotorEncoder[FrontSideways] < encoderCount && nMotorEncoder[RightForward] > -encoderCount && nMotorEncoder[BackSideways] > -encoderCount);
-	motor[LeftForward] = motor[RightForward] = motor[BackSideways] = motor[FrontSideways] = 0;
-}
-
-void forward(int encoderCount, byte power) {
-	//Reset encoders, set motors to forward, wait on encoders, then stop the motors
-	nMotorEncoder[LeftForward] = nMotorEncoder[RightForward] = 0; //Reset the encoders
-	motor[LeftForward] = motor[RightForward] = power; //Turn the motors on
-	while(nMotorEncoder[LeftForward] < encoderCount && nMotorEncoder[RightForward] < encoderCount); //Wait until the encoders hit encoderCount
-	motor[LeftForward] = motor[RightForward] = 0; //Stop the motors
+void forward(int encoderCount) {
+	//TODO
 }
 
 void backward(int encoderCount) {
-	//Same as forward, but backward
-	nMotorEncoder[LeftForward] = motor[RightForward] = 0;
-	motor[LeftForward] = motor[RightForward] = -100;
-	while(nMotorEncoder[LeftForward] > -encoderCount && nMotorEncoder[RightForward] > -encoderCount);
-	motor[LeftForward] = motor[RightForward] = 0;
+	//TODO
 }
 
 void right(int encoderCount) {
-	//Do something similar as going forward but using sideways motors
-	nMotorEncoder[BackSideways] = nMotorEncoder[FrontSideways] = 0;
-	motor[BackSideways] = motor[FrontSideways] = 100;
-	while(nMotorEncoder[BackSideways] < encoderCount && nMotorEncoder[FrontSideways] < encoderCount);
-	motor[BackSideways] = motor[FrontSideways] = 0;
+	//TODO
 }
 
 void left(int encoderCount) {
-	//Same as right but opposite in direction
-	nMotorEncoder[BackSideways] = nMotorEncoder[FrontSideways] = 0; //Since the encoder will be counting backwards, set the encoder to 0 ...
-	motor[BackSideways] = motor[FrontSideways] = -100;
-	while(nMotorEncoder[BackSideways] > -encoderCount && nMotorEncoder[FrontSideways] > -encoderCount);//... and wait until it is -SIDEWAYS
-	motor[BackSideways] = motor[FrontSideways] = 0;
+	//TODO
 }
-
-void openHand() {
-	motor[ArmHandLeft] = motor[ArmHandRight] = HANDHIGH;
-	while(nMotorEncoder[ArmHandLeft] < HANDMAX);
-	motor[ArmHandLeft] = motor[ArmHandRight] = 0;
-}*/
