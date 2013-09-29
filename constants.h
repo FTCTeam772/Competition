@@ -1,5 +1,4 @@
-//Flag for whether to use tank drive or not
-//#define TANKDRIVE
+//Flags
 //#define NONLINEARTARGET
 
 //Scaling
