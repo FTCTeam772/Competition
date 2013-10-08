@@ -64,15 +64,15 @@ task armControl(){
 	while(true) {
 		//Joystick 2 - Operator
 
-		float y1, y2;
+		float x1, y1, x2, y2;
 
 		if(joystick.joy2_y1 > 15 || joystick.joy2_y1 < -15)
-			y1 = joystick.joy2_y1;
+			y1 = joystick.joy2_y1 / 128.0;
 		else
 			y1 = 0;
 
 		if(joystick.joy2_y2 > 15 || joystick.joy2_y2 < -15)
-			y2 = joystick.joy2_y2;
+			y2 = joystick.joy2_y2 / 128.0;
 		else
 			y2 = 0;
 
