@@ -53,10 +53,10 @@ task driveControl(){ //Asynchronous task for critical drive control
 			y2 = 0;
 
 		//Set the motors
-		motor[FrontLeft] = drive_scale * (-x2 + (-y1 + -x1));
-		motor[FrontRight] = drive_scale * (-x2 + (y1 + -x1));
-		motor[BackLeft] = drive_scale * (-x2 + (-y1 + x1));
-		motor[BackRight]= drive_scale * (-x2 + (y1 + x1));
+		motor[FrontLeft] = drive_scale * (-x2 + (-y1 + x1));
+		motor[FrontRight]= drive_scale * (-x2 + (-y1 + -x1));
+		motor[BackLeft] = drive_scale * (-x2 + (y1 + x1));
+		motor[BackRight] = drive_scale * (-x2 + (y1 + -x1));
 	}
 }
 
