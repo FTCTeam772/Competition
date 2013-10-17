@@ -69,22 +69,22 @@ task armControl(){
 		float x1, y1, x2, y2;
 
 		//Check each axis for deadband and arm protection
-		if(joystick.joy2_x1 > 15 || joystick.joy2_x1 < -15)// && (nMotorEncoder[LeftArmShoulder] > ARM_SHOULDER_BOTTOM && nMotorEncoder[LeftArmShoulder] < ARM_SHOULDER_TOP) || joy2Btn(7))
+		if((joystick.joy2_x1 > 15 || joystick.joy2_x1 < -15) && (abs(joystick.joy2_x1) > abs(joystick.joy2_y1))) // && (nMotorEncoder[LeftArmShoulder] > ARM_SHOULDER_BOTTOM && nMotorEncoder[LeftArmShoulder] < ARM_SHOULDER_TOP) || joy2Btn(7))
 			x1 = joystick.joy2_x1 / 128.0;
 		else
 			x1 = 0;
 
-		if(joystick.joy2_y1 > 15 || joystick.joy2_y1 < -15)// && (nMotorEncoder[LeftArmElbow] > ARM_ELBOW_BOTTOM && nMotorEncoder[LeftArmElbow] < ARM_ELBOW_TOP) || joy2Btn(7))
+		if((joystick.joy2_y1 > 15 || joystick.joy2_y1 < -15) && (abs(joystick.joy2_y1) > abs(joystick.joy2_x1))) // && (nMotorEncoder[LeftArmElbow] > ARM_ELBOW_BOTTOM && nMotorEncoder[LeftArmElbow] < ARM_ELBOW_TOP) || joy2Btn(7))
 			y1 = joystick.joy2_y1 / 128.0;
 		else
 			y1 = 0;
 
-		if(joystick.joy2_x2 > 15 || joystick.joy2_x2 < -15)
+		if((joystick.joy2_x2 > 15 || joystick.joy2_x2 < -15) && (abs(joystick.joy2_x2) > abs(joystick.joy2_y2)))
 			x2 = joystick.joy2_x2 / 128.0;
 		else
 			x2 = 0;
 
-		if(joystick.joy2_y2 > 15 || joystick.joy2_y2 < -15)
+		if((joystick.joy2_y2 > 15 || joystick.joy2_y2 < -15) && (abs(joystick.joy2_y2) > abs(joystick.joy2_x2)))
 			y2 = joystick.joy2_y2 / 128.0;
 		else
 			y2 = 0;
