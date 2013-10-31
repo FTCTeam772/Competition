@@ -1,7 +1,7 @@
 This repository contains all RobotC programs used by Team 772 for the FIRST Tech Challenge.  Below is a list of all of the programs and their purposes.
 
 Auto.c: Autonomous mode program.
-TeleOp.c: TeleOperated mode program; contains code for both tank drive and Isaac's own drive design.
+TeleOp.c: Tele-Operated mode program; contains main drive and arm control functions.
 common.c: Various functions useful between Autonomous, TeleOp, and other programs.
 constants.h: Constants to calibrate the programs to the robot and the field.
 StillAlive.c: This was a triumph...
