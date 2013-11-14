@@ -1,12 +1,10 @@
-//PORTAL CREDITS SONG: STILL ALIVE
-
-/* Controls:
+/* Still Alive
+ * Sheet music: http://www.scribd.com/doc/2183619/Portals-Still-Alive-Sheet-Music
  *
+ * Controls:
  * Orange []: Switch between showing and setting volume and speed
  * < and >: Change value
  */
-
-//sheet music: http://www.scribd.com/doc/2183619/Portals-Still-Alive-Sheet-Music
 
 unsigned short speed = 100;
 
