@@ -129,49 +129,41 @@ task armControl() {
 
 		//Left arm pickup
 		if(joy2Btn(1)) {
-			int shoulder_initial = nMotorEncoder[LeftArmShoulder];
-			int elbow_initial = nMotorEncoder[LeftArmElbow];
 			while((abs(nMotorEncoder[LeftArmShoulder] - ARM_SHOULDER_PICKUP) > ENCODER_PRECISION || abs(nMotorEncoder[LeftArmElbow] - ARM_ELBOW_PICKUP) > ENCODER_PRECISION) && !joy2Btn(6)) {
-				motor[LeftArmShoulder] = targetMotorSpeed(ARM_SHOULDER_PICKUP, nMotorEncoder[LeftArmShoulder], shoulder_initial) * ARM_LOW;
-				motor[LeftArmElbow] = targetMotorSpeed(ARM_ELBOW_PICKUP, nMotorEncoder[LeftArmElbow], elbow_initial) * ARM_LOW;
+				motor[LeftArmShoulder] = targetMotorSpeed(ARM_SHOULDER_PICKUP, nMotorEncoder[LeftArmShoulder]) * ARM_HIGH;
+				motor[LeftArmElbow] = targetMotorSpeed(ARM_ELBOW_PICKUP, nMotorEncoder[LeftArmElbow]) * ARM_HIGH;
+				writeDebugStream("LeftArm:\t%d\t%d\n", nMotorEncoder[LeftArmShoulder], nMotorEncoder[LeftArmElbow]);
 			}
 		}
 
 		//Home
 		if(joy2Btn(2)) {
-			int left_shoulder_initial = nMotorEncoder[LeftArmShoulder];
-			int left_elbow_initial = nMotorEncoder[LeftArmElbow];
-			int right_shoulder_initial = nMotorEncoder[RightArmShoulder];
-			int right_elbow_initial = nMotorEncoder[RightArmElbow];
 			while((nMotorEncoder[LeftArmShoulder] > ENCODER_PRECISION || nMotorEncoder[LeftArmElbow] > ENCODER_PRECISION || nMotorEncoder[RightArmShoulder] > ENCODER_PRECISION || nMotorEncoder[RightArmElbow] > ENCODER_PRECISION) && !joy2Btn(6)) {
-				motor[LeftArmShoulder] = targetMotorSpeed(0, nMotorEncoder[LeftArmShoulder], left_shoulder_initial) * ARM_LOW;
-				motor[LeftArmElbow] = targetMotorSpeed(0, nMotorEncoder[LeftArmElbow], left_elbow_initial) * ARM_LOW;
-				motor[RightArmShoulder] = targetMotorSpeed(0, nMotorEncoder[RightArmShoulder], right_shoulder_initial) * ARM_LOW;
-				motor[RightArmElbow] = targetMotorSpeed(0, nMotorEncoder[RightArmElbow], right_elbow_initial) * ARM_LOW;
+				motor[LeftArmShoulder] = targetMotorSpeed(0, nMotorEncoder[LeftArmShoulder]) * ARM_HIGH;
+				motor[LeftArmElbow] = targetMotorSpeed(0, nMotorEncoder[LeftArmElbow]) * ARM_HIGH;
+				motor[RightArmShoulder] = targetMotorSpeed(0, nMotorEncoder[RightArmShoulder]) * ARM_HIGH;
+				motor[RightArmElbow] = targetMotorSpeed(0, nMotorEncoder[RightArmElbow]) * ARM_HIGH;
+				writeDebugStream("LeftArm:\t%d\t%d\nRightArm:\t%d\t%d\n", nMotorEncoder[LeftArmShoulder], nMotorEncoder[LeftArmElbow], nMotorEncoder[RightArmShoulder], nMotorEncoder[RightArmElbow]);
 			}
 		}
 
 		//Right arm pickup
 		if(joy2Btn(3)) {
-			int shoulder_initial = nMotorEncoder[LeftArmShoulder];
-			int elbow_initial = nMotorEncoder[LeftArmElbow];
 			while((abs(nMotorEncoder[RightArmShoulder] - ARM_SHOULDER_PICKUP) > ENCODER_PRECISION || abs(nMotorEncoder[RightArmElbow] - ARM_ELBOW_PICKUP) > ENCODER_PRECISION) && !joy2Btn(6)) {
-				motor[RightArmShoulder] = targetMotorSpeed(ARM_SHOULDER_PICKUP, nMotorEncoder[RightArmShoulder], shoulder_initial) * ARM_LOW;
-				motor[RightArmElbow] = targetMotorSpeed(ARM_ELBOW_PICKUP, nMotorEncoder[RightArmElbow], elbow_initial) * ARM_LOW;
+				motor[RightArmShoulder] = targetMotorSpeed(ARM_SHOULDER_PICKUP, nMotorEncoder[RightArmShoulder]) * ARM_HIGH;
+				motor[RightArmElbow] = targetMotorSpeed(ARM_ELBOW_PICKUP, nMotorEncoder[RightArmElbow]) * ARM_HIGH;
+				writeDebugStream("RightArm:\t%d\t%d\n", nMotorEncoder[RightArmShoulder], nMotorEncoder[RightArmElbow]);
 			}
 		}
 
 		//Hang
 		if(joy2Btn(4)) {
-			int left_shoulder_initial = nMotorEncoder[LeftArmShoulder];
-			int left_elbow_initial = nMotorEncoder[LeftArmElbow];
-			int right_shoulder_initial = nMotorEncoder[RightArmShoulder];
-			int right_elbow_initial = nMotorEncoder[RightArmElbow];
 			while((abs(nMotorEncoder[LeftArmShoulder] - ARM_SHOULDER_HANG) > ENCODER_PRECISION || abs(nMotorEncoder[LeftArmElbow] - ARM_ELBOW_HANG) > ENCODER_PRECISION || abs(nMotorEncoder[RightArmShoulder] - ARM_SHOULDER_HANG) > ENCODER_PRECISION || abs(nMotorEncoder[RightArmElbow] - ARM_ELBOW_HANG) > ENCODER_PRECISION) && !joy2Btn(6)) {
-				motor[LeftArmShoulder] = targetMotorSpeed(ARM_SHOULDER_HANG, nMotorEncoder[LeftArmShoulder], left_shoulder_initial) * ARM_LOW;
-				motor[LeftArmElbow] = targetMotorSpeed(ARM_ELBOW_HANG, nMotorEncoder[LeftArmElbow], left_elbow_initial) * ARM_LOW;
-				motor[RightArmShoulder] = targetMotorSpeed(ARM_SHOULDER_HANG, nMotorEncoder[RightArmShoulder], right_shoulder_initial) * ARM_LOW;
-				motor[RightArmElbow] = targetMotorSpeed(ARM_ELBOW_HANG, nMotorEncoder[RightArmElbow], right_elbow_initial) * ARM_LOW;
+				motor[LeftArmShoulder] = targetMotorSpeed(ARM_SHOULDER_HANG, nMotorEncoder[LeftArmShoulder]) * ARM_HIGH;
+				motor[LeftArmElbow] = targetMotorSpeed(ARM_ELBOW_HANG, nMotorEncoder[LeftArmElbow]) * ARM_HIGH;
+				motor[RightArmShoulder] = targetMotorSpeed(ARM_SHOULDER_HANG, nMotorEncoder[RightArmShoulder]) * ARM_HIGH;
+				motor[RightArmElbow] = targetMotorSpeed(ARM_ELBOW_HANG, nMotorEncoder[RightArmElbow]) * ARM_HIGH;
+				writeDebugStream("LeftArm:\t%d\t%d\nRightArm:\t%d\t%d\n", nMotorEncoder[LeftArmShoulder], nMotorEncoder[LeftArmElbow], nMotorEncoder[RightArmShoulder], nMotorEncoder[RightArmElbow]);
 			}
 		}
 	}

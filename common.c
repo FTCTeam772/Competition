@@ -1,10 +1,13 @@
 #include "constants.h"
 
-float targetMotorSpeed(float target, float current, float offset) {
+float targetMotorSpeed(int target, int current) {
 #ifdef NONLINEARTARGET
-	//return 100 * (1 - sqrt((1 / total) * (current - offset)));
-	return cos(PI / 2 * (current - offset) / target);
-	//return 100 * (1 + cos(PI * (current - offset) / target)) / 2;
+	if(abs(current - target) > 400)
+		return sgn(target - current);
+	else if(abs(current - target) > ENCODER_PRECISION)
+		return 2 * pow(cos(PI / 4 * (current - target + 400) / 400), 2) - 1;
+	else
+		return 0;
 #else
 	return 1;
 #endif
@@ -33,19 +36,15 @@ void move(int forward, int sideways) {
 }
 
 void moveLeftArm(int shoulder, int elbow) {
-	int shoulder_initial = nMotorEncoder[LeftArmShoulder];
-	int elbow_initial = nMotorEncoder[LeftArmElbow];
 	while(abs(nMotorEncoder[LeftArmShoulder] - shoulder) > ENCODER_PRECISION || abs(nMotorEncoder[LeftArmElbow] - elbow) > ENCODER_PRECISION) {
-		motor[LeftArmShoulder] = targetMotorSpeed(shoulder, nMotorEncoder[LeftArmShoulder], shoulder_initial) * ARM_LOW;
-		motor[LeftArmElbow] = targetMotorSpeed(elbow, nMotorEncoder[LeftArmElbow], elbow_initial) * ARM_LOW;
+		motor[LeftArmShoulder] = targetMotorSpeed(shoulder, nMotorEncoder[LeftArmShoulder]) * ARM_LOW;
+		motor[LeftArmElbow] = targetMotorSpeed(elbow, nMotorEncoder[LeftArmElbow]) * ARM_LOW;
 	}
 }
 
 void moveRightArm(int shoulder, int elbow) {
-	int shoulder_initial = nMotorEncoder[RightArmShoulder];
-	int elbow_initial = nMotorEncoder[RightArmElbow];
 	while(abs(nMotorEncoder[RightArmShoulder] - shoulder) > ENCODER_PRECISION || abs(nMotorEncoder[RightArmElbow] - elbow) > ENCODER_PRECISION) {
-		motor[RightArmShoulder] = targetMotorSpeed(shoulder, nMotorEncoder[RightArmShoulder], shoulder_initial) * ARM_LOW;
-		motor[RightArmElbow] = targetMotorSpeed(elbow, nMotorEncoder[RightArmElbow], elbow_initial) * ARM_LOW;
+		motor[RightArmShoulder] = targetMotorSpeed(shoulder, nMotorEncoder[RightArmShoulder]) * ARM_LOW;
+		motor[RightArmElbow] = targetMotorSpeed(elbow, nMotorEncoder[RightArmElbow]) * ARM_LOW;
 	}
 }
