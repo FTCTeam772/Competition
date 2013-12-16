@@ -1,5 +1,3 @@
-#include "constants.h"
-
 float targetMotorSpeed(int target, int current) {
 #ifdef NONLINEARTARGET
 	if(abs(current - target) > 400)
@@ -20,19 +18,14 @@ void turn(int clockwise) {
 	motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor[BackRight] = 0; //Stop wheels
 }
 
-void move(int forward, int sideways) {
-	/*
+void move(int left_diag, int right_diag) {
 	nMotorEncoder[FrontLeft] = nMotorEncoder[FrontRight] = nMotorEncoder[BackLeft] = nMotorEncoder[BackRight] = 0; //Reset encoders
-	float distance = sqrt(forward*forward + sideways*sideways); //Get total distance
-	float y = forward / distance; //Get motor power based on distance
-	float x = sideways / distance;
-	motor[FrontLeft] = -y + x; //Set wheels
-	motor[FrontRight]= -y + -x;
-	motor[BackLeft] = y + x;
-	motor[BackRight] = y + -x;
-	while(); //Wait until ...
+	motor[FrontLeft] = sgn(right_diag) * DRIVE_HIGH; //Set wheels
+	motor[FrontRight]= sgn(left_diag) * DRIVE_HIGH;
+	motor[BackLeft] = -sgn(left_diag) * DRIVE_HIGH;
+	motor[BackRight] = -sgn(right_diag) * DRIVE_HIGH;
+	while(abs(nMotorEncoder[FrontLeft]) < abs(right_diag) || abs(nMotorEncoder[FrontRight]) < abs(left_diag) || abs(nMotorEncoder[BackLeft]) < abs(left_diag) || abs(nMotorEncoder[BackRight]) < abs(right_diag)); //Wait until ...
 	motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor[BackRight] = 0; //Stop wheels
-	*/
 }
 
 void moveLeftArm(int shoulder, int elbow) {
