@@ -51,7 +51,8 @@ task main() {
 				turn(AUTO_IR_TURN);
 				wait();
 				//Drop
-				moveRightArm(ARM_SHOULDER_BASKET, ARM_ELBOW_BASKET);
+				moveRightArm(ARM_SHOULDER_BASKET, 0);
+				moveRightArm(0, ARM_ELBOW_BASKET);
 				wait();
 				openRightHand();
 				wait();
