@@ -36,7 +36,11 @@
 #define ARM_ELBOW_BASKET -1200
 
 //Autonomous
-#define WAIT 50
-#define AUTO_DETECT 12000
-#define AUTO_IR_CORRECT -1200
+#define WAIT 30
+#define AUTO_DETECT 10400
+#define AUTO_IR_CORRECT -1700
 #define AUTO_IR_TURN 900
+#define AUTO_RAMP_1 1100
+#define AUTO_RAMP_2 6000
+#define AUTO_RAMP_TURN 450
+#define AUTO_RAMP_UP 3500

@@ -55,7 +55,7 @@ task main() {
 	wait();
 	//Drop
 	moveRightArm(ARM_SHOULDER_BASKET, 0);
-	moveRightArm(0, ARM_ELBOW_BASKET);
+	moveRightArm(ARM_SHOULDER_BASKET, ARM_ELBOW_BASKET);
 	wait();
 	//openRightHand();
 	wait();
@@ -65,7 +65,6 @@ task main() {
 	turn(-AUTO_IR_TURN);
 	wait();
 	move(0, -AUTO_IR_CORRECT);
-	wait();
 	//Continue to end of line
 	nMotorEncoder[FrontLeft] = nMotorEncoder[FrontRight] = nMotorEncoder[BackLeft] = nMotorEncoder[BackRight] = 0;
 #if AUTO_PROGRAM == 0
@@ -77,9 +76,15 @@ task main() {
 #endif
 	while(abs(nMotorEncoder[FrontLeft]) < AUTO_DETECT - offset || abs(nMotorEncoder[BackRight]) < AUTO_DETECT - offset);
 	motor[FrontLeft] = motor[BackRight] = 0;
+	wait();
 
 	//Go to ramp
-	//TODO - Left/Right and IR
+	move(0, AUTO_RAMP_1);
+	wait();
+	move(AUTO_RAMP_2, 0);
+	wait();
+	turn(AUTO_RAMP_TURN);
+	move(AUTO_RAMP_UP, -AUTO_RAMP_UP);
 #elif AUTO_PROGRAM == 1
 	//Place a block in first basket
 	//TODO
