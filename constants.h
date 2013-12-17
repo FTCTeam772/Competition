@@ -36,7 +36,7 @@
 #define AUTO_PROGRAM 0
 
 //Autonomous
-#define WAIT 100
+#define WAIT 50
 #define AUTO_DETECT 12000
-#define AUTO_IR_CORRECT -1100
+#define AUTO_IR_CORRECT -1200
 #define AUTO_IR_TURN 900

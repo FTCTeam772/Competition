@@ -33,41 +33,49 @@ task main() {
 	//Go time!
 	waitForStart();
 
-#if AUTO_PROGRAM == 0
+#if AUTO_PROGRAM == 0 || AUTO_PROGRAM == 2
 	//Go forward until the IR beacon is found
-	int offset = 0; //Offset for after encoder gets reset
-	bool dropped = false; //So that we don't drop twice
+	nMotorEncoder[FrontLeft] = nMotorEncoder[FrontRight] = nMotorEncoder[BackLeft] = nMotorEncoder[BackRight] = 0;
+#if AUTO_PROGRAM == 0
 	motor[FrontLeft] = DRIVE_HIGH;
 	motor[BackRight] = -DRIVE_HIGH;
-	while(abs(nMotorEncoder[FrontLeft]) + offset < AUTO_DETECT || abs(nMotorEncoder[BackRight]) + offset < AUTO_DETECT) {
-		if(!dropped && SensorValue[IR] == 6) { //If we haven't dropped yet and the IR is in the right zone
-				//Drop a block and move back
-				motor[FrontLeft] = motor[BackRight] = 0;
-				offset += nMotorEncoder[FrontLeft]; //Save offset because functions reset encoders
-				wait();
-				//Correct for IR detection
-				move(0, AUTO_IR_CORRECT);
-				wait();
-				turn(AUTO_IR_TURN);
-				wait();
-				//Drop
-				moveRightArm(ARM_SHOULDER_BASKET, 0);
-				moveRightArm(0, ARM_ELBOW_BASKET);
-				wait();
-				openRightHand();
-				wait();
-				moveRightArm(0, 0);
-				wait();
-				//Undo actions to continue on
-				turn(-AUTO_IR_TURN);
-				wait();
-				move(0, -AUTO_IR_CORRECT);
-				wait();
-				dropped = true;
-				motor[FrontLeft] = DRIVE_HIGH;
-				motor[BackRight] = -DRIVE_HIGH;
-		}
-	}
+#else
+	motor[FrontLeft] = -DRIVE_HIGH;
+	motor[BackRight] = DRIVE_HIGH;
+#endif
+	while(SensorValue[IR] != 6 && (abs(nMotorEncoder[FrontLeft]) < AUTO_DETECT || abs(nMotorEncoder[BackRight]) < AUTO_DETECT)); //Wait until we either hit the IR or the last basket
+	motor[FrontLeft] = motor[BackRight] = 0;
+	//Drop a block and move back
+	int offset = nMotorEncoder[FrontLeft]; //Save current distance traveled
+	wait();
+	//Correct for IR detection
+	move(0, AUTO_IR_CORRECT);
+	wait();
+	turn(AUTO_IR_TURN);
+	wait();
+	//Drop
+	moveRightArm(ARM_SHOULDER_BASKET, 0);
+	moveRightArm(0, ARM_ELBOW_BASKET);
+	wait();
+	//openRightHand();
+	wait();
+	moveRightArm(0, 0);
+	wait();
+	//Undo actions to continue on
+	turn(-AUTO_IR_TURN);
+	wait();
+	move(0, -AUTO_IR_CORRECT);
+	wait();
+	//Continue to end of line
+	nMotorEncoder[FrontLeft] = nMotorEncoder[FrontRight] = nMotorEncoder[BackLeft] = nMotorEncoder[BackRight] = 0;
+#if AUTO_PROGRAM == 0
+	motor[FrontLeft] = DRIVE_HIGH;
+	motor[BackRight] = -DRIVE_HIGH;
+#else
+	motor[FrontLeft] = -DRIVE_HIGH;
+	motor[BackRight] = DRIVE_HIGH;
+#endif
+	while(abs(nMotorEncoder[FrontLeft]) < AUTO_DETECT - offset || abs(nMotorEncoder[BackRight]) < AUTO_DETECT - offset);
 	motor[FrontLeft] = motor[BackRight] = 0;
 
 	//Go to ramp
@@ -76,17 +84,12 @@ task main() {
 	//Place a block in first basket
 	//TODO
 
-	//Go to ramp
+	//Go to ramp and move to other side
 	//TODO - Left and no IR
-#elif AUTO_PROGRAM == 2
-	//Go forward until the IR beacon is found
-
-	//Go to ramp
-	//TODO - Right and IR
 #elif AUTO_PROGRAM == 3
 	//Place a block in first basket
 
-	//Go to ramp
+	//Go to ramp and move to other side
 	//TODO - Right and no IR
 #endif
 }
