@@ -7,7 +7,7 @@ float targetMotorSpeed(int target, int current) {
 	else
 		return 0;
 #else
-	return 1;
+	return (abs(current - target) > ENCODER_PRECISION) ? 1 : 0;
 #endif
 }
 
@@ -24,22 +24,52 @@ void move(int left_diag, int right_diag) {
 	motor[FrontRight]= sgn(left_diag) * DRIVE_HIGH;
 	motor[BackLeft] = -sgn(left_diag) * DRIVE_HIGH;
 	motor[BackRight] = -sgn(right_diag) * DRIVE_HIGH;
-	while(abs(nMotorEncoder[FrontLeft]) < abs(right_diag) || abs(nMotorEncoder[FrontRight]) < abs(left_diag) || abs(nMotorEncoder[BackLeft]) < abs(left_diag) || abs(nMotorEncoder[BackRight]) < abs(right_diag)); //Wait until encoder count is reached
+	while(abs(nMotorEncoder[FrontLeft]) < abs(right_diag) || abs(nMotorEncoder[FrontRight]) < abs(left_diag) || abs(nMotorEncoder[BackLeft]) < abs(left_diag) || abs(nMotorEncoder[BackRight]) < abs(right_diag)); //Wait until all of the wheels reach their encoder count
 	motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor[BackRight] = 0; //Stop wheels
 }
 
 void moveLeftArm(int shoulder, int elbow) {
+	//While the shoulder and elbow are not within a certain amount
 	while(abs(nMotorEncoder[LeftArmShoulder] - shoulder) > ENCODER_PRECISION || abs(nMotorEncoder[LeftArmElbow] - elbow) > ENCODER_PRECISION) {
-		motor[LeftArmShoulder] = targetMotorSpeed(shoulder, nMotorEncoder[LeftArmShoulder]) * ARM_HIGH;
-		motor[LeftArmElbow] = targetMotorSpeed(elbow, nMotorEncoder[LeftArmElbow]) * ARM_LOW;
+		motor[LeftArmShoulder] = targetMotorSpeed(shoulder, nMotorEncoder[LeftArmShoulder]) * ARM_HIGH; //Shoulder goes ARM_HIGH
+		motor[LeftArmElbow] = targetMotorSpeed(elbow, nMotorEncoder[LeftArmElbow]) * ARM_LOW; //Elbow goes ARM_LOW
 	}
-	motor[LeftArmShoulder] = motor[LeftArmElbow] = 0;
+	motor[LeftArmShoulder] = motor[LeftArmElbow] = 0; //Be sure the motors are stopped
+}
+
+void openLeftHand() {
+	motor[LeftHand] = HAND_HIGH;
+	while(nMotorEncoder[LeftHand] < HAND_MAX); //Wait for hand to open
+	motor[LeftHand] = 0;
+}
+
+void closeLeftHand() {
+	motor[LeftHand] = -HAND_HIGH;
+	while(nMotorEncoder[LeftHand] > HAND_MIN); //Wait for hand to close
+	motor[LeftHand] = 0;
 }
 
 void moveRightArm(int shoulder, int elbow) {
+	//While the shoulder and elbow are not within a certain amount
 	while(abs(nMotorEncoder[RightArmShoulder] - shoulder) > ENCODER_PRECISION || abs(nMotorEncoder[RightArmElbow] - elbow) > ENCODER_PRECISION) {
-		motor[RightArmShoulder] = targetMotorSpeed(shoulder, nMotorEncoder[RightArmShoulder]) * ARM_HIGH;
-		motor[RightArmElbow] = targetMotorSpeed(elbow, nMotorEncoder[RightArmElbow]) * ARM_LOW;
+		motor[RightArmShoulder] = targetMotorSpeed(shoulder, nMotorEncoder[RightArmShoulder]) * ARM_HIGH; //Shoulder goes ARM_HIGH
+		motor[RightArmElbow] = targetMotorSpeed(elbow, nMotorEncoder[RightArmElbow]) * ARM_LOW; //Elbow goes ARM_LOW
 	}
-	motor[RightArmShoulder] = motor[RightArmElbow] = 0;
+	motor[RightArmShoulder] = motor[RightArmElbow] = 0; //Be sure the motors are stopped
+}
+
+void openRightHand() {
+	motor[RightHand] = HAND_HIGH;
+	while(nMotorEncoder[RightHand] < HAND_MAX); //Wait for hand to open
+	motor[RightHand] = 0;
+}
+
+void closeRightHand() {
+	motor[RightHand] = -HAND_HIGH;
+	while(nMotorEncoder[RightHand] > HAND_MIN); //Wait for hand to close
+	motor[RightHand] = 0;
+}
+
+void wait() {
+	wait10Msec(WAIT);
 }

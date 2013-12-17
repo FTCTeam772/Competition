@@ -33,27 +33,27 @@ task driveControl() { //Asynchronous task for critical drive control
 	while(true) {
 		//Joystick 1 - Driver
 
-		//Deadband between -15 to 15
+		//Deadband between -DEADBAND to DEADBAND
 		//Scale linearly for all other values
 		float x1, y1, x2, y2;
 
 		//Check each axis for deadband and direction locking
-		if((joystick.joy1_x1 > 15 || joystick.joy1_x1 < -15) && sideways)
+		if((joystick.joy1_x1 > DEADBAND || joystick.joy1_x1 < -DEADBAND) && sideways)
 			x1 = joystick.joy1_x1 / 128.0;
 		else
 			x1 = 0;
 
-		if((joystick.joy1_y1 > 15 || joystick.joy1_y1 < -15) && forwards)
+		if((joystick.joy1_y1 > DEADBAND || joystick.joy1_y1 < -DEADBAND) && forwards)
 			y1 = joystick.joy1_y1 / 128.0;
 		else
 			y1 = 0;
 
-		if(joystick.joy1_x2 > 15 || joystick.joy1_x2 < -15)
+		if(joystick.joy1_x2 > DEADBAND || joystick.joy1_x2 < -DEADBAND)
 			x2 = joystick.joy1_x2 / 128.0;
 		else
 			x2 = 0;
 
-		if(joystick.joy1_y2 > 15 || joystick.joy1_y2 < -15)
+		if(joystick.joy1_y2 > DEADBAND || joystick.joy1_y2 < -DEADBAND)
 			y2 = joystick.joy1_y2 / 128.0;
 		else
 			y2 = 0;
@@ -75,22 +75,22 @@ task armControl() {
 		float x1, y1, x2, y2;
 
 		//Check each axis for deadband
-		if((joystick.joy2_x1 > 15 || joystick.joy2_x1 < -15) && (abs(joystick.joy2_x1) > abs(joystick.joy2_y1)))
+		if((joystick.joy2_x1 > DEADBAND || joystick.joy2_x1 < -DEADBAND) && (abs(joystick.joy2_x1) > abs(joystick.joy2_y1)))
 			x1 = joystick.joy2_x1 / 128.0;
 		else
 			x1 = 0;
 
-		if((joystick.joy2_y1 > 15 || joystick.joy2_y1 < -15) && (abs(joystick.joy2_y1) > abs(joystick.joy2_x1)))
+		if((joystick.joy2_y1 > DEADBAND || joystick.joy2_y1 < -DEADBAND) && (abs(joystick.joy2_y1) > abs(joystick.joy2_x1)))
 			y1 = joystick.joy2_y1 / 128.0;
 		else
 			y1 = 0;
 
-		if((joystick.joy2_x2 > 15 || joystick.joy2_x2 < -15) && (abs(joystick.joy2_x2) > abs(joystick.joy2_y2)))
+		if((joystick.joy2_x2 > DEADBAND || joystick.joy2_x2 < -DEADBAND) && (abs(joystick.joy2_x2) > abs(joystick.joy2_y2)))
 			x2 = joystick.joy2_x2 / 128.0;
 		else
 			x2 = 0;
 
-		if((joystick.joy2_y2 > 15 || joystick.joy2_y2 < -15) && (abs(joystick.joy2_y2) > abs(joystick.joy2_x2)))
+		if((joystick.joy2_y2 > DEADBAND || joystick.joy2_y2 < -DEADBAND) && (abs(joystick.joy2_y2) > abs(joystick.joy2_x2)))
 			y2 = joystick.joy2_y2 / 128.0;
 		else
 			y2 = 0;
