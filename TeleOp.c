@@ -95,11 +95,11 @@ task armControl() {
 		else
 			y2 = 0;
 
-		//Protect arms
-		if(((x1 < 0 && nMotorEncoder[LeftArmShoulder] <= ARM_SHOULDER_BOTTOM) || (x1 > 0 && nMotorEncoder[LeftArmShoulder] >= ARM_SHOULDER_TOP)) && !joy2Btn(6))
+		//Protect arms unless button 5 is pressed
+		if(((x1 < 0 && nMotorEncoder[LeftArmShoulder] <= ARM_SHOULDER_BOTTOM) || (x1 > 0 && nMotorEncoder[LeftArmShoulder] >= ARM_SHOULDER_TOP)) && !joy2Btn(5))
 			x1 = 0;
 
-		if(((x2 < 0 && nMotorEncoder[RightArmShoulder] <= ARM_SHOULDER_BOTTOM) || (x2 > 0 && nMotorEncoder[RightArmShoulder] >= ARM_SHOULDER_TOP)) && !joy2Btn(6))
+		if(((x2 < 0 && nMotorEncoder[RightArmShoulder] <= ARM_SHOULDER_BOTTOM) || (x2 > 0 && nMotorEncoder[RightArmShoulder] >= ARM_SHOULDER_TOP)) && !joy2Btn(5))
 			x2 = 0;
 
 		//writeDebugStream("Arms:\n\tLeft Shoulder:\t%d\n\tLeft Elbow:\t%d\n\tRight Shoulder:\t%d\n\tRight Elbow:\t%d\n", nMotorEncoder[LeftArmShoulder], nMotorEncoder[LeftArmElbow], nMotorEncoder[RightArmShoulder], nMotorEncoder[RightArmElbow]);
@@ -132,7 +132,7 @@ task armControl() {
 
 		//Left arm pickup
 		if(joy2Btn(1)) {
-			while((abs(nMotorEncoder[LeftArmShoulder] - ARM_SHOULDER_PICKUP) > ENCODER_PRECISION || abs(nMotorEncoder[LeftArmElbow] - ARM_ELBOW_PICKUP) > ENCODER_PRECISION) && !joy2Btn(6)) {
+			while((abs(nMotorEncoder[LeftArmShoulder] - ARM_SHOULDER_PICKUP) > ENCODER_PRECISION || abs(nMotorEncoder[LeftArmElbow] - ARM_ELBOW_PICKUP) > ENCODER_PRECISION) && !joy2Btn(5)) {
 				motor[LeftArmShoulder] = targetMotorSpeed(ARM_SHOULDER_PICKUP, nMotorEncoder[LeftArmShoulder]) * ARM_HIGH;
 				motor[LeftArmElbow] = targetMotorSpeed(ARM_ELBOW_PICKUP, nMotorEncoder[LeftArmElbow]) * ARM_LOW;
 				writeDebugStream("LeftArm:\t%d\t%d\n", nMotorEncoder[LeftArmShoulder], nMotorEncoder[LeftArmElbow]);
@@ -141,7 +141,7 @@ task armControl() {
 
 		//Home
 		if(joy2Btn(2)) {
-			while((nMotorEncoder[LeftArmShoulder] > ENCODER_PRECISION || nMotorEncoder[LeftArmElbow] > ENCODER_PRECISION || nMotorEncoder[RightArmShoulder] > ENCODER_PRECISION || nMotorEncoder[RightArmElbow] > ENCODER_PRECISION) && !joy2Btn(6)) {
+			while((nMotorEncoder[LeftArmShoulder] > ENCODER_PRECISION || nMotorEncoder[LeftArmElbow] > ENCODER_PRECISION || nMotorEncoder[RightArmShoulder] > ENCODER_PRECISION || nMotorEncoder[RightArmElbow] > ENCODER_PRECISION) && !joy2Btn(5)) {
 				motor[LeftArmShoulder] = targetMotorSpeed(0, nMotorEncoder[LeftArmShoulder]) * ARM_HIGH;
 				motor[LeftArmElbow] = targetMotorSpeed(0, nMotorEncoder[LeftArmElbow]) * ARM_LOW;
 				motor[RightArmShoulder] = targetMotorSpeed(0, nMotorEncoder[RightArmShoulder]) * ARM_HIGH;
@@ -152,7 +152,7 @@ task armControl() {
 
 		//Right arm pickup
 		if(joy2Btn(3)) {
-			while((abs(nMotorEncoder[RightArmShoulder] - ARM_SHOULDER_PICKUP) > ENCODER_PRECISION || abs(nMotorEncoder[RightArmElbow] - ARM_ELBOW_PICKUP) > ENCODER_PRECISION) && !joy2Btn(6)) {
+			while((abs(nMotorEncoder[RightArmShoulder] - ARM_SHOULDER_PICKUP) > ENCODER_PRECISION || abs(nMotorEncoder[RightArmElbow] - ARM_ELBOW_PICKUP) > ENCODER_PRECISION) && !joy2Btn(5)) {
 				motor[RightArmShoulder] = targetMotorSpeed(ARM_SHOULDER_PICKUP, nMotorEncoder[RightArmShoulder]) * ARM_HIGH;
 				motor[RightArmElbow] = targetMotorSpeed(ARM_ELBOW_PICKUP, nMotorEncoder[RightArmElbow]) * ARM_LOW;
 				writeDebugStream("RightArm:\t%d\t%d\n", nMotorEncoder[RightArmShoulder], nMotorEncoder[RightArmElbow]);
@@ -161,7 +161,7 @@ task armControl() {
 
 		//Hang
 		if(joy2Btn(4)) {
-			while((abs(nMotorEncoder[LeftArmShoulder] - ARM_SHOULDER_HANG) > ENCODER_PRECISION || abs(nMotorEncoder[LeftArmElbow] - ARM_ELBOW_HANG) > ENCODER_PRECISION || abs(nMotorEncoder[RightArmShoulder] - ARM_SHOULDER_HANG) > ENCODER_PRECISION || abs(nMotorEncoder[RightArmElbow] - ARM_ELBOW_HANG) > ENCODER_PRECISION) && !joy2Btn(6)) {
+			while((abs(nMotorEncoder[LeftArmShoulder] - ARM_SHOULDER_HANG) > ENCODER_PRECISION || abs(nMotorEncoder[LeftArmElbow] - ARM_ELBOW_HANG) > ENCODER_PRECISION || abs(nMotorEncoder[RightArmShoulder] - ARM_SHOULDER_HANG) > ENCODER_PRECISION || abs(nMotorEncoder[RightArmElbow] - ARM_ELBOW_HANG) > ENCODER_PRECISION) && !joy2Btn(5)) {
 				motor[LeftArmShoulder] = targetMotorSpeed(ARM_SHOULDER_HANG, nMotorEncoder[LeftArmShoulder]) * ARM_HIGH;
 				motor[LeftArmElbow] = targetMotorSpeed(ARM_ELBOW_HANG, nMotorEncoder[LeftArmElbow]) * ARM_LOW;
 				motor[RightArmShoulder] = targetMotorSpeed(ARM_SHOULDER_HANG, nMotorEncoder[RightArmShoulder]) * ARM_HIGH;
@@ -205,7 +205,7 @@ task main() {
 
 		//Joystick 2 - Operator
 
-		if(joy2Btn(5)) //If the operator is pressing button 8, scale down the arm movements
+		if(joy2Btn(6)) //If the operator is pressing button 6, scale down the arm movements
 			arm_scale = ARM_LOW;
 		else
 			arm_scale = ARM_HIGH;
