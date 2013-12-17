@@ -79,17 +79,17 @@ task main() {
 	motor[FrontLeft] = motor[BackRight] = 0;
 
 	//Go to ramp
-	//TODO - Left and IR
+	//TODO - Left/Right and IR
 #elif AUTO_PROGRAM == 1
 	//Place a block in first basket
 	//TODO
 
-	//Go to ramp and move to other side
+	//Go to ramp and drive through to the opposite side
 	//TODO - Left and no IR
 #elif AUTO_PROGRAM == 3
 	//Place a block in first basket
 
-	//Go to ramp and move to other side
+	//Go to ramp and drive through to the opposite side
 	//TODO - Right and no IR
 #endif
 }
