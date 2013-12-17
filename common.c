@@ -11,10 +11,10 @@ float targetMotorSpeed(int target, int current) {
 #endif
 }
 
-void turn(int clockwise) {
+void turn(int cclockwise) {
 	nMotorEncoder[FrontLeft] = nMotorEncoder[FrontRight] = nMotorEncoder[BackLeft] = nMotorEncoder[BackRight] = 0; //Reset encoders
-	motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor[BackRight] = sgn(clockwise) * DRIVE_HIGH; //Drive wheels clockwise
-	while(abs(nMotorEncoder[FrontLeft]) < abs(clockwise) || abs(nMotorEncoder[FrontRight]) < abs(clockwise) || abs(nMotorEncoder[BackLeft]) < abs(clockwise) || abs(nMotorEncoder[BackRight]) < abs(clockwise)); //Wait until all of the wheels reach encoderCount
+	motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor[BackRight] = sgn(cclockwise) * DRIVE_HIGH; //Drive wheels clockwise
+	while(abs(nMotorEncoder[FrontLeft]) < abs(cclockwise) || abs(nMotorEncoder[FrontRight]) < abs(cclockwise) || abs(nMotorEncoder[BackLeft]) < abs(cclockwise) || abs(nMotorEncoder[BackRight]) < abs(cclockwise)); //Wait until all of the wheels reach encoderCount
 	motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor[BackRight] = 0; //Stop wheels
 }
 
@@ -24,7 +24,7 @@ void move(int left_diag, int right_diag) {
 	motor[FrontRight]= sgn(left_diag) * DRIVE_HIGH;
 	motor[BackLeft] = -sgn(left_diag) * DRIVE_HIGH;
 	motor[BackRight] = -sgn(right_diag) * DRIVE_HIGH;
-	while(abs(nMotorEncoder[FrontLeft]) < abs(right_diag) || abs(nMotorEncoder[FrontRight]) < abs(left_diag) || abs(nMotorEncoder[BackLeft]) < abs(left_diag) || abs(nMotorEncoder[BackRight]) < abs(right_diag)); //Wait until ...
+	while(abs(nMotorEncoder[FrontLeft]) < abs(right_diag) || abs(nMotorEncoder[FrontRight]) < abs(left_diag) || abs(nMotorEncoder[BackLeft]) < abs(left_diag) || abs(nMotorEncoder[BackRight]) < abs(right_diag)); //Wait until encoder count is reached
 	motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor[BackRight] = 0; //Stop wheels
 }
 
@@ -33,6 +33,7 @@ void moveLeftArm(int shoulder, int elbow) {
 		motor[LeftArmShoulder] = targetMotorSpeed(shoulder, nMotorEncoder[LeftArmShoulder]) * ARM_HIGH;
 		motor[LeftArmElbow] = targetMotorSpeed(elbow, nMotorEncoder[LeftArmElbow]) * ARM_LOW;
 	}
+	motor[LeftArmShoulder] = motor[LeftArmElbow] = 0;
 }
 
 void moveRightArm(int shoulder, int elbow) {
@@ -40,4 +41,5 @@ void moveRightArm(int shoulder, int elbow) {
 		motor[RightArmShoulder] = targetMotorSpeed(shoulder, nMotorEncoder[RightArmShoulder]) * ARM_HIGH;
 		motor[RightArmElbow] = targetMotorSpeed(elbow, nMotorEncoder[RightArmElbow]) * ARM_LOW;
 	}
+	motor[RightArmShoulder] = motor[RightArmElbow] = 0;
 }

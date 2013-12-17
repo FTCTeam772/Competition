@@ -32,4 +32,25 @@ task main() {
 
 	//Go time!
 	waitForStart();
+
+	//Go forward until the IR beacon is found
+	motor[FrontLeft] = DRIVE_HIGH;
+	motor[BackRight] = -DRIVE_HIGH;
+	bool dropped = false;
+	while(nMotorEncoder[FrontLeft] < AUTO_DETECT || nMotorEncoder[BackRight] > -AUTO_DETECT) {
+		if(!dropped && SensorValue[IR] == 6) {
+				//Drop a block and move back
+				motor[FrontLeft] = motor[BackRight] = 0;
+				wait10Msec(100);
+				move(0, -AUTO_IR_CORRECT);
+				wait10Msec(100);
+				turn(AUTO_IR_TURN);
+				wait10Msec(200); //DROP
+				turn(-AUTO_IR_TURN);
+				wait10Msec(100);
+				move(0, AUTO_IR_CORRECT);
+				dropped = true;
+		}
+	}
+	motor[FrontLeft] = motor[BackRight] = 0;
 }

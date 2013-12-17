@@ -23,5 +23,10 @@
 #define ARM_SHOULDER_BASKET 14200
 #define ARM_ELBOW_BASKET -1200
 
+//Autonomous
+#define AUTO_DETECT 5000
+#define AUTO_IR_CORRECT 1000
+#define AUTO_IR_TURN 900
+
 //Testing
 #define TEST_ENCODER 4800
