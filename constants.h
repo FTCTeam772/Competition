@@ -42,5 +42,5 @@
 #define AUTO_IR_TURN 900
 #define AUTO_RAMP_1 1100
 #define AUTO_RAMP_2 6000
-#define AUTO_RAMP_TURN 450
+#define AUTO_RAMP_TURN 900
 #define AUTO_RAMP_UP 3500

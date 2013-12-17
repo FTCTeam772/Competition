@@ -46,7 +46,7 @@ task main() {
 	while(SensorValue[IR] != 6 && (abs(nMotorEncoder[FrontLeft]) < AUTO_DETECT || abs(nMotorEncoder[BackRight]) < AUTO_DETECT)); //Wait until we either hit the IR or the last basket
 	motor[FrontLeft] = motor[BackRight] = 0;
 	//Drop a block and move back
-	int offset = nMotorEncoder[FrontLeft]; //Save current distance traveled
+	int offset = abs(nMotorEncoder[FrontLeft]); //Save current distance traveled
 	wait();
 	//Correct for IR detection
 	move(0, AUTO_IR_CORRECT);
@@ -64,7 +64,7 @@ task main() {
 	//Undo actions to continue on
 	turn(-AUTO_IR_TURN);
 	wait();
-	move(0, -AUTO_IR_CORRECT);
+	offset -= AUTO_IR_CORRECT; //Correct offset for amount moved for IR correction
 	//Continue to end of line
 	nMotorEncoder[FrontLeft] = nMotorEncoder[FrontRight] = nMotorEncoder[BackLeft] = nMotorEncoder[BackRight] = 0;
 #if AUTO_PROGRAM == 0
@@ -74,17 +74,26 @@ task main() {
 	motor[FrontLeft] = -DRIVE_HIGH;
 	motor[BackRight] = DRIVE_HIGH;
 #endif
-	while(abs(nMotorEncoder[FrontLeft]) < AUTO_DETECT - offset || abs(nMotorEncoder[BackRight]) < AUTO_DETECT - offset);
+	while(abs(nMotorEncoder[FrontLeft]) + offset < AUTO_DETECT || abs(nMotorEncoder[BackRight]) + offset < AUTO_DETECT); //Continue but adjust for offset
 	motor[FrontLeft] = motor[BackRight] = 0;
 	wait();
 
 	//Go to ramp
-	move(0, AUTO_RAMP_1);
+#if AUTO_PROGRAM == 0
+	move(0, AUTO_RAMP_1); //Go a little bit further
+#else
+	move(0, -AUTO_RAMP_1);
+#endif
 	wait();
-	move(AUTO_RAMP_2, 0);
+	move(AUTO_RAMP_2, 0); //Move in front of the ramp
 	wait();
-	turn(AUTO_RAMP_TURN);
-	move(AUTO_RAMP_UP, -AUTO_RAMP_UP);
+	turn(AUTO_RAMP_TURN); //Turn so that two wheels hit the front of the ramp
+	wait();
+#if AUTO_PROGRAM == 0
+	move(AUTO_RAMP_UP, -AUTO_RAMP_UP); //Go up the ramp
+#else
+	move(-AUTO_RAMP_UP, AUTO_RAMP_UP); //Go up the ramp
+#endif
 #elif AUTO_PROGRAM == 1
 	//Place a block in first basket
 	//TODO
