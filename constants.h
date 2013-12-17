@@ -1,3 +1,12 @@
+/* Selected Autonomous Program
+ *
+ * 0 - Left and IR
+ * 1 - Left and no IR
+ * 2 - Right and IR
+ * 3 - Right and no IR
+ */
+#define AUTO_PROGRAM 0
+
 //Flags
 #define NONLINEARTARGET
 
@@ -25,15 +34,6 @@
 #define ARM_ELBOW_HANG -700
 #define ARM_SHOULDER_BASKET 14200
 #define ARM_ELBOW_BASKET -1200
-
-/* Selected Autonomous Program
- *
- * 0 - Left and IR
- * 1 - Left and no IR
- * 2 - Right and IR
- * 3 - Right and no IR
- */
-#define AUTO_PROGRAM 0
 
 //Autonomous
 #define WAIT 50
