@@ -54,7 +54,7 @@ task main() {
 	turn(AUTO_IR_TURN);
 	wait();
 	//Drop
-	moveRightArm(ARM_SHOULDER_BASKET, 0);
+	moveRightArm(ARM_SHOULDER_BASKET, 0); //Move shoulder first to prevent problems
 	moveRightArm(ARM_SHOULDER_BASKET, ARM_ELBOW_BASKET);
 	wait();
 	//openRightHand();
@@ -92,18 +92,34 @@ task main() {
 #if AUTO_PROGRAM == 0
 	move(AUTO_RAMP_UP, -AUTO_RAMP_UP); //Go up the ramp
 #else
-	move(-AUTO_RAMP_UP, AUTO_RAMP_UP); //Go up the ramp
+	move(-AUTO_RAMP_UP, AUTO_RAMP_UP);
 #endif
-#elif AUTO_PROGRAM == 1
+	wait();
+#elif AUTO_PROGRAM == 1 || AUTO_PROGRAM == 3
 	//Place a block in first basket
-	//TODO
+#if AUTO_PROGRAM == 1
+	move(AUTO_FIRST_BASKET, AUTO_FIRST_BASKET); //Move up to first basket
+#else
+	move(-AUTO_FIRST_BASKET, -AUTO_FIRST_BASKET);
+#endif
+	wait();
+	//Drop
+	moveRightArm(ARM_SHOULDER_BASKET, 0); //Move shoulder first to prevent problems
+	moveRightArm(ARM_SHOULDER_BASKET, ARM_ELBOW_BASKET);
+	wait();
+	//openRightHand();
+	wait();
+	moveRightArm(0, 0);
+	wait();
 
 	//Go to ramp and drive through to the opposite side
-	//TODO - Left and no IR
-#elif AUTO_PROGRAM == 3
-	//Place a block in first basket
-
-	//Go to ramp and drive through to the opposite side
-	//TODO - Right and no IR
+#if AUTO_PROGRAM == 1
+	move(AUTO_RAMP, AUTO_RAMP); //Move in front of ramp
+#else
+	move(-AUTO_RAMP, -AUTO_RAMP);
+#endif
+	wait();
+	move(-AUTO_RAMP_OVER, AUTO_RAMP_OVER); //Go onto and to the other side of the ramp
+	wait();
 #endif
 }

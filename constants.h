@@ -37,6 +37,7 @@
 
 //Autonomous
 #define WAIT 30
+//Autonomous Programs 0 and 2
 #define AUTO_DETECT 10400
 #define AUTO_IR_CORRECT -1700
 #define AUTO_IR_TURN 900
@@ -44,3 +45,7 @@
 #define AUTO_RAMP_2 6000
 #define AUTO_RAMP_TURN 900
 #define AUTO_RAMP_UP 3500
+//Autonomous Programs 1 and 3
+#define AUTO_FIRST_BASKET 1100
+#define AUTO_RAMP 800
+#define AUTO_RAMP_OVER 7000
