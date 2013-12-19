@@ -46,7 +46,7 @@ task main() {
 	while(SensorValue[IR] != 6 && (abs(nMotorEncoder[FrontLeft]) < AUTO_DETECT || abs(nMotorEncoder[BackRight]) < AUTO_DETECT)); //Wait until we either hit the IR or the last basket
 	motor[FrontLeft] = motor[BackRight] = 0;
 	//Drop a block and move back
-	int offset = abs(nMotorEncoder[FrontLeft]); //Save current distance traveled
+	int offset = nMotorEncoder[FrontLeft]; //Save current distance traveled
 	wait();
 	//Correct for IR detection
 	move(0, AUTO_IR_CORRECT);
@@ -74,7 +74,7 @@ task main() {
 	motor[FrontLeft] = -DRIVE_HIGH;
 	motor[BackRight] = DRIVE_HIGH;
 #endif
-	while(abs(nMotorEncoder[FrontLeft]) + offset < AUTO_DETECT || abs(nMotorEncoder[BackRight]) + offset < AUTO_DETECT); //Continue but adjust for offset
+	while(abs(nMotorEncoder[FrontLeft]) + abs(offset) < AUTO_DETECT || abs(nMotorEncoder[BackRight]) + abs(offset) < AUTO_DETECT); //Continue but adjust for offset
 	motor[FrontLeft] = motor[BackRight] = 0;
 	wait();
 

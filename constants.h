@@ -5,7 +5,7 @@
  * 2 - Right and IR
  * 3 - Right and no IR
  */
-#define AUTO_PROGRAM 0
+#define AUTO_PROGRAM 2
 
 //Flags
 #define NONLINEARTARGET
@@ -39,7 +39,7 @@
 #define WAIT 30
 //Autonomous Programs 0 and 2
 #define AUTO_DETECT 10400
-#define AUTO_IR_CORRECT -1700
+#define AUTO_IR_CORRECT -1000
 #define AUTO_IR_TURN 900
 #define AUTO_RAMP_1 1100
 #define AUTO_RAMP_2 6000
