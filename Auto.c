@@ -98,9 +98,9 @@ task main() {
 #elif AUTO_PROGRAM == 1 || AUTO_PROGRAM == 3
 	//Place a block in first basket
 #if AUTO_PROGRAM == 1
-	move(AUTO_FIRST_BASKET, AUTO_FIRST_BASKET); //Move up to first basket
+	move(AUTO_FIRST_BASKET, -AUTO_FIRST_BASKET); //Move up to first basket
 #else
-	move(-AUTO_FIRST_BASKET, -AUTO_FIRST_BASKET);
+	move(-AUTO_FIRST_BASKET, AUTO_FIRST_BASKET);
 #endif
 	wait();
 	//Drop
@@ -114,12 +114,12 @@ task main() {
 
 	//Go to ramp and drive through to the opposite side
 #if AUTO_PROGRAM == 1
-	move(AUTO_RAMP, AUTO_RAMP); //Move in front of ramp
+	move(AUTO_RAMP, -AUTO_RAMP); //Move in front of ramp
 #else
-	move(-AUTO_RAMP, -AUTO_RAMP);
+	move(-AUTO_RAMP, AUTO_RAMP);
 #endif
 	wait();
-	move(-AUTO_RAMP_OVER, AUTO_RAMP_OVER); //Go onto and to the other side of the ramp
+	move(AUTO_RAMP_OVER, AUTO_RAMP_OVER); //Go onto and to the other side of the ramp
 	wait();
 #endif
 }

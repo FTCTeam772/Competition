@@ -5,7 +5,7 @@
  * 2 - Right and IR
  * 3 - Right and no IR
  */
-#define AUTO_PROGRAM 2
+#define AUTO_PROGRAM 1
 
 //Flags
 #define NONLINEARTARGET
@@ -46,6 +46,6 @@
 #define AUTO_RAMP_TURN 900
 #define AUTO_RAMP_UP 3500
 //Autonomous Programs 1 and 3
-#define AUTO_FIRST_BASKET 1100
-#define AUTO_RAMP 800
+#define AUTO_FIRST_BASKET 2500
+#define AUTO_RAMP 1900
 #define AUTO_RAMP_OVER 7000
