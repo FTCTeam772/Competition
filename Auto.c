@@ -64,7 +64,7 @@ task main() {
 	//Undo actions to continue on
 	turn(-AUTO_IR_TURN);
 	wait();
-	offset -= AUTO_IR_CORRECT; //Correct offset for amount moved for IR correction
+	offset += AUTO_IR_CORRECT; //Correct offset for amount moved for IR correction
 	//Continue to end of line
 	nMotorEncoder[FrontLeft] = nMotorEncoder[FrontRight] = nMotorEncoder[BackLeft] = nMotorEncoder[BackRight] = 0;
 #if AUTO_PROGRAM == 0
