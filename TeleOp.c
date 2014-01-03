@@ -159,7 +159,7 @@ task armControl() {
 			}
 		}
 
-		//Hang
+		//Hanging
 		if(joy2Btn(4)) {
 			while((abs(nMotorEncoder[LeftArmShoulder] - ARM_SHOULDER_HANG) > ENCODER_PRECISION || abs(nMotorEncoder[LeftArmElbow] - ARM_ELBOW_HANG) > ENCODER_PRECISION || abs(nMotorEncoder[RightArmShoulder] - ARM_SHOULDER_HANG) > ENCODER_PRECISION || abs(nMotorEncoder[RightArmElbow] - ARM_ELBOW_HANG) > ENCODER_PRECISION) && !joy2Btn(5)) {
 				motor[LeftArmShoulder] = targetMotorSpeed(ARM_SHOULDER_HANG, nMotorEncoder[LeftArmShoulder]) * ARM_HIGH;
