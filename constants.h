@@ -24,7 +24,7 @@
 #define ENCODER_PRECISION 60
 #define ARM_SHOULDER_TOP 28000
 #define ARM_SHOULDER_BOTTOM 0
-#define HAND_MAX 250
+#define HAND_MAX 150
 #define HAND_MIN 0
 
 //Presets
@@ -39,12 +39,12 @@
 #define WAIT 30
 //Autonomous Programs 0 and 2
 #define AUTO_DETECT 10400
-#define AUTO_IR_CORRECT -1000
+#define AUTO_IR_CORRECT -1300
 #define AUTO_IR_TURN 900
-#define AUTO_RAMP_1 1100
+#define AUTO_RAMP_1 2800
 #define AUTO_RAMP_2 6000
 #define AUTO_RAMP_TURN 900
-#define AUTO_RAMP_UP 3500
+#define AUTO_RAMP_UP 3700
 //Autonomous Programs 1 and 3
 #define AUTO_FIRST_BASKET 2500
 #define AUTO_RAMP 1900

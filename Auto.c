@@ -59,6 +59,8 @@ task main() {
 	wait();
 	openRightHand();
 	wait();
+	closeRightHand();
+	wait();
 	moveRightArm(0, 0);
 	wait();
 	//Undo actions to continue on
@@ -107,7 +109,9 @@ task main() {
 	moveRightArm(ARM_SHOULDER_BASKET, 0); //Move shoulder first to prevent problems
 	moveRightArm(ARM_SHOULDER_BASKET, ARM_ELBOW_BASKET);
 	wait();
-	//openRightHand();
+	openRightHand();
+	wait();
+	closeRightHand();
 	wait();
 	moveRightArm(0, 0);
 	wait();
