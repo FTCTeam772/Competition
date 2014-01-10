@@ -188,10 +188,10 @@ task main() {
 	while(true) {
 		//Joystick 1 - Driver
 
-		if(joy1Btn(6)) //If the driver is pressing button 6, scale down robot movements
-			drive_scale = DRIVE_LOW;
-		else //Else leave at full speed
+		if(joy1Btn(6)) //If the driver is pressing button 6, give extra speed
 			drive_scale = DRIVE_HIGH;
+		else //Else be slower
+			drive_scale = DRIVE_LOW;
 
 		if(joy1Btn(5)) //If the driver is pressing button 5, lock to y-axis movement
 			sideways = false;
