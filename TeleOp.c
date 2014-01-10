@@ -29,18 +29,6 @@ byte arm_scale = ARM_HIGH;
 bool forwards = true; //Used for direction locking
 bool sideways = true;
 
-task connCheck() {
-	while(true) {
-		if(bDisconnected) {
-			hogCPU();
-			motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor[BackRight] = motor[LeftArmShoulder] = motor[LeftArmElbow] = motor[RightArmShoulder] = motor[RightArmElbow] = motor[LeftHand] = motor[RightHand] = 0; //Turn off the motors
-			while(bDisconnected);
-			releaseCPU();
-		}
-		wait10Msec(1);
-	}
-}
-
 task driveControl() { //Asynchronous task for critical drive control
 	while(true) {
 		//Joystick 1 - Driver
@@ -194,7 +182,6 @@ task main() {
 
 	//Go time!
 	waitForStart();
-	StartTask(connCheck); //Check connection and if lost, stop robot
 	StartTask(driveControl); //Go ahead and start critical drive functions in their own task
 	StartTask(armControl); //Start arm functions
 
