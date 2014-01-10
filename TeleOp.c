@@ -71,10 +71,10 @@ task driveControl() { //Asynchronous task for critical drive control
 			y2 = 0;
 
 		//Set the motors to scale
-		motor[FrontLeft] = drive_scale * (-x2 + (y1 + x1));
-		motor[FrontRight] = drive_scale * (-x2 + (-y1 + x1));
-		motor[BackLeft] = drive_scale * (-x2 + (y1 + -x1));
-		motor[BackRight] = drive_scale * (-x2 + (-y1 + -x1));
+		motor[FrontLeft] = drive_scale * (-x2 + (-y1 + -x1));
+		motor[FrontRight] = drive_scale * (-x2 + (y1 + -x1));
+		motor[BackLeft] = drive_scale * (-x2 + (-y1 + x1));
+		motor[BackRight] = drive_scale * (-x2 + (y1 + x1));
 
 		//writeDebugStream("Wheels:\n\tFront Left:\t%d\n\tFront Right:\t%d\n\tBack Left:\t%d\n\tBack Right:\t%d\n", nMotorEncoder[FrontLeft], nMotorEncoder[FrontRight], nMotorEncoder[BackLeft], nMotorEncoder[BackRight]);
 	}

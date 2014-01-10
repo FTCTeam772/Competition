@@ -24,7 +24,7 @@
 #define ENCODER_PRECISION 60
 #define ARM_SHOULDER_TOP 28000
 #define ARM_SHOULDER_BOTTOM 0
-#define HAND_MAX 1400
+#define HAND_MAX 250
 #define HAND_MIN 0
 
 //Presets
