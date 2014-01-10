@@ -5,7 +5,7 @@
  * 2 - Right and IR
  * 3 - Right and no IR
  */
-#define AUTO_PROGRAM 1
+#define AUTO_PROGRAM 0
 
 //Flags
 #define NONLINEARTARGET

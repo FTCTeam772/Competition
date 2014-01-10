@@ -20,10 +20,10 @@ void turn(int cclockwise) {
 
 void move(int left_diag, int right_diag) {
 	nMotorEncoder[FrontLeft] = nMotorEncoder[FrontRight] = nMotorEncoder[BackLeft] = nMotorEncoder[BackRight] = 0; //Reset encoders
-	motor[FrontLeft] = sgn(right_diag) * DRIVE_HIGH; //Set wheels
-	motor[FrontRight]= -sgn(left_diag) * DRIVE_HIGH;
-	motor[BackLeft] = sgn(left_diag) * DRIVE_HIGH;
-	motor[BackRight] = -sgn(right_diag) * DRIVE_HIGH;
+	motor[FrontLeft] = -sgn(right_diag) * DRIVE_HIGH; //Set wheels
+	motor[FrontRight]= sgn(left_diag) * DRIVE_HIGH;
+	motor[BackLeft] = -sgn(left_diag) * DRIVE_HIGH;
+	motor[BackRight] = sgn(right_diag) * DRIVE_HIGH;
 	while(abs(nMotorEncoder[FrontLeft]) < abs(right_diag) || abs(nMotorEncoder[FrontRight]) < abs(left_diag) || abs(nMotorEncoder[BackLeft]) < abs(left_diag) || abs(nMotorEncoder[BackRight]) < abs(right_diag)); //Wait until all of the wheels reach their encoder count
 	motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor[BackRight] = 0; //Stop wheels
 }
