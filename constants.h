@@ -39,10 +39,10 @@
 #define WAIT 30
 //Autonomous Programs 0 and 2
 #define AUTO_DETECT 10400
-#define AUTO_IR_CORRECT -1300
+#define AUTO_IR_CORRECT -1500
 #define AUTO_IR_TURN 900
-#define AUTO_RAMP_1 2800
-#define AUTO_RAMP_2 6000
+#define AUTO_RAMP_1 1300
+#define AUTO_RAMP_2 6100
 #define AUTO_RAMP_TURN 900
 #define AUTO_RAMP_UP 3700
 //Autonomous Programs 1 and 3
