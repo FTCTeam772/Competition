@@ -28,6 +28,7 @@ byte arm_scale = ARM_HIGH;
 
 bool forwards = true; //Used for direction locking
 bool sideways = true;
+bool reversed = false; //Used for reversing front
 
 task driveControl() { //Asynchronous task for critical drive control
 	while(true) {
@@ -57,6 +58,9 @@ task driveControl() { //Asynchronous task for critical drive control
 			y2 = joystick.joy1_y2 / 128.0;
 		else
 			y2 = 0;
+
+		if(reversed) //Reverse y1 if reverse button is pressed
+			y1 *= -1;
 
 		//Set the motors to scale
 		motor[FrontLeft] = drive_scale * (-x2 + (-y1 + -x1));
@@ -202,6 +206,11 @@ task main() {
 			forwards = false;
 		else
 			forwards = true;
+
+		if(joy1Btn(8)) //If the driver is pressin button 8, reverse the front
+			reversed = true;
+		else
+			reversed = false;
 
 		//Joystick 2 - Operator
 
