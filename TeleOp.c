@@ -59,8 +59,10 @@ task driveControl() { //Asynchronous task for critical drive control
 		else
 			y2 = 0;
 
-		if(reversed) //Reverse y1 if reverse button is pressed
+		if(reversed) { //Reverse y1 if reverse button is pressed
 			y1 *= -1;
+			x1 *= -1;
+		}
 
 		//Set the motors to scale
 		motor[FrontLeft] = drive_scale * (-x2 + (-y1 + -x1));
