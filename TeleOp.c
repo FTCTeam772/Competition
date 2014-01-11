@@ -54,16 +54,16 @@ task driveControl() { //Asynchronous task for critical drive control
 		else
 			x2 = 0;
 
-		if(joystick.joy1_y2 > DEADBAND || joystick.joy1_y2 < -DEADBAND)
+		/*if(joystick.joy1_y2 > DEADBAND || joystick.joy1_y2 < -DEADBAND)
 			y2 = joystick.joy1_y2 / 128.0;
 		else
-			y2 = 0;
+			y2 = 0;*/
 
-		if(reversed) { //Reverse y1 if reverse button is pressed
+		if(reversed) { //Reverse controls if reverse button is pressed
 			y1 *= -1;
 			x1 *= -1;
 			x2 *= -1;
-			y2 *= -1;
+			//y2 *= -1;
 		}
 
 		//Set the motors to scale
