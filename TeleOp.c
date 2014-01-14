@@ -36,7 +36,7 @@ task driveControl() { //Asynchronous task for critical drive control
 
 		//Deadband between -DEADBAND to DEADBAND
 		//Scale linearly for all other values
-		float x1, y1, x2, y2;
+		float x1, y1, x2;
 
 		//Check each axis for deadband and direction locking
 		if((joystick.joy1_x1 > DEADBAND || joystick.joy1_x1 < -DEADBAND) && sideways)
