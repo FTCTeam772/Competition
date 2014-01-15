@@ -62,7 +62,7 @@ task driveControl() { //Asynchronous task for critical drive control
 		if(reversed) { //Reverse controls if reverse button is pressed
 			y1 *= -1;
 			x1 *= -1;
-			x2 *= -1;
+			x2 *= 1;
 			//y2 *= -1;
 		}
 
