@@ -46,6 +46,6 @@
 #define AUTO_RAMP_TURN 1000
 #define AUTO_RAMP_UP 3700
 //Autonomous Programs 1 and 3
-#define AUTO_FIRST_BASKET 2000
-#define AUTO_RAMP 2400
+#define AUTO_FIRST_BASKET 2250
+#define AUTO_RAMP 2150
 #define AUTO_RAMP_OVER 6400
