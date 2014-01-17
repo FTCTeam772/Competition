@@ -28,7 +28,7 @@ task main() {
 	nMotorEncoder[FrontLeft] = nMotorEncoder[FrontRight] = nMotorEncoder[BackLeft] = nMotorEncoder[BackRight] = nMotorEncoder[LeftArmShoulder] = nMotorEncoder[LeftArmElbow] = nMotorEncoder[RightArmShoulder] = nMotorEncoder[RightArmElbow] = nMotorEncoder[LeftHand] = nMotorEncoder[RightHand] = 0; // Might as well reset the encoders too
 
 	//Display the robot's name
-	nxtDisplayCenteredTextLine(0, "Codex");
+	nxtDisplayCenteredTextLine(0, "Codex 3.14");
 
 	//Go time!
 	waitForStart();
