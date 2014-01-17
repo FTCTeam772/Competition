@@ -23,7 +23,7 @@
 #include "common.c"
 
 //Super Mario!
-#include "Mario Theme Song.c"
+#include "Mario Theme Song.h"
 
 //Initialize our globals
 byte drive_scale = DRIVE_HIGH; //Used to scale down robot movements
