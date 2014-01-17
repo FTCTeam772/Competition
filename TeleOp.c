@@ -22,6 +22,9 @@
 //Useful functions
 #include "common.c"
 
+//Super Mario!
+#include "Mario Theme Song.c"
+
 //Initialize our globals
 byte drive_scale = DRIVE_HIGH; //Used to scale down robot movements
 byte arm_scale = ARM_HIGH;
@@ -54,10 +57,16 @@ task driveControl() { //Asynchronous task for critical drive control
 		else
 			x2 = 0;
 
+		/*if(joystick.joy1_y2 > DEADBAND || joystick.joy1_y2 < -DEADBAND)
+			y2 = joystick.joy1_y2 / 128.0;
+		else
+			y2 = 0;*/
+
 		if(reversed) { //Reverse controls if reverse button is pressed
 			y1 *= -1;
 			x1 *= -1;
-			//x2 *= -1; //Don't revese turning
+			x2 *= 1;
+			//y2 *= -1;
 		}
 
 		//Set the motors to scale
@@ -77,22 +86,22 @@ task armControl() {
 		float x1, y1, x2, y2;
 
 		//Check each axis for deadband
-		if((joystick.joy2_x1 > DEADBAND || joystick.joy2_x1 < -DEADBAND) && abs(joystick.joy2_x1) > abs(joystick.joy2_y1))
+		if((joystick.joy2_x1 > DEADBAND || joystick.joy2_x1 < -DEADBAND) && (abs(joystick.joy2_x1) > abs(joystick.joy2_y1)))
 			x1 = joystick.joy2_x1 / 128.0;
 		else
 			x1 = 0;
 
-		if((joystick.joy2_y1 > DEADBAND || joystick.joy2_y1 < -DEADBAND) && abs(joystick.joy2_y1) > abs(joystick.joy2_x1))
+		if((joystick.joy2_y1 > DEADBAND || joystick.joy2_y1 < -DEADBAND) && (abs(joystick.joy2_y1) > abs(joystick.joy2_x1)))
 			y1 = joystick.joy2_y1 / 128.0;
 		else
 			y1 = 0;
 
-		if((joystick.joy2_x2 > DEADBAND || joystick.joy2_x2 < -DEADBAND) && abs(joystick.joy2_x2) > abs(joystick.joy2_y2))
+		if((joystick.joy2_x2 > DEADBAND || joystick.joy2_x2 < -DEADBAND) && (abs(joystick.joy2_x2) > abs(joystick.joy2_y2)))
 			x2 = joystick.joy2_x2 / 128.0;
 		else
 			x2 = 0;
 
-		if((joystick.joy2_y2 > DEADBAND || joystick.joy2_y2 < -DEADBAND) && abs(joystick.joy2_y2) > abs(joystick.joy2_x2))
+		if((joystick.joy2_y2 > DEADBAND || joystick.joy2_y2 < -DEADBAND) && (abs(joystick.joy2_y2) > abs(joystick.joy2_x2)))
 			y2 = joystick.joy2_y2 / 128.0;
 		else
 			y2 = 0;
@@ -112,7 +121,7 @@ task armControl() {
 		motor[RightArmShoulder] = arm_scale * x2;
 		motor[RightArmElbow] = arm_scale * y2;
 
-		//If button 7 is pressed, open the left hand
+		//If button 7 is pressed, open the left hand until it is at max
 		if(joy2Btn(7))
 			motor[LeftHand] = HAND_HIGH;
 		else if(nMotorEncoder[LeftHand] > HAND_MIN) //Else close the hand
@@ -180,7 +189,7 @@ task main() {
 	nMotorEncoder[FrontLeft] = nMotorEncoder[FrontRight] = nMotorEncoder[BackLeft] = nMotorEncoder[BackRight] = nMotorEncoder[LeftArmShoulder] = nMotorEncoder[LeftArmElbow] = nMotorEncoder[RightArmShoulder] = nMotorEncoder[RightArmElbow] = nMotorEncoder[LeftHand] = nMotorEncoder[RightHand] = 0; // Might as well reset the encoders too
 
 	//Display the robot's name
-	nxtDisplayCenteredTextLine(0, "Codex 3.14");
+	nxtDisplayCenteredTextLine(0, "Codex");
 
 	//Go time!
 	waitForStart();
@@ -205,11 +214,14 @@ task main() {
 		else
 			forwards = true;
 
-		if(joy1Btn(8)) //If the driver is pressin button 8, reverse the front
+		if(joy1Btn(8)) //If the driver is pressing button 8, reverse the front
 			reversed = true;
 		else
 			reversed = false;
 
+		if(joy1Btn(9)) //If the driver is pressing button 9, play Mario Theme Song
+			StartTask(mario);
+	
 		//Joystick 2 - Operator
 
 		if(joy2Btn(6)) //If the operator is pressing button 6, scale down the arm movements
