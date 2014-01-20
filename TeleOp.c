@@ -21,7 +21,7 @@
 #include "constants.h"
 
 //Useful functions
-#include "common.c"
+#include "common.h"
 
 //Super Mario!
 #include "Player.h"
