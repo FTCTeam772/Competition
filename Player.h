@@ -59,6 +59,9 @@ void play() {
 	if(song == NULL)
 		return;
 
+	if(playing)
+		StopTask(player);
+
 	playing = true;
 
 	if(display)
