@@ -53,6 +53,8 @@ task player() {
 		return;
 
 	song();
+
+	stop();
 }
 
 void play() {
