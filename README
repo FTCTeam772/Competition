@@ -1,15 +1,15 @@
-This repository contains all RobotC programs used by Team 772 for the FIRST Tech Challenge.  Below is a list of all of the programs and their purposes.
+This repository contains all RobotC files used by Team 772 for the FIRST Tech Challenge.  Below is a list of all of the files and their purposes.
 
 Competition Files
 -----------------
-Auto.c: Autonomous mode program.
-TeleOp.c: Tele-Operated mode program; contains main drive and arm control functions.
-common.h: Various functions useful between Autonomous, TeleOp, and other programs.
-constants.h: Constants to calibrate the programs to the robot and the field.
+Auto.c: Autonomous mode program
+TeleOp.c: Tele-Operated mode program containing main drive and arm control functions
+common.h: Various functions useful between Auto.c and TeleOp.c
+constants.h: Constants to calibrate the programs to the robot and the field
 
 Music Files
 -----------
-Player.c: Song selector and player with fancy speed and volume controls
+Player.c: Song selector and player with speed and volume controls
 Player.h: Song player library that can be used in other programs
 StillAlive.h: This was a triumph...
-Mario.h: Super Mario Bros. theme song.
+Mario.h: Super Mario Bros. theme song
