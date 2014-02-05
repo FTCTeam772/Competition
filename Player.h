@@ -85,8 +85,10 @@ void stop() {
 
 	playing = false;
 
-	if(display)
+	if(display) {
 		StopTask(control);
+		clear();
+	}
 
 	StopTask(player);
 }
