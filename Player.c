@@ -7,18 +7,13 @@
 
 #include "Player.h"
 
-#include "StillAlive.h"
-#include "Mario.h"
-
-void (* songs[])() = { StillAlive, Mario };
-const char * names[] = { "Still Alive", "Super Mario Bros." };
-
-display = true;
+string songs[] = { "StillAlive.mus", "Mario.mus" };
+string names[] = { "Still Alive", "Super Mario Bros." };
 
 task main() {
+	display = true;
 	nxtDisplayCenteredTextLine(3, "Playing:");
-	nxtDisplayCenteredLine(4, names[0]);
-	StartTask(control);
+	nxtDisplayCenteredTextLine(4, names[0]);
 	setSong(songs[0]);
 	play();
 	while(playing);

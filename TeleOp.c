@@ -24,7 +24,6 @@
 
 //Super Mario!
 #include "Player.h"
-#include "Mario.h"
 
 //Initialize our globals
 byte drive_scale = DRIVE_HIGH; //Used to scale down robot movements
@@ -215,7 +214,7 @@ task main() {
 			reversed = false;
 
 		if(joy1Btn(9)) { //If the driver is pressing button 9, play Super Mario theme song
-			setSong(Mario);
+			setSong("Mario.mus");
 			play();
 		}
 
