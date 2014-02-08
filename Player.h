@@ -95,11 +95,13 @@ task player() {
 	while(i < size) {
 		char data[64];
 		char * ptr = data;
-		while(i < size) {
+		int ii = 0;
+		while(ii < 64 && i < size) {
 			ReadByte(file, result, *ptr);
 			if(result != ioRsltSuccess || *ptr == '\n')
 				break;
 			i++;
+			ii++;
 			ptr++;
 		}
 
