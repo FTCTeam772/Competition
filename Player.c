@@ -12,10 +12,16 @@ string names[] = { "Still Alive", "Super Mario Bros." };
 
 task main() {
 	display = true;
+
+	TFileHandle file;
+	TFileIOResult result;
+	char * filename;
+	int size;
+
 	nxtDisplayCenteredTextLine(3, "Playing:");
 	nxtDisplayCenteredTextLine(4, names[0]);
 	setSong(songs[0]);
-	wait10Msec(200);
+	wait10Msec(150);
 	play();
-	while(playing);
+	while(playing && nNxtButtonPressed != 4);
 }
