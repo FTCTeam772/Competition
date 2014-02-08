@@ -15,6 +15,7 @@ task main() {
 	nxtDisplayCenteredTextLine(3, "Playing:");
 	nxtDisplayCenteredTextLine(4, names[0]);
 	setSong(songs[0]);
+	wait10Msec(200);
 	play();
 	while(playing);
 }

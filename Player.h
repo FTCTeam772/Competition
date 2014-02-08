@@ -27,6 +27,7 @@ void tone(unsigned short frequency, unsigned short duration) {
 }
 
 void wait(unsigned short cs) {
+	while(paused);
 	wait10Msec(cs * 100 / speed);
 }
 
@@ -53,23 +54,6 @@ void clear() {
 
 task control() {
 	while(true) {
-		nxtDisplayTextLine(7, "[]speed: %d ", speed);
-
-		while(nNxtButtonPressed != 3) {
-			wait10Msec(20);
-
-			if(nNxtButtonPressed == 2 && speed > 10) {
-				speed -= 10;
-				nxtDisplayTextLine(7, "[]speed: %d ", speed);
-			}
-
-			if(nNxtButtonPressed == 1 && speed < 200) {
-				speed += 10;
-				nxtDisplayTextLine(7, "[]speed: %d ", speed);
-			}
-		}
-		while(nNxtButtonPressed == 3);
-
 		nxtDisplayTextLine(7, "[]volume: %d  ", nVolume);
 
 		while(nNxtButtonPressed != 3) {
@@ -86,6 +70,23 @@ task control() {
 			}
 		}
 		while(nNxtButtonPressed == 3);
+
+		nxtDisplayTextLine(7, "[]speed: %d ", speed);
+
+		while(nNxtButtonPressed != 3) {
+			wait10Msec(20);
+
+			if(nNxtButtonPressed == 2 && speed > 10) {
+				speed -= 10;
+				nxtDisplayTextLine(7, "[]speed: %d ", speed);
+			}
+
+			if(nNxtButtonPressed == 1 && speed < 200) {
+				speed += 10;
+				nxtDisplayTextLine(7, "[]speed: %d ", speed);
+			}
+		}
+		while(nNxtButtonPressed == 3);
 	}
 }
 
@@ -94,19 +95,20 @@ task player() {
 	while(i < size) {
 		char data[64];
 		char * ptr = data;
-		do {
+		while(i < size) {
 			ReadByte(file, result, *ptr);
+			if(result != ioRsltSuccess || *ptr == '\n')
+				break;
 			i++;
 			ptr++;
 		}
-		while(result == ioRsltSuccess && *ptr != '\n');
 
 		if(data[0] == '#')
 			continue;
 
 		char cmd[64];
 		char param[64];
-		sscanf(data, "%s %s\n", cmd, param);
+		sscanf(data, "%s %[^\n]", cmd, param);
 
 		if(strcmp(cmd, "tone") == 0) {
 			int freq, time;
@@ -121,7 +123,7 @@ task player() {
 		else if(strcmp(cmd, "write") == 0) {
 			int line;
 			char str[64];
-			sscanf(param, "%hd \"%s\"", &line, str);
+			sscanf(param, "%hd \"%[^\"]", &line, str);
 			write(line, str);
 		}
 		else if(strcmp(cmd, "clear") == 0) {
