@@ -1,9 +1,11 @@
 #pragma config(Hubs,  S1, HTMotor,  HTMotor,  none,     none)
 #pragma config(Hubs,  S2, HTMotor,  HTMotor,  none,     none)
+#pragma config(Sensor, S1,     ,               sensorI2CMuxController)
+#pragma config(Sensor, S2,     ,               sensorI2CMuxController)
 #pragma config(Sensor, S3,     IR,             sensorHiTechnicIRSeeker1200)
 #pragma config(Motor,  motorA,          RightHand,     tmotorNXT, PIDControl, reversed, encoder)
 #pragma config(Motor,  motorB,          LeftHand,      tmotorNXT, PIDControl, reversed, encoder)
-#pragma config(Motor,  motorC,           ,             tmotorNXT, openLoop)
+#pragma config(Motor,  motorC,          Flag,          tmotorNXT, PIDControl, encoder)
 #pragma config(Motor,  mtr_S1_C1_1,     FrontLeft,     tmotorTetrix, PIDControl, encoder)
 #pragma config(Motor,  mtr_S1_C1_2,     FrontRight,    tmotorTetrix, PIDControl, encoder)
 #pragma config(Motor,  mtr_S1_C2_1,     BackLeft,      tmotorTetrix, PIDControl, encoder)
@@ -24,11 +26,7 @@
 
 task main() {
 	//Initialize
-	motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor[BackRight] = motor[LeftArmShoulder] = motor[LeftArmElbow] = motor[RightArmShoulder] = motor[RightArmElbow] = motor[LeftHand] = motor[RightHand] = 0; //Turn off the motors
-	nMotorEncoder[FrontLeft] = nMotorEncoder[FrontRight] = nMotorEncoder[BackLeft] = nMotorEncoder[BackRight] = nMotorEncoder[LeftArmShoulder] = nMotorEncoder[LeftArmElbow] = nMotorEncoder[RightArmShoulder] = nMotorEncoder[RightArmElbow] = nMotorEncoder[LeftHand] = nMotorEncoder[RightHand] = 0; // Might as well reset the encoders too
-
-	//Display the robot's name
-	nxtDisplayCenteredTextLine(0, "Codex 3.14");
+	initialize();
 
 	//Go time!
 	waitForStart();

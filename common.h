@@ -1,3 +1,12 @@
+void initialize() {
+	//Initialize motors and encoders
+	motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor[BackRight] = motor[LeftArmShoulder] = motor[LeftArmElbow] = motor[RightArmShoulder] = motor[RightArmElbow] = motor[LeftHand] = motor[RightHand] = motor[Flag] = 0; //Turn off the motors
+	nMotorEncoder[FrontLeft] = nMotorEncoder[FrontRight] = nMotorEncoder[BackLeft] = nMotorEncoder[BackRight] = nMotorEncoder[LeftArmShoulder] = nMotorEncoder[LeftArmElbow] = nMotorEncoder[RightArmShoulder] = nMotorEncoder[RightArmElbow] = nMotorEncoder[LeftHand] = nMotorEncoder[RightHand] = nMotorEncoder[Flag] = 0; //Might as well reset the encoders too
+
+	//Display the robot's name
+	nxtDisplayCenteredTextLine(0, "Codex 3.14159");
+}
+
 float targetMotorSpeed(int target, int current) {
 #ifdef NONLINEARTARGET
 	if(abs(current - target) > 400)
