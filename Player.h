@@ -18,6 +18,7 @@ unsigned short speed = 100; //Song speed
 TFileHandle file; //Song file
 TFileIOResult result; //IO result
 int size; //File size
+int fileptr; //Current byte in file
 
 //Song functions
 
@@ -50,7 +51,7 @@ void clear() {
 	nxtDisplayTextLine(6, "                ");
 }
 
-//Control functions
+//Miscellaneous functions
 
 task control() {
 	while(true) {
@@ -90,32 +91,38 @@ task control() {
 	}
 }
 
-task player() {
-	int i = 0; //Current byte in file
-	while(i < size) { //Go until end of file
-		char data[64]; //Line buffer
-		char * ptr = data; //Current character pointer
-		int ii = 0; //Overflow checking
-		while(ii < 64 && i < size) { //While we are not at the end of the file and not overflowing
-			ReadByte(file, result, *ptr); //Read a byte to the current character pointer
-			if(result != ioRsltSuccess || *ptr == '\n') //And if we hit a newline, parse
-				break;
-			i++; //Increase the current byte number
-			ii++;
+void getLine(char * buffer, int buffer_size) {
+	char * ptr = buffer; //Current character pointer
+	int i = 0; //Overflow checking
+	while(fileptr < size) { //While we are not at the end of the file
+		ReadByte(file, result, *ptr); //Read a byte to the current character pointer
+		if(result != ioRsltSuccess || *ptr == '\n') //And if we hit a newline, break
+			break;
+		fileptr++; //Increase the current byte number
+		if(i < buffer_size) { //If we haven't hit the buffer size, else just keep getting characters to make sure fileptr is at a newline
+			i++; //Increase buffer byte number
 			ptr++; //And increase the pointer
 		}
+	}
+}
 
-		if(data[0] == '#') //Skip the whole line if it is a comment
+task player() {
+	while(fileptr < size) { //Go until end of file
+		char line[64]; //Line buffer
+		getLine(line, 64);
+
+		if(line[0] == '#' || line[0] == '\0') //Skip the whole line if it is a comment or empty
 			continue;
 
 		char cmd[64]; //Music command
 		char param[64]; //Command parameters
-		sscanf(data, "%s %[^\n]", cmd, param);
+		sscanf(line, "%s %[^\n]", cmd, param); //Scan for a command then parameters to the end of the string
 
 		if(strcmp(cmd, "tone") == 0) { //Play a tone and wait for it to finish
 			int freq, time;
 			sscanf(param, "%hd %hd", &freq, &time); //Get the frequency and the time to play it
 			tone(freq, time);
+			//wait(time);
 		}
 		else if(strcmp(cmd, "wait") == 0) { //Rest for a time
 			int time;
@@ -136,6 +143,8 @@ task player() {
 	stop(); //Stop the song after it is done
 }
 
+//Control functions
+
 void play() {
 	if(song == NULL) //Make sure a song is selected
 		return;
@@ -144,14 +153,23 @@ void play() {
 		stop();
 
 	OpenRead(file, result, song, size); //Open it for reading
+	fileptr = 0;
 
 	if(result != ioRsltSuccess) //And make sure it opens
 		return;
 
+	char name[24]; //Get the song title
+	getLine(name, 24);
+	sscanf(name, "%[^\n]", name); //Get rid of the newline
+
 	playing = true; //Start playing
 
-	if(display) //And show controls if using the display
+	if(display) { //And if using the display, clear it, display controls, and display the song name
+		clear();
 		StartTask(control);
+		nxtDisplayCenteredTextLine(3, "Playing:");
+		nxtDisplayCenteredTextLine(4, name);
+	}
 
 	StartTask(player); //Start the parser
 }
@@ -169,12 +187,13 @@ void stop() {
 
 	playing = false; //Stop playing
 
+	StopTask(player); //Stop the parser
+
 	if(display) { //And remove controls and clear screen if done
 		StopTask(control);
+		wait10Msec(20);
 		clear();
 	}
-
-	StopTask(player); //Stop the parser
 
 	Close(file, result); //And close the file
 }
