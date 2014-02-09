@@ -119,7 +119,7 @@ task player() {
 		sscanf(line, "%s %[^\n]", cmd, param); //Scan for a command then parameters to the end of the string
 
 		if(strcmp(cmd, "tone") == 0) { //Play a tone and wait for it to finish
-			int freq, hold, time;
+			int freq, hold, time = 0; //time = 0 for backwards compatibility with songs that do not have it
 			sscanf(param, "%hd %hd %hd", &freq, &hold, &time); //Get the frequency and the time to play it out of a total wait time
 			tone(freq, hold);
 			wait(time);
