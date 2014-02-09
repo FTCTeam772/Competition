@@ -119,10 +119,10 @@ task player() {
 		sscanf(line, "%s %[^\n]", cmd, param); //Scan for a command then parameters to the end of the string
 
 		if(strcmp(cmd, "tone") == 0) { //Play a tone and wait for it to finish
-			int freq, time;
-			sscanf(param, "%hd %hd", &freq, &time); //Get the frequency and the time to play it
-			tone(freq, time);
-			//wait(time);
+			int freq, hold, time;
+			sscanf(param, "%hd %hd %hd", &freq, &hold, &time); //Get the frequency and the time to play it out of a total wait time
+			tone(freq, hold);
+			wait(time);
 		}
 		else if(strcmp(cmd, "wait") == 0) { //Rest for a time
 			int time;

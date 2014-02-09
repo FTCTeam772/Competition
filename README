@@ -22,24 +22,16 @@ Test song
 #These are comments
 #Composer: Foster McLane
 
-#Play a C
-tone 262 24
-#Give a small break between notes
-wait 4
+#Play a C for 20 out of 24 centiseconds
+tone 262 20 24
 #Play a E
-tone 330 24
-wait 4
+tone 330 20 24
 #Play a G
-tone 392 24
-wait 4
+tone 392 20 24
 #Play a high C
-tone 523 24
-wait 4
+tone 523 20 24
 #Go back down
-tone 392 24
-wait 4
-tone 330 24
-wait 4
-tone 262 24
-wait 4
+tone 392 20 24
+tone 330 20 24
+tone 262 20 24
 ```
