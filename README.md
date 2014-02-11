@@ -2,17 +2,17 @@ This repository contains all RobotC files used by Team 772 for the FIRST Tech Ch
 
 Competition Files
 -----------------
-Auto.c: Autonomous mode program
-TeleOp.c: Tele-Operated mode program containing main drive and arm control functions
-common.h: Various functions useful between Auto.c and TeleOp.c
-constants.h: Constants to calibrate the programs to the robot and the field
+- Auto.c: Autonomous mode program
+- TeleOp.c: Tele-Operated mode program containing main drive and arm control functions
+- common.h: Various functions useful between Auto.c and TeleOp.c
+- constants.h: Constants to calibrate the programs to the robot and the field
 
 Music Files
 -----------
-Player.c: Song selector and player with speed and volume controls
-Player.h: Song player library that can be used in other programs
-StillAlive.mus: This was a triumph...
-Mario.mus: Super Mario Bros. theme song
+- Player.c: Song selector and player with speed and volume controls
+- Player.h: Song player library that can be used in other programs
+- StillAlive.mus: This was a triumph...
+- Mario.mus: Super Mario Bros. theme song
 
 ### Music File Format ###
 Music files are in a relatively simple format with both a tone and lyric engine. They use the .mus extension on the NXT and can be played by the Player program. The basic structure of a .mus file is as the following:
