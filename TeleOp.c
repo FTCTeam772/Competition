@@ -5,7 +5,7 @@
 #pragma config(Sensor, S3,     IR,             sensorHiTechnicIRSeeker1200)
 #pragma config(Motor,  motorA,          RightHand,     tmotorNXT, PIDControl, reversed, encoder)
 #pragma config(Motor,  motorB,          LeftHand,      tmotorNXT, PIDControl, reversed, encoder)
-#pragma config(Motor,  motorC,          Flag,          tmotorNXT, PIDControl, encoder)
+#pragma config(Motor,  motorC,          Flag,          tmotorNXT, openLoop, encoder)
 #pragma config(Motor,  mtr_S1_C1_1,     FrontLeft,     tmotorTetrix, PIDControl, encoder)
 #pragma config(Motor,  mtr_S1_C1_2,     FrontRight,    tmotorTetrix, PIDControl, encoder)
 #pragma config(Motor,  mtr_S1_C2_1,     BackLeft,      tmotorTetrix, PIDControl, encoder)
@@ -211,9 +211,35 @@ task main() {
 		else
 			reversed = false;
 
-		if(joy1Btn(9)) { //If the driver is pressing button 9, play Super Mario theme song
-			setSong("Mario.mus");
-			play();
+		if(joy1Btn(2)) //If the driver is pressing button 2, run the flag turner
+			motor[Flag] = 100;
+		else
+			motor[Flag] = 0;
+
+		switch(joystick.joy1_TopHat) {
+			case 0:
+				setSong("CastleComplete.mus");
+				break;
+			case 2:
+				setSong("ImperialMarch.mus");
+				break;
+			case 4:
+				setSong("Womp.mus");
+				break;
+			case 6:
+				setSong("Mario.mus");
+				break;
+		}
+
+		if(joy1Btn(9)) { //If the driver is pressing button 9, play Still Alive
+			if(!playing)
+				play();
+			else
+				pause();
+		}
+
+		if(joy1Btn(10)) { //If the driver is pressing button 9, stop song
+			stop();
 		}
 
 		//Joystick 2 - Operator
