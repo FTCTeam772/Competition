@@ -24,7 +24,7 @@
 //Useful functions
 #include "common.h"
 
-//Super Mario!
+//Music player
 #include "Player.h"
 
 //Initialize our globals

@@ -24,12 +24,19 @@
 //Useful functions
 #include "common.h"
 
+//Music player
+#include "Player.h"
+
 task main() {
 	//Initialize
 	initialize();
 
 	//Go time!
 	waitForStart();
+
+	//Play the Imperial March
+	setSong("Mario.mus");
+	play();
 
 #if AUTO_PROGRAM == 0 || AUTO_PROGRAM == 2
 	//Go forward until the IR beacon is found
