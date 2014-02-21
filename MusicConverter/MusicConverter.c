@@ -61,7 +61,7 @@ int main(int argc, char * argv[]) {
 
 		char cmd[64];
 		char param[64];
-		int number = sscanf(line, "%s %[^\n]", cmd, param);
+		sscanf(line, "%s %[^\n]", cmd, param);
 
 		if(strcmp(cmd, "note") == 0) {
 			char note[3];
