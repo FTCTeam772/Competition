@@ -15,7 +15,7 @@ Music Files
 - Mario.mus: Super Mario Bros. theme song
 
 ### Music File Format ###
-Music files are in a relatively simple format with both a tone and lyric engine. They use the .mus extension on the NXT and can be played by the Player program. The basic structure of a .mus file is as the following:
+Music files are in a relatively simple format with both a tone and lyric engine. They use the .nms extension on the NXT and can be played by the Player program. The basic structure of a .nms file is as the following:
 ```
 Test song
 #That is the name of the song

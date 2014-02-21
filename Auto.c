@@ -35,7 +35,7 @@ task main() {
 	waitForStart();
 
 	//Play the Imperial March
-	setSong("Mario.mus");
+	setSong("ImperialMarch.nms");
 	play();
 
 #if AUTO_PROGRAM == 0 || AUTO_PROGRAM == 2

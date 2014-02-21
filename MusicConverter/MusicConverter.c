@@ -59,15 +59,18 @@ int main(int argc, char * argv[]) {
 			continue;
 		}
 
-		int n;
+		char cmd[64];
+		char param[64];
+		int number = sscanf(line, "%s %[^\n]", cmd, param);
 
-		char note[3];
-		int octave;
-		float value;
-		char option[10] = {};
-		n = sscanf(line, "note %2[ABCDEFG#bn]%d %f %9s", note, &octave, &value, option);
-		if(n > 0) {
-			if(n < 3) {
+		if(strcmp(cmd, "note") == 0) {
+			char note[3];
+			int octave;
+			float value;
+			char option[10];
+			int n = sscanf(param, "%2[ABCDEFG#bn]%d %f %9s", note, &octave, &value, option);
+
+			if(n != 3 && n != 4) {
 				fprintf(stderr, "Warning: Incorrect note syntax \"%s\"\n", line);
 
 				continue;
@@ -171,7 +174,7 @@ int main(int argc, char * argv[]) {
 			int wait = value * cs;
 
 			int time;
-			if(strlen(option) > 0) {
+			if(n == 4) {
 				if(strcmp(option, "legato") == 0)
 					time = wait;
 				else if(strcmp(option, "staccato") == 0)
@@ -184,20 +187,44 @@ int main(int argc, char * argv[]) {
 			}
 
 			fprintf(out, "tone %d %d %d\n", (int)round(freqs[freq_index] * pow(2, octave - 4)), time, wait);
-
-			continue;
 		}
+		else if(strcmp(cmd, "rest") == 0) {
+			float value;
+			int n = sscanf(param, "%f", &value);
 
-		n = sscanf(line, "rest %f", &value);
-		if(n > 0) {
+			if(n != 1) {
+				fprintf(stderr, "Warning: Incorrect rest syntax \"%s\"\n", line);
+
+				continue;
+			}
+
 			fprintf(out, "wait %d\n", (int)round(value * cs));
-
-			continue;
 		}
+		else if(strcmp(cmd, "write") == 0) {
+			char lyric[64];
+			int n = sscanf(param, "\"%[^\"]", lyric);
 
-		char key[3];
-		n = sscanf(line, "keysig %2[ABCDEFG#b]", key);
-		if(n > 0) {
+			if(n != 1) {
+				fprintf(stderr, "Warning: Incorrect lyric syntax \"%s\"\n", line);
+
+				continue;
+			}
+
+			fprintf(out, "write \"%s\"\n", lyric);
+		}
+		else if(strcmp(cmd, "clear") == 0) {
+			fprintf(out, "clear\n");
+		}
+		else if(strcmp(cmd, "keysig") == 0) {
+			char key[3];
+			int n = sscanf(param, "%2[ABCDEFG#b]", key);
+
+			if(n != 1) {
+				fprintf(stderr, "Warning: Incorrect key signature syntax \"%s\"\n", line);
+
+				continue;
+			}
+
 			if(strcmp(key, "C") == 0)
 				keysig = 0;
 			else if(strcmp(key, "G") == 0)
@@ -228,19 +255,22 @@ int main(int argc, char * argv[]) {
 				keysig = -6;
 			else if(strcmp(key, "Cb") == 0)
 				keysig = -7;
-
-			continue;
 		}
+		else if(strcmp(cmd, "tempo") == 0) {
+			int bpm;
+			int n = sscanf(param, "%d", &bpm);
 
-		int bpm;
-		n = sscanf(line, "tempo %d", &bpm);
-		if(n > 0) {
+			if(n != 1) {
+				fprintf(stderr, "Warning: Incorrect tempo syntax \"%s\"\n", line);
+
+				continue;
+			}
+
 			cs = 6000 / bpm;
-
-			continue;
 		}
-
-		fprintf(stderr, "Warning: Unrecognized command \"%s\"\n", line);
+		else {
+			fprintf(stderr, "Warning: Unrecognized command \"%s\"\n", line);
+		}
 	}
 
 	fclose(out);

@@ -218,16 +218,16 @@ task main() {
 
 		switch(joystick.joy1_TopHat) {
 			case 0:
-				setSong("CastleComplete.mus");
+				setSong("CastleComplete.nms");
 				break;
 			case 2:
-				setSong("ImperialMarch.mus");
+				setSong("ImperialMarch.nms");
 				break;
 			case 4:
-				setSong("Womp.mus");
+				setSong("Womp.nms");
 				break;
 			case 6:
-				setSong("Mario.mus");
+				setSong("Mario.nms");
 				break;
 		}
 

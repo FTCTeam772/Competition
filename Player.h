@@ -121,7 +121,7 @@ task player() {
 
 		char cmd[64]; //Music command
 		char param[64]; //Command parameters
-		sscanf(line, "%s %[^\0]", cmd, param); //Scan for a command then parameters to the end of the string
+		sscanf(line, "%s %[^\n]", cmd, param); //Scan for a command then parameters to the end of the string
 
 		if(strcmp(cmd, "tone") == 0) { //Play a tone and wait for it to finish
 			int freq, hold, time = 0; //time = 0 for backwards compatibility with songs that do not have it
