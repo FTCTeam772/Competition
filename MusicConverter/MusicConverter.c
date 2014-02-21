@@ -7,6 +7,7 @@ float freqs[] = { 261.63, 277.18, 293.66, 311.13, 329.63, 349.23, 369.99, 392.00
 void getLine(FILE * file, char * buffer, int size) {
 	int i = 0;
 	char c = fgetc(file);
+
 	while(c != '\n' && c != EOF) {
 		if(i < size) {
 			buffer[i] = c;
@@ -45,8 +46,8 @@ int main(int argc, char * argv[]) {
 	float cs = 50;
 	int keysig = 0;
 
-	char name[64];
-	getLine(in, name, 63);
+	char name[24];
+	getLine(in, name, 23);
 	fprintf(out, "%s\n", name);
 
 	while(!feof(in)) {

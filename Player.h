@@ -91,32 +91,37 @@ task control() {
 	}
 }
 
-void getLine(char * buffer, int buffer_size) {
-	char * ptr = buffer; //Current character pointer
+void getLine(char * buffer, int size) {
 	int i = 0; //Overflow checking
+	char c; //Read character
+
 	while(fileptr < size) { //While we are not at the end of the file
-		ReadByte(file, result, *ptr); //Read a byte to the current character pointer
-		if(result != ioRsltSuccess || *ptr == '\n') //And if we hit a newline, break
+		ReadByte(file, result, c); //Read a byte
+		if(result != ioRsltSuccess || c == '\n') //And if we hit a newline, break
 			break;
-		fileptr++; //Increase the current byte number
-		if(i < buffer_size) { //If we haven't hit the buffer size, else just keep getting characters to make sure fileptr is at a newline
+
+		if(i < size) { //If we haven't hit the buffer size, add the character and keep going; if buffer filled, keep going so fileptr is always at a newline
+			buffer[i] = c;
 			i++; //Increase buffer byte number
-			ptr++; //And increase the pointer
 		}
+
+		fileptr++; //Increase the current byte number
 	}
+
+	buffer[i] = '\0';
 }
 
 task player() {
 	while(fileptr < size) { //Go until end of file
 		char line[64]; //Line buffer
-		getLine(line, 64);
+		getLine(line, 63);
 
 		if(line[0] == '#' || line[0] == '\0') //Skip the whole line if it is a comment or empty
 			continue;
 
 		char cmd[64]; //Music command
 		char param[64]; //Command parameters
-		sscanf(line, "%s %[^\n]", cmd, param); //Scan for a command then parameters to the end of the string
+		sscanf(line, "%s %[^\0]", cmd, param); //Scan for a command then parameters to the end of the string
 
 		if(strcmp(cmd, "tone") == 0) { //Play a tone and wait for it to finish
 			int freq, hold, time = 0; //time = 0 for backwards compatibility with songs that do not have it
@@ -159,8 +164,7 @@ void play() {
 		return;
 
 	char name[24]; //Get the song title
-	getLine(name, 24);
-	sscanf(name, "%[^\n]", name); //Get rid of the newline
+	getLine(name, 23);
 
 	playing = true; //Start playing
 
