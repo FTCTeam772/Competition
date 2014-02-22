@@ -156,6 +156,10 @@ int main(int argc, char * argv[]) {
 					}
 
 					break;
+				default:
+					fprintf(stderr, "Warning: Unknown note \"%s\"\n", note);
+
+					continue;
 			}
 
 			if(note[1] != '\0') {
@@ -168,6 +172,10 @@ int main(int argc, char * argv[]) {
 					case 'b':
 						freq_index--;
 						break;
+					default:
+						fprintf(stderr, "Warning: Unknown note accidental \"%s\"\n", note);
+
+						continue;
 				}
 			}
 
@@ -179,8 +187,11 @@ int main(int argc, char * argv[]) {
 					time = wait;
 				else if(strcmp(option, "staccato") == 0)
 					time = wait * 2 / 3;
-				else
+				else {
 					fprintf(stderr, "Warning: Unknown note option \"%s\"\n", option);
+
+					continue;
+				}
 			}
 			else {
 				time = wait * 5 / 6;
@@ -255,6 +266,11 @@ int main(int argc, char * argv[]) {
 				keysig = -6;
 			else if(strcmp(key, "Cb") == 0)
 				keysig = -7;
+			else {
+				fprintf(stderr, "Warning: Unknown key signature \"%s\"\n", key);
+
+				continue;
+			}
 		}
 		else if(strcmp(cmd, "tempo") == 0) {
 			int bpm;
