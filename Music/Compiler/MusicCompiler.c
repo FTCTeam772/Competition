@@ -20,6 +20,21 @@ void getLine(FILE * file, char * buffer, int size) {
 	buffer[i] = '\0';
 }
 
+int paramCount(const char * str) {
+	int count = 0;
+
+	while(*str != '\0') {
+		if(*str == ' ')
+			count++;
+		else if(*str == '"')
+			while(*(++str) != '"');
+
+		str++;
+	}
+
+	return count;
+}
+
 int main(int argc, char * argv[]) {
 	if(argc < 3) {
 		fprintf(stderr, "Usage:\t%s <input.mus> <output.nms>\n", argv[0]);
@@ -61,9 +76,18 @@ int main(int argc, char * argv[]) {
 
 		char cmd[64];
 		char param[64];
+		param[0] = '\0';
 		sscanf(line, "%s %[^\n]", cmd, param);
 
+		int paramc = paramCount(line);
+
 		if(strcmp(cmd, "note") == 0) {
+			if(paramc != 2 && paramc != 3) {
+				fprintf(stderr, "Warning: Wrong number of note parameters \"%s\"\n", line);
+
+				continue;
+			}
+
 			char note[3];
 			int octave;
 			float value;
@@ -200,6 +224,12 @@ int main(int argc, char * argv[]) {
 			fprintf(out, "tone %d %d %d\n", (int)round(freqs[freq_index] * pow(2, octave - 4)), time, wait);
 		}
 		else if(strcmp(cmd, "rest") == 0) {
+			if(paramc != 1) {
+				fprintf(stderr, "Warning: Wrong number of rest parameters \"%s\"\n", line);
+
+				continue;
+			}
+
 			float value;
 			int n = sscanf(param, "%f", &value);
 
@@ -212,6 +242,12 @@ int main(int argc, char * argv[]) {
 			fprintf(out, "wait %d\n", (int)round(value * cs));
 		}
 		else if(strcmp(cmd, "write") == 0) {
+			if(paramc != 1) {
+				fprintf(stderr, "Warning: Wrong number of write parameters \"%s\"\n", line);
+
+				continue;
+			}
+
 			char lyric[64];
 			int n = sscanf(param, "\"%[^\"]", lyric);
 
@@ -224,9 +260,21 @@ int main(int argc, char * argv[]) {
 			fprintf(out, "write \"%s\"\n", lyric);
 		}
 		else if(strcmp(cmd, "clear") == 0) {
+			if(paramc != 0) {
+				fprintf(stderr, "Warning: Wrong number of clear parameters \"%s\"\n", line);
+
+				continue;
+			}
+
 			fprintf(out, "clear\n");
 		}
 		else if(strcmp(cmd, "keysig") == 0) {
+			if(paramc != 1) {
+				fprintf(stderr, "Warning: Wrong number of key signature parameters \"%s\"\n", line);
+
+				continue;
+			}
+
 			char key[3];
 			int n = sscanf(param, "%2[ABCDEFG#b]", key);
 
@@ -273,6 +321,12 @@ int main(int argc, char * argv[]) {
 			}
 		}
 		else if(strcmp(cmd, "tempo") == 0) {
+			if(paramc != 1) {
+				fprintf(stderr, "Warning: Wrong number of tempo parameters \"%s\"\n", line);
+
+				continue;
+			}
+
 			int bpm;
 			int n = sscanf(param, "%d", &bpm);
 
