@@ -1,8 +1,8 @@
 /* Music Player
  *
  * Controls:
- * Orange []: Switch between showing and setting volume and speed
- * < and >: Change value
+ * Orange []: Choose song / Switch between showing and setting volume and speed
+ * < and >: Change song / Change value
  */
 
 #include "Player.h"
