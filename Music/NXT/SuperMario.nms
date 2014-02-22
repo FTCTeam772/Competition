@@ -226,17 +226,6 @@ tone 587 12 15
 tone 494 12 15
 wait 30
 
-tone 659 12 15
-tone 659 20 30
-tone 659 12 15
-wait 15
-tone 523 12 15
-tone 659 20 30
-tone 784 20 30
-wait 30
-tone 392 20 30
-wait 30
-
 tone 523 30 45
 tone 392 12 15
 wait 30
