@@ -1,0 +1,457 @@
+Super Mario Theme
+#Composer: Koji Kondo
+keysig C
+tempo 200
+
+note E5 0.5
+note E5 1 staccato
+note E5 0.5
+rest 0.5
+note C5 0.5
+note E5 1 staccato
+note G5 1 staccato
+rest 1
+note G4 1 staccato
+rest 1
+
+note C5 1.5 staccato
+note G4 0.5
+rest 1
+note E4 1 staccato
+rest 0.5
+note A4 1 staccato
+note B4 0.5
+rest 0.5
+note Bb4 0.5
+note A4 1 staccato
+
+note G4 0.667
+note E5 0.667
+note G5 0.666
+note A5 1 staccato
+note F5 0.5
+note G5 0.5
+rest 0.5
+note E5 1 staccato
+note C5 0.5
+note D5 0.5
+note B4 0.5
+rest 1
+
+note E5 0.5
+note E5 1 staccato
+note E5 0.5
+rest 0.5
+note C5 0.5
+note E5 1 staccato
+note G5 1 staccato
+rest 1
+note G4 1 staccato
+rest 1
+
+note C5 1.5 staccato
+note G4 0.5
+rest 1
+note E4 1 staccato
+rest 0.5
+note A4 1 staccato
+note B4 0.5
+rest 0.5
+note Bb4 0.5
+note A4 1 staccato
+
+note G4 0.667
+note E5 0.667
+note G5 0.666
+note A5 1 staccato
+note F5 0.5
+note G5 0.5
+rest 0.5
+note E5 1 staccato
+note C5 0.5
+note D5 0.5
+note B4 0.5
+rest 1
+
+rest 1
+note G5 0.5
+note F#5 0.5
+note F5 0.5
+note Eb5 1 staccato
+note E5 0.5
+rest 0.5
+note Ab4 0.5
+note A4 0.5
+note C5 0.5
+rest 0.5
+note A4 0.5
+note C5 0.5
+note D5 0.5
+
+rest 1
+note G5 0.5
+note F#5 0.5
+note F5 0.5
+note Eb5 1 staccato
+note E5 0.5
+rest 0.5
+note C6 1 staccato
+note C6 0.5
+note C6 1 staccato
+rest 1
+
+rest 1
+note G5 0.5
+note F#5 0.5
+note F5 0.5
+note Eb5 1 staccato
+note E5 0.5
+rest 0.5
+note Ab4 0.5
+note A4 0.5
+note C5 0.5
+rest 0.5
+note A4 0.5
+note C5 0.5
+note D5 0.5
+
+rest 1
+note Eb5 1 staccato
+rest 0.5
+note D5 1.5 staccato
+note C5 1 staccato
+rest 3
+
+rest 1
+note G5 0.5
+note F#5 0.5
+note F5 0.5
+note Eb5 1 staccato
+note E5 0.5
+rest 0.5
+note Ab4 0.5
+note A4 0.5
+note C5 0.5
+rest 0.5
+note A4 0.5
+note C5 0.5
+note D5 0.5
+
+rest 1
+note G5 0.5
+note F#5 0.5
+note F5 0.5
+note Eb5 1 staccato
+note E5 0.5
+rest 0.5
+note C6 1 staccato
+note C6 0.5
+note C6 1 staccato
+rest 1
+
+rest 1
+note G5 0.5
+note F#5 0.5
+note F5 0.5
+note Eb5 1 staccato
+note E5 0.5
+rest 0.5
+note Ab4 0.5
+note A4 0.5
+note C5 0.5
+rest 0.5
+note A4 0.5
+note C5 0.5
+note D5 0.5
+
+rest 1
+note Eb5 1 staccato
+rest 0.5
+note D5 1.5 staccato
+note C5 1 staccato
+rest 3
+
+note C5 0.5
+note C5 1 staccato
+note C5 0.5
+rest 0.5
+note C5 0.5
+note D5 1 staccato
+note E5 0.5
+note C5 1 staccato
+note A4 0.5
+note G4 1 staccato
+rest 1
+
+note C5 0.5
+note C5 1 staccato
+note C5 0.5
+rest 0.5
+note C5 0.5
+note D5 0.5
+note E5 0.5
+rest 4
+
+note C5 0.5
+note C5 1 staccato
+note C5 0.5
+rest 0.5
+note C5 0.5
+note D5 1 staccato
+note E5 0.5
+note C5 1 staccato
+note A4 0.5
+note G4 1 staccato
+rest 1
+
+note E5 0.5
+note E5 1 staccato
+note E5 0.5
+rest 0.5
+note C5 0.5
+note E5 1 staccato
+note G5 1 staccato
+rest 1
+note G4 1 staccato
+rest 1
+
+note C5 1.5 staccato
+note G4 0.5
+rest 1
+note E4 1 staccato
+rest 0.5
+note A4 1 staccato
+note B4 0.5
+rest 0.5
+note Bb4 0.5
+note A4 1 staccato
+
+note G4 0.667
+note E5 0.667
+note G5 0.666
+note A5 1 staccato
+note F5 0.5
+note G5 0.5
+rest 0.5
+note E5 1 staccato
+note C5 0.5
+note D5 0.5
+note B4 0.5
+rest 1
+
+note E5 0.5
+note E5 1 staccato
+note E5 0.5
+rest 0.5
+note C5 0.5
+note E5 1 staccato
+note G5 1 staccato
+rest 1
+note G4 1 staccato
+rest 1
+
+note C5 1.5 staccato
+note G4 0.5
+rest 1
+note E4 1 staccato
+rest 0.5
+note A4 1 staccato
+note B4 0.5
+rest 0.5
+note Bb4 0.5
+note A4 1 staccato
+
+note G4 0.667
+note E5 0.667
+note G5 0.666
+note A5 1 staccato
+note F5 0.5
+note G5 0.5
+rest 0.5
+note E5 1 staccato
+note C5 0.5
+note D5 0.5
+note B4 0.5
+rest 1
+
+note E5 0.5
+note C5 1 staccato
+note G4 0.5
+rest 1
+note Ab4 1 staccato
+note A4 0.5
+note F5 1 staccato
+note F5 0.5
+note A4 1 staccato
+rest 1
+
+note B4 0.667
+note A5 0.667
+note A5 0.666
+note A5 0.667
+note G5 0.667
+note F5 0.666
+note E5 0.5
+note C5 1 staccato
+note A4 0.5
+note G4 1 staccato
+rest 1
+
+note E5 0.5
+note C5 1 staccato
+note G4 0.5
+rest 1
+note Ab4 1 staccato
+note A4 0.5
+note F5 1 staccato
+note F5 0.5
+note A4 1 staccato
+rest 1
+
+note B4 0.5
+note F5 1 staccato
+note F5 0.5
+note F5 0.667
+note E5 0.667
+note D5 0.666
+note C5 0.5
+note E4 1 staccato
+note E4 0.5
+note C4 1 staccato
+rest 1
+
+note E5 0.5
+note C5 1 staccato
+note G4 0.5
+rest 1
+note Ab4 1 staccato
+note A4 0.5
+note F5 1 staccato
+note F5 0.5
+note A4 1 staccato
+rest 1
+
+note B4 0.667
+note A5 0.667
+note A5 0.666
+note A5 0.667
+note G5 0.667
+note F5 0.666
+note E5 0.5
+note C5 1 staccato
+note A4 0.5
+note G4 1 staccato
+rest 1
+
+note E5 0.5
+note C5 1 staccato
+note G4 0.5
+rest 1
+note Ab4 1 staccato
+note A4 0.5
+note F5 1 staccato
+note F5 0.5
+note A4 1 staccato
+rest 1
+
+note B4 0.5
+note F5 1 staccato
+note F5 0.5
+note F5 0.667
+note E5 0.667
+note D5 0.666
+note C5 0.5
+note E4 1 staccato
+note E4 0.5
+note C4 1 staccato
+rest 1
+
+note C5 0.5
+note C5 1 staccato
+note C5 0.5
+rest 0.5
+note C5 0.5
+note D5 1 staccato
+note E5 0.5
+note C5 1 staccato
+note A4 0.5
+note G4 1 staccato
+rest 1
+
+note C5 0.5
+note C5 1 staccato
+note C5 0.5
+rest 0.5
+note C5 0.5
+note D5 0.5
+note E5 0.5
+rest 4
+
+note C5 0.5
+note C5 1 staccato
+note C5 0.5
+rest 0.5
+note C5 0.5
+note D5 1 staccato
+note E5 0.5
+note C5 1 staccato
+note A4 0.5
+note G4 1 staccato
+rest 1
+
+note E5 0.5
+note E5 1 staccato
+note E5 0.5
+rest 0.5
+note C5 0.5
+note E5 1 staccato
+note G5 1 staccato
+rest 1
+note G4 1 staccato
+rest 1
+
+note E5 0.5
+note C5 1 staccato
+note G4 0.5
+rest 1
+note Ab4 1 staccato
+note A4 0.5
+note F5 1 staccato
+note F5 0.5
+note A4 1 staccato
+rest 1
+
+note B4 0.667
+note A5 0.667
+note A5 0.666
+note A5 0.667
+note G5 0.667
+note F5 0.666
+note E5 0.5
+note C5 1 staccato
+note A4 0.5
+note G4 1 staccato
+rest 1
+
+note E5 0.5
+note C5 1 staccato
+note G4 0.5
+rest 1
+note Ab4 1 staccato
+note A4 0.5
+note F5 1 staccato
+note F5 0.5
+note A4 1 staccato
+rest 1
+
+note B4 0.5
+note F5 1 staccato
+note F5 0.5
+note F5 0.667
+note E5 0.667
+note D5 0.666
+note C5 0.5
+note E4 1 staccato
+note E4 0.5
+note C4 1 staccato
+rest 1

@@ -1,0 +1,456 @@
+Super Mario Theme
+#Composer: Koji Kondo
+
+tone 659 12 15
+tone 659 20 30
+tone 659 12 15
+wait 15
+tone 523 12 15
+tone 659 20 30
+tone 784 20 30
+wait 30
+tone 392 20 30
+wait 30
+
+tone 523 30 45
+tone 392 12 15
+wait 30
+tone 330 20 30
+wait 15
+tone 440 20 30
+tone 494 12 15
+wait 15
+tone 466 12 15
+tone 440 20 30
+
+tone 392 16 20
+tone 659 16 20
+tone 784 15 19
+tone 880 20 30
+tone 698 12 15
+tone 784 12 15
+wait 15
+tone 659 20 30
+tone 523 12 15
+tone 587 12 15
+tone 494 12 15
+wait 30
+
+tone 659 12 15
+tone 659 20 30
+tone 659 12 15
+wait 15
+tone 523 12 15
+tone 659 20 30
+tone 784 20 30
+wait 30
+tone 392 20 30
+wait 30
+
+tone 523 30 45
+tone 392 12 15
+wait 30
+tone 330 20 30
+wait 15
+tone 440 20 30
+tone 494 12 15
+wait 15
+tone 466 12 15
+tone 440 20 30
+
+tone 392 16 20
+tone 659 16 20
+tone 784 15 19
+tone 880 20 30
+tone 698 12 15
+tone 784 12 15
+wait 15
+tone 659 20 30
+tone 523 12 15
+tone 587 12 15
+tone 494 12 15
+wait 30
+
+wait 30
+tone 784 12 15
+tone 740 12 15
+tone 698 12 15
+tone 622 20 30
+tone 659 12 15
+wait 15
+tone 415 12 15
+tone 440 12 15
+tone 523 12 15
+wait 15
+tone 440 12 15
+tone 523 12 15
+tone 587 12 15
+
+wait 30
+tone 784 12 15
+tone 740 12 15
+tone 698 12 15
+tone 622 20 30
+tone 659 12 15
+wait 15
+tone 1047 20 30
+tone 1047 12 15
+tone 1047 20 30
+wait 30
+
+wait 30
+tone 784 12 15
+tone 740 12 15
+tone 698 12 15
+tone 622 20 30
+tone 659 12 15
+wait 15
+tone 415 12 15
+tone 440 12 15
+tone 523 12 15
+wait 15
+tone 440 12 15
+tone 523 12 15
+tone 587 12 15
+
+wait 30
+tone 622 20 30
+wait 15
+tone 587 30 45
+tone 523 20 30
+wait 90
+
+wait 30
+tone 784 12 15
+tone 740 12 15
+tone 698 12 15
+tone 622 20 30
+tone 659 12 15
+wait 15
+tone 415 12 15
+tone 440 12 15
+tone 523 12 15
+wait 15
+tone 440 12 15
+tone 523 12 15
+tone 587 12 15
+
+wait 30
+tone 784 12 15
+tone 740 12 15
+tone 698 12 15
+tone 622 20 30
+tone 659 12 15
+wait 15
+tone 1047 20 30
+tone 1047 12 15
+tone 1047 20 30
+wait 30
+
+wait 30
+tone 784 12 15
+tone 740 12 15
+tone 698 12 15
+tone 622 20 30
+tone 659 12 15
+wait 15
+tone 415 12 15
+tone 440 12 15
+tone 523 12 15
+wait 15
+tone 440 12 15
+tone 523 12 15
+tone 587 12 15
+
+wait 30
+tone 622 20 30
+wait 15
+tone 587 30 45
+tone 523 20 30
+wait 90
+
+tone 523 12 15
+tone 523 20 30
+tone 523 12 15
+wait 15
+tone 523 12 15
+tone 587 20 30
+tone 659 12 15
+tone 523 20 30
+tone 440 12 15
+tone 392 20 30
+wait 30
+
+tone 523 12 15
+tone 523 20 30
+tone 523 12 15
+wait 15
+tone 523 12 15
+tone 587 12 15
+tone 659 12 15
+wait 120
+
+tone 523 12 15
+tone 523 20 30
+tone 523 12 15
+wait 15
+tone 523 12 15
+tone 587 20 30
+tone 659 12 15
+tone 523 20 30
+tone 440 12 15
+tone 392 20 30
+wait 30
+
+tone 659 12 15
+tone 659 20 30
+tone 659 12 15
+wait 15
+tone 523 12 15
+tone 659 20 30
+tone 784 20 30
+wait 30
+tone 392 20 30
+wait 30
+
+tone 523 30 45
+tone 392 12 15
+wait 30
+tone 330 20 30
+wait 15
+tone 440 20 30
+tone 494 12 15
+wait 15
+tone 466 12 15
+tone 440 20 30
+
+tone 392 16 20
+tone 659 16 20
+tone 784 15 19
+tone 880 20 30
+tone 698 12 15
+tone 784 12 15
+wait 15
+tone 659 20 30
+tone 523 12 15
+tone 587 12 15
+tone 494 12 15
+wait 30
+
+tone 659 12 15
+tone 659 20 30
+tone 659 12 15
+wait 15
+tone 523 12 15
+tone 659 20 30
+tone 784 20 30
+wait 30
+tone 392 20 30
+wait 30
+
+tone 523 30 45
+tone 392 12 15
+wait 30
+tone 330 20 30
+wait 15
+tone 440 20 30
+tone 494 12 15
+wait 15
+tone 466 12 15
+tone 440 20 30
+
+tone 392 16 20
+tone 659 16 20
+tone 784 15 19
+tone 880 20 30
+tone 698 12 15
+tone 784 12 15
+wait 15
+tone 659 20 30
+tone 523 12 15
+tone 587 12 15
+tone 494 12 15
+wait 30
+
+tone 659 12 15
+tone 523 20 30
+tone 392 12 15
+wait 30
+tone 415 20 30
+tone 440 12 15
+tone 698 20 30
+tone 698 12 15
+tone 440 20 30
+wait 30
+
+tone 494 16 20
+tone 880 16 20
+tone 880 15 19
+tone 880 16 20
+tone 784 16 20
+tone 698 15 19
+tone 659 12 15
+tone 523 20 30
+tone 440 12 15
+tone 392 20 30
+wait 30
+
+tone 659 12 15
+tone 523 20 30
+tone 392 12 15
+wait 30
+tone 415 20 30
+tone 440 12 15
+tone 698 20 30
+tone 698 12 15
+tone 440 20 30
+wait 30
+
+tone 494 12 15
+tone 698 20 30
+tone 698 12 15
+tone 698 16 20
+tone 659 16 20
+tone 587 15 19
+tone 523 12 15
+tone 330 20 30
+tone 330 12 15
+tone 262 20 30
+wait 30
+
+tone 659 12 15
+tone 523 20 30
+tone 392 12 15
+wait 30
+tone 415 20 30
+tone 440 12 15
+tone 698 20 30
+tone 698 12 15
+tone 440 20 30
+wait 30
+
+tone 494 16 20
+tone 880 16 20
+tone 880 15 19
+tone 880 16 20
+tone 784 16 20
+tone 698 15 19
+tone 659 12 15
+tone 523 20 30
+tone 440 12 15
+tone 392 20 30
+wait 30
+
+tone 659 12 15
+tone 523 20 30
+tone 392 12 15
+wait 30
+tone 415 20 30
+tone 440 12 15
+tone 698 20 30
+tone 698 12 15
+tone 440 20 30
+wait 30
+
+tone 494 12 15
+tone 698 20 30
+tone 698 12 15
+tone 698 16 20
+tone 659 16 20
+tone 587 15 19
+tone 523 12 15
+tone 330 20 30
+tone 330 12 15
+tone 262 20 30
+wait 30
+
+tone 523 12 15
+tone 523 20 30
+tone 523 12 15
+wait 15
+tone 523 12 15
+tone 587 20 30
+tone 659 12 15
+tone 523 20 30
+tone 440 12 15
+tone 392 20 30
+wait 30
+
+tone 523 12 15
+tone 523 20 30
+tone 523 12 15
+wait 15
+tone 523 12 15
+tone 587 12 15
+tone 659 12 15
+wait 120
+
+tone 523 12 15
+tone 523 20 30
+tone 523 12 15
+wait 15
+tone 523 12 15
+tone 587 20 30
+tone 659 12 15
+tone 523 20 30
+tone 440 12 15
+tone 392 20 30
+wait 30
+
+tone 659 12 15
+tone 659 20 30
+tone 659 12 15
+wait 15
+tone 523 12 15
+tone 659 20 30
+tone 784 20 30
+wait 30
+tone 392 20 30
+wait 30
+
+tone 659 12 15
+tone 523 20 30
+tone 392 12 15
+wait 30
+tone 415 20 30
+tone 440 12 15
+tone 698 20 30
+tone 698 12 15
+tone 440 20 30
+wait 30
+
+tone 494 16 20
+tone 880 16 20
+tone 880 15 19
+tone 880 16 20
+tone 784 16 20
+tone 698 15 19
+tone 659 12 15
+tone 523 20 30
+tone 440 12 15
+tone 392 20 30
+wait 30
+
+tone 659 12 15
+tone 523 20 30
+tone 392 12 15
+wait 30
+tone 415 20 30
+tone 440 12 15
+tone 698 20 30
+tone 698 12 15
+tone 440 20 30
+wait 30
+
+tone 494 12 15
+tone 698 20 30
+tone 698 12 15
+tone 698 16 20
+tone 659 16 20
+tone 587 15 19
+tone 523 12 15
+tone 330 20 30
+tone 330 12 15
+tone 262 20 30
+wait 30
+
