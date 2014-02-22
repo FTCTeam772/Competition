@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 
-float freqs[] = { 261.63, 277.18, 293.66, 311.13, 329.63, 349.23, 369.99, 392.00, 415.30, 440.00, 466.16, 493.88 };
+float freqs[] = { 246.94, 261.63, 277.18, 293.66, 311.13, 329.63, 349.23, 369.99, 392.00, 415.30, 440.00, 466.16, 493.88, 523.25 };
 
 void getLine(FILE * file, char * buffer, int size) {
 	int i = 0;
@@ -80,7 +80,7 @@ int main(int argc, char * argv[]) {
 
 			switch(note[0]) {
 				case 'C':
-					freq_index = 0;
+					freq_index = 1;
 
 					if(note[1] == '\0') {
 						if(keysig >= 2)
@@ -91,7 +91,7 @@ int main(int argc, char * argv[]) {
 
 					break;
 				case 'D':
-					freq_index = 2;
+					freq_index = 3;
 
 					if(note[1] == '\0') {
 						if(keysig >= 4)
@@ -102,7 +102,7 @@ int main(int argc, char * argv[]) {
 
 					break;
 				case 'E':
-					freq_index = 4;
+					freq_index = 5;
 
 					if(note[1] == '\0') {
 						if(keysig >= 6)
@@ -113,7 +113,7 @@ int main(int argc, char * argv[]) {
 
 					break;
 				case 'F':
-					freq_index = 5;
+					freq_index = 6;
 
 					if(note[1] == '\0') {
 						if(keysig >= 1)
@@ -124,7 +124,7 @@ int main(int argc, char * argv[]) {
 
 					break;
 				case 'G':
-					freq_index = 7;
+					freq_index = 8;
 
 					if(note[1] == '\0') {
 						if(keysig >= 3)
@@ -135,7 +135,7 @@ int main(int argc, char * argv[]) {
 
 					break;
 				case 'A':
-					freq_index = 9;
+					freq_index = 10;
 
 					if(note[1] == '\0') {
 						if(keysig >= 5)
@@ -146,7 +146,7 @@ int main(int argc, char * argv[]) {
 
 					break;
 				case 'B':
-					freq_index = 11;
+					freq_index = 12;
 
 					if(note[1] == '\0') {
 						if(keysig >= 7)
