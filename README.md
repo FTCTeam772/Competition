@@ -1,4 +1,8 @@
-This repository contains all RobotC files used by Team 772 for the FIRST Tech Challenge.  Below is a list of all of the files and their purposes.
+This repository contains all files used by Team 772 for the FIRST Tech Challenge. A majority of the files are RobotC source files, however there are other files as well for making music for the NXT.
+
+All code is open source under the MIT License, see `LICENSE` for details. All of the music is under copyright by its artist, simplified and reproduced here under fair use.
+
+Below is a list of all of the files and their purposes.
 
 Competition Files
 -----------------
