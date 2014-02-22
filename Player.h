@@ -92,29 +92,27 @@ task control() {
 }
 
 void getLine(char * buffer, int buffer_size) {
-	int i = 0; //Buffer count
+	char * buffer_end = buffer + buffer_size; //Overflow checking
 
 	while(fileptr < size) { //While we are not at the end of the file
-		char c;
-		ReadByte(file, result, c); //Read a byte
+		ReadByte(file, result, *buffer); //Read a byte
 		fileptr++; //Increase the read byte number for file
-		writeDebugStream("%c\n", c);
-		if(result != ioRsltSuccess || c == '\n') //And if we hit a newline, break
+		if(result != ioRsltSuccess || *buffer == '\n') //And if we hit a newline, break
 			break;
 
-		if(i < buffer_size) { //If we haven't hit the buffer size, add the character and keep going; if buffer filled, keep going so fileptr is always at a newline
-			buffer[i] = c;
-			i++; //Increase buffer byte number
+		if(buffer < buffer_end) { //If we haven't hit the buffer size, add the character and keep going; if buffer filled, keep going so fileptr is always at a newline
+			buffer++; //Increase buffer pointer
 		}
 	}
 
-	buffer[i] = '\0';
+	//*buffer = '\0';
 }
 
 task player() {
 	while(fileptr < size) { //Go until end of file
 		char line[64]; //Line buffer
 		getLine(line, 63);
+		writeDebugStreamLine(line);
 
 		if(line[0] == '#' || line[0] == '\0') //Skip the whole line if it is a comment or empty
 			continue;
@@ -122,6 +120,8 @@ task player() {
 		char cmd[64]; //Music command
 		char param[64]; //Command parameters
 		sscanf(line, "%s %[^\n]", cmd, param); //Scan for a command then parameters to the end of the string
+		writeDebugStreamLine(cmd);
+		writeDebugStreamLine(param);
 
 		if(strcmp(cmd, "tone") == 0) { //Play a tone and wait for it to finish
 			int freq, hold, time = 0; //time = 0 for backwards compatibility with songs that do not have it
