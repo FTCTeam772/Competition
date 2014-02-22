@@ -91,21 +91,21 @@ task control() {
 	}
 }
 
-void getLine(char * buffer, int size) {
-	int i = 0; //Overflow checking
-	char c; //Read character
+void getLine(char * buffer, int buffer_size) {
+	int i = 0; //Buffer count
 
 	while(fileptr < size) { //While we are not at the end of the file
+		char c;
 		ReadByte(file, result, c); //Read a byte
+		fileptr++; //Increase the read byte number for file
+		writeDebugStream("%c\n", c);
 		if(result != ioRsltSuccess || c == '\n') //And if we hit a newline, break
 			break;
 
-		if(i < size) { //If we haven't hit the buffer size, add the character and keep going; if buffer filled, keep going so fileptr is always at a newline
+		if(i < buffer_size) { //If we haven't hit the buffer size, add the character and keep going; if buffer filled, keep going so fileptr is always at a newline
 			buffer[i] = c;
 			i++; //Increase buffer byte number
 		}
-
-		fileptr++; //Increase the current byte number
 	}
 
 	buffer[i] = '\0';
