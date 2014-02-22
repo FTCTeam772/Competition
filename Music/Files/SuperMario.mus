@@ -1,4 +1,4 @@
-Super Mario Theme
+Super Mario
 #Composer: Koji Kondo
 keysig C
 tempo 200
@@ -36,17 +36,6 @@ note E5 1 staccato
 note C5 0.5
 note D5 0.5
 note B4 0.5
-rest 1
-
-note E5 0.5
-note E5 1 staccato
-note E5 0.5
-rest 0.5
-note C5 0.5
-note E5 1 staccato
-note G5 1 staccato
-rest 1
-note G4 1 staccato
 rest 1
 
 note C5 1.5 staccato
