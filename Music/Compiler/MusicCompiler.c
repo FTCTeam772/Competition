@@ -8,7 +8,7 @@ void getLine(FILE * file, char * buffer, int size) {
 	int i = 0;
 	char c = fgetc(file);
 
-	while(c != '\n' && c != EOF) {
+	while(c != '\r' && c != '\n' && c != EOF) {
 		if(i < size) {
 			buffer[i] = c;
 			i++;
