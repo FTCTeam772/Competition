@@ -242,22 +242,23 @@ int main(int argc, char * argv[]) {
 			fprintf(out, "wait %d\n", (int)round(value * cs));
 		}
 		else if(strcmp(cmd, "write") == 0) {
-			if(paramc != 1) {
+			if(paramc != 2) {
 				fprintf(stderr, "Warning: Wrong number of write parameters \"%s\"\n", line);
 
 				continue;
 			}
 
+			int line;
 			char lyric[64];
-			int n = sscanf(param, "\"%[^\"]", lyric);
+			int n = sscanf(param, "%d \"%[^\"]", &line, lyric);
 
-			if(n != 1) {
+			if(n != 2) {
 				fprintf(stderr, "Warning: Incorrect lyric syntax \"%s\"\n", line);
 
 				continue;
 			}
 
-			fprintf(out, "write \"%s\"\n", lyric);
+			fprintf(out, "write %d \"%s\"\n", line, lyric);
 		}
 		else if(strcmp(cmd, "clear") == 0) {
 			if(paramc != 0) {
