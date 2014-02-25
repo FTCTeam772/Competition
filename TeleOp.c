@@ -224,10 +224,10 @@ task main() {
 				setSong("ImperialMarch.nms");
 				break;
 			case 4:
-				setSong("Womp.nms");
+				setSong("1Up.nms");
 				break;
 			case 6:
-				setSong("Mario.nms");
+				setSong("SuperMario.nms");
 				break;
 		}
 
