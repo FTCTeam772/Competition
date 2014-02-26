@@ -29,16 +29,16 @@ tone 622 8 10
 tone 622 7 9
 tone 622 25 31
 
-tone 392 51 62
-tone 392 51 62
-tone 392 51 62
-tone 311 38 46
-tone 466 12 15
+tone 784 51 62
+tone 784 51 62
+tone 784 51 62
+tone 622 38 46
+tone 932 12 15
 
-tone 392 51 62
-tone 311 38 46
-tone 466 12 15
-tone 392 25 31
+tone 784 51 62
+tone 622 38 46
+tone 932 12 15
+tone 784 25 31
 tone 392 8 10
 tone 392 8 10
 tone 392 7 9
@@ -47,16 +47,16 @@ tone 622 8 10
 tone 622 7 9
 tone 622 25 31
 
-tone 587 51 62
-tone 587 51 62
-tone 587 51 62
-tone 622 38 46
-tone 466 12 15
+tone 1175 51 62
+tone 1175 51 62
+tone 1175 51 62
+tone 1245 38 46
+tone 932 12 15
 
-tone 370 51 62
-tone 311 38 46
-tone 466 12 15
-tone 392 25 31
+tone 740 51 62
+tone 622 38 46
+tone 932 12 15
+tone 784 25 31
 tone 587 8 10
 tone 587 8 10
 tone 587 7 9
@@ -65,35 +65,35 @@ tone 622 8 10
 tone 622 7 9
 tone 698 25 31
 
-tone 784 51 62
-tone 392 38 46
-tone 392 12 15
-tone 784 51 62
-tone 740 38 46
-tone 698 12 15
+tone 1568 51 62
+tone 784 38 46
+tone 784 12 15
+tone 1568 51 62
+tone 1480 38 46
+tone 1397 12 15
 
-tone 659 12 15
-tone 622 12 15
-tone 659 25 31
+tone 1319 12 15
+tone 1245 12 15
+tone 1319 25 31
 wait 31
-tone 415 20 31
-tone 554 51 62
-tone 523 38 46
-tone 494 12 15
+tone 831 20 31
+tone 1109 51 62
+tone 1047 38 46
+tone 988 12 15
 
-tone 466 12 15
-tone 440 12 15
-tone 466 25 31
+tone 932 12 15
+tone 880 12 15
+tone 932 25 31
 wait 31
-tone 311 25 31
-tone 370 51 62
-tone 311 38 46
-tone 392 12 15
+tone 622 25 31
+tone 740 51 62
+tone 622 38 46
+tone 784 12 15
 
-tone 466 51 62
-tone 392 38 46
-tone 466 12 15
-tone 587 25 31
+tone 932 51 62
+tone 784 38 46
+tone 932 12 15
+tone 1175 25 31
 tone 784 8 10
 tone 784 8 10
 tone 784 7 9
@@ -102,34 +102,34 @@ tone 784 8 10
 tone 784 7 9
 tone 784 25 31
 
-tone 784 51 62
-tone 392 38 46
-tone 392 12 15
-tone 784 51 62
-tone 740 38 46
-tone 698 12 15
+tone 1568 51 62
+tone 784 38 46
+tone 784 12 15
+tone 1568 51 62
+tone 1480 38 46
+tone 1397 12 15
 
-tone 659 12 15
-tone 622 12 15
-tone 659 25 31
+tone 1319 12 15
+tone 1245 12 15
+tone 1319 25 31
 wait 31
-tone 415 20 31
-tone 554 51 62
-tone 523 38 46
-tone 494 12 15
+tone 831 20 31
+tone 1109 51 62
+tone 1047 38 46
+tone 988 12 15
 
-tone 466 12 15
-tone 440 12 15
-tone 466 25 31
+tone 932 12 15
+tone 880 12 15
+tone 932 25 31
 wait 31
-tone 311 25 31
-tone 392 51 62
-tone 311 38 46
-tone 466 12 15
+tone 622 25 31
+tone 784 51 62
+tone 622 38 46
+tone 932 12 15
 
-tone 392 51 62
-tone 311 38 46
-tone 466 12 15
-tone 392 51 62
+tone 784 51 62
+tone 622 38 46
+tone 932 12 15
+tone 784 51 62
 wait 62
 

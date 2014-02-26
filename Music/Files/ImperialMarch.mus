@@ -31,16 +31,16 @@ note E5 0.17
 note E5 0.16
 note E5 0.5
 
-note G4 1
-note G4 1
-note G4 1
-note E4 0.75
-note B4 0.25
+note G5 1
+note G5 1
+note G5 1
+note E5 0.75
+note B5 0.25
 
-note G4 1
-note E4 0.75
-note B4 0.25
-note G4 0.5
+note G5 1
+note E5 0.75
+note B5 0.25
+note G5 0.5
 note G4 0.17
 note G4 0.17
 note G4 0.16
@@ -49,16 +49,16 @@ note E5 0.17
 note E5 0.16
 note E5 0.5
 
-note D5 1
-note D5 1
-note D5 1
-note E5 0.75
-note B4 0.25
+note D6 1
+note D6 1
+note D6 1
+note E6 0.75
+note B5 0.25
 
-note Gb4 1
-note E4 0.75
-note B4 0.25
-note G4 0.5
+note Gb5 1
+note E5 0.75
+note B5 0.25
+note G5 0.5
 note D5 0.17
 note D5 0.17
 note D5 0.16
@@ -67,35 +67,35 @@ note E5 0.17
 note E5 0.16
 note F5 0.5
 
-note G5 1
-note G4 0.75
-note G4 0.25
-note G5 1
-note Gb5 0.75
-note F5 0.25
+note G6 1
+note G5 0.75
+note G5 0.25
+note G6 1
+note Gb6 0.75
+note F6 0.25
 
-note En5 0.25
-note D#5 0.25
-note En5 0.5
+note En6 0.25
+note D#6 0.25
+note En6 0.5
 rest 0.5
-note Ab4 0.5 staccato
-note Db5 1
-note C5 0.75
-note Bn4 0.25
+note Ab5 0.5 staccato
+note Db6 1
+note C6 0.75
+note Bn5 0.25
 
-note B4 0.25
-note A4 0.25
-note B4 0.5
+note B5 0.25
+note A5 0.25
+note B5 0.5
 rest 0.5
-note E4 0.5
-note Gb4 1
-note E4 0.75
-note G4 0.25
+note E5 0.5
+note Gb5 1
+note E5 0.75
+note G5 0.25
 
-note B4 1
-note G4 0.75
-note B4 0.25
-note D5 0.5
+note B5 1
+note G5 0.75
+note B5 0.25
+note D6 0.5
 note G5 0.17
 note G5 0.17
 note G5 0.16
@@ -104,33 +104,33 @@ note G5 0.17
 note G5 0.16
 note G5 0.5
 
-note G5 1
-note G4 0.75
-note G4 0.25
-note G5 1
-note Gb5 0.75
-note F5 0.25
+note G6 1
+note G5 0.75
+note G5 0.25
+note G6 1
+note Gb6 0.75
+note F6 0.25
 
-note En5 0.25
-note D#5 0.25
-note En5 0.5
+note En6 0.25
+note D#6 0.25
+note En6 0.5
 rest 0.5
-note Ab4 0.5 staccato
-note Db5 1
-note C5 0.75
-note Bn4 0.25
+note Ab5 0.5 staccato
+note Db6 1
+note C6 0.75
+note Bn5 0.25
 
-note B4 0.25
-note A4 0.25
-note B4 0.5
+note B5 0.25
+note A5 0.25
+note B5 0.5
 rest 0.5
-note E4 0.5
-note G4 1
-note E4 0.75
-note B4 0.25
+note E5 0.5
+note G5 1
+note E5 0.75
+note B5 0.25
 
-note G4 1
-note E4 0.75
-note B4 0.25
-note G4 1
+note G5 1
+note E5 0.75
+note B5 0.25
+note G5 1
 rest 1
