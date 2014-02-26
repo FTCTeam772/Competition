@@ -123,7 +123,7 @@ tone 880 12 15
 tone 932 25 31
 wait 31
 tone 622 25 31
-tone 784 51 62
+tone 740 51 62
 tone 622 38 46
 tone 932 12 15
 
