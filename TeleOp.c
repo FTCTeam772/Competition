@@ -216,29 +216,31 @@ task main() {
 		else
 			motor[Flag] = 0;
 
-		switch(joystick.joy1_TopHat) {
+		switch(joystick.joy1_TopHat) { //Play a song based on the D-pad value
 			case 0:
-				setSong("CastleComplete.nms");
+				setSong("1Up.nms");
+				play();
 				break;
 			case 2:
-				setSong("Starman.nms");
+				setSong("SuperMario.nms");
+				play();
 				break;
 			case 4:
-				setSong("1Up.nms");
+				setSong("CastleComplete.nms");
+				play();
 				break;
 			case 6:
-				setSong("SuperMario.nms");
+				setSong("Starman.nms");
+				play();
 				break;
 		}
 
-		if(joy1Btn(9)) { //If the driver is pressing button 9, play Still Alive
-			if(!playing)
-				play();
-			else
-				pause();
+		if(joy1Btn(9)) { //If the driver is pressing button 9, play StillAlive
+			setSong("StillAlive.nms");
+			play();
 		}
 
-		if(joy1Btn(10)) { //If the driver is pressing button 9, stop song
+		if(joy1Btn(10)) { //If the driver is pressing button 10, stop song
 			stop();
 		}
 
