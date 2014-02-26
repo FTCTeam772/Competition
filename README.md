@@ -32,7 +32,7 @@ Music Folder
 
 ### Compiler ###
 - Makefile: A makefile for building MusicCompiler
-- MusicCompiler.c: The source file for a program that converts music from .mus format to .nms for the NXT
+- MusicCompiler.c: The source file for a program that compiles music from .mus format to .nms for the NXT
 
 Music File Format
 -----------------
