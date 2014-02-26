@@ -3,33 +3,33 @@ Imperial March
 keysig Bb
 tempo 96
 
-note G3 1
-note G3 0.5
-note G3 0.17
-note G3 0.17
-note G3 0.16
-note G3 0.5
-note G3 0.17
-note G3 0.17
-note G3 0.16
-note E4 0.17
-note E4 0.17
-note E4 0.16
-note E4 0.5
+note G4 1
+note G4 0.5
+note G4 0.17
+note G4 0.17
+note G4 0.16
+note G4 0.5
+note G4 0.17
+note G4 0.17
+note G4 0.16
+note E5 0.17
+note E5 0.17
+note E5 0.16
+note E5 0.5
 
-note G3 1
-note G3 0.5
-note G3 0.17
-note G3 0.17
-note G3 0.16
-note G3 0.5
-note G3 0.17
-note G3 0.17
-note G3 0.16
-note E4 0.17
-note E4 0.17
-note E4 0.16
-note E4 0.5
+note G4 1
+note G4 0.5
+note G4 0.17
+note G4 0.17
+note G4 0.16
+note G4 0.5
+note G4 0.17
+note G4 0.17
+note G4 0.16
+note E5 0.17
+note E5 0.17
+note E5 0.16
+note E5 0.5
 
 note G4 1
 note G4 1
@@ -41,13 +41,13 @@ note G4 1
 note E4 0.75
 note B4 0.25
 note G4 0.5
-note G3 0.17
-note G3 0.17
-note G3 0.16
-note E4 0.17
-note E4 0.17
-note E4 0.16
-note E4 0.5
+note G4 0.17
+note G4 0.17
+note G4 0.16
+note E5 0.17
+note E5 0.17
+note E5 0.16
+note E5 0.5
 
 note D5 1
 note D5 1
@@ -59,13 +59,13 @@ note Gb4 1
 note E4 0.75
 note B4 0.25
 note G4 0.5
-note D4 0.17
-note D4 0.17
-note D4 0.16
-note E4 0.17
-note E4 0.17
-note E4 0.16
-note F4 0.5
+note D5 0.17
+note D5 0.17
+note D5 0.16
+note E5 0.17
+note E5 0.17
+note E5 0.16
+note F5 0.5
 
 note G5 1
 note G4 0.75
@@ -96,13 +96,13 @@ note B4 1
 note G4 0.75
 note B4 0.25
 note D5 0.5
-note G4 0.17
-note G4 0.17
-note G4 0.16
-note G4 0.17
-note G4 0.17
-note G4 0.16
-note G4 0.5
+note G5 0.17
+note G5 0.17
+note G5 0.16
+note G5 0.17
+note G5 0.17
+note G5 0.16
+note G5 0.5
 
 note G5 1
 note G4 0.75
@@ -116,7 +116,7 @@ note D#5 0.25
 note En5 0.5
 rest 0.5
 note Ab4 0.5 staccato
-note Db4 1
+note Db5 1
 note C5 0.75
 note Bn4 0.25
 
@@ -133,10 +133,10 @@ note G4 1
 note E4 0.75
 note B4 0.25
 note G4 0.5
-note G4 0.17
-note G4 0.17
-note G4 0.16
-note G4 0.17
-note G4 0.17
-note G4 0.16
-note G4 0.5
+note G5 0.17
+note G5 0.17
+note G5 0.16
+note G5 0.17
+note G5 0.17
+note G5 0.16
+note G5 0.5

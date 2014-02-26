@@ -1,33 +1,33 @@
 Imperial March
 #Composer: John Williams
 
-tone 196 51 62
-tone 196 25 31
-tone 196 8 10
-tone 196 8 10
-tone 196 7 9
-tone 196 25 31
-tone 196 8 10
-tone 196 8 10
-tone 196 7 9
-tone 311 8 10
-tone 311 8 10
-tone 311 7 9
-tone 311 25 31
+tone 392 51 62
+tone 392 25 31
+tone 392 8 10
+tone 392 8 10
+tone 392 7 9
+tone 392 25 31
+tone 392 8 10
+tone 392 8 10
+tone 392 7 9
+tone 622 8 10
+tone 622 8 10
+tone 622 7 9
+tone 622 25 31
 
-tone 196 51 62
-tone 196 25 31
-tone 196 8 10
-tone 196 8 10
-tone 196 7 9
-tone 196 25 31
-tone 196 8 10
-tone 196 8 10
-tone 196 7 9
-tone 311 8 10
-tone 311 8 10
-tone 311 7 9
-tone 311 25 31
+tone 392 51 62
+tone 392 25 31
+tone 392 8 10
+tone 392 8 10
+tone 392 7 9
+tone 392 25 31
+tone 392 8 10
+tone 392 8 10
+tone 392 7 9
+tone 622 8 10
+tone 622 8 10
+tone 622 7 9
+tone 622 25 31
 
 tone 392 51 62
 tone 392 51 62
@@ -39,13 +39,13 @@ tone 392 51 62
 tone 311 38 46
 tone 466 12 15
 tone 392 25 31
-tone 196 8 10
-tone 196 8 10
-tone 196 7 9
-tone 311 8 10
-tone 311 8 10
-tone 311 7 9
-tone 311 25 31
+tone 392 8 10
+tone 392 8 10
+tone 392 7 9
+tone 622 8 10
+tone 622 8 10
+tone 622 7 9
+tone 622 25 31
 
 tone 587 51 62
 tone 587 51 62
@@ -57,13 +57,13 @@ tone 370 51 62
 tone 311 38 46
 tone 466 12 15
 tone 392 25 31
-tone 294 8 10
-tone 294 8 10
-tone 294 7 9
-tone 311 8 10
-tone 311 8 10
-tone 311 7 9
-tone 349 25 31
+tone 587 8 10
+tone 587 8 10
+tone 587 7 9
+tone 622 8 10
+tone 622 8 10
+tone 622 7 9
+tone 698 25 31
 
 tone 784 51 62
 tone 392 38 46
@@ -94,13 +94,13 @@ tone 466 51 62
 tone 392 38 46
 tone 466 12 15
 tone 587 25 31
-tone 392 8 10
-tone 392 8 10
-tone 392 7 9
-tone 392 8 10
-tone 392 8 10
-tone 392 7 9
-tone 392 25 31
+tone 784 8 10
+tone 784 8 10
+tone 784 7 9
+tone 784 8 10
+tone 784 8 10
+tone 784 7 9
+tone 784 25 31
 
 tone 784 51 62
 tone 392 38 46
@@ -114,7 +114,7 @@ tone 622 12 15
 tone 659 25 31
 wait 31
 tone 415 20 31
-tone 277 51 62
+tone 554 51 62
 tone 523 38 46
 tone 494 12 15
 
@@ -131,11 +131,11 @@ tone 392 51 62
 tone 311 38 46
 tone 466 12 15
 tone 392 25 31
-tone 392 8 10
-tone 392 8 10
-tone 392 7 9
-tone 392 8 10
-tone 392 8 10
-tone 392 7 9
-tone 392 25 31
+tone 784 8 10
+tone 784 8 10
+tone 784 7 9
+tone 784 8 10
+tone 784 8 10
+tone 784 7 9
+tone 784 25 31
 
