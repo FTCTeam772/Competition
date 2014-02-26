@@ -235,6 +235,11 @@ task main() {
 				break;
 		}
 
+		if(joy1Btn(4)) { //If the driver is pressing button 4, play the Imperial March
+			setSong("ImperialMarch.nms");
+			play();
+		}
+
 		if(joy1Btn(9)) { //If the driver is pressing button 9, play StillAlive
 			setSong("StillAlive.nms");
 			play();
