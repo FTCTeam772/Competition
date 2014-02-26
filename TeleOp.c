@@ -211,7 +211,7 @@ task main() {
 		else
 			reversed = false;
 
-		if(joy1Btn(2)) //If the driver is pressing button 2, run the flag turner
+		if(joy1Btn(2)) //If the driver is pressing button 2, spin the flag turner
 			motor[Flag] = 100;
 		else
 			motor[Flag] = 0;
@@ -240,7 +240,7 @@ task main() {
 			play();
 		}
 
-		if(joy1Btn(9)) { //If the driver is pressing button 9, play StillAlive
+		if(joy1Btn(9)) { //If the driver is pressing button 9, play Still Alive
 			setSong("StillAlive.nms");
 			play();
 		}
