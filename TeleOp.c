@@ -221,7 +221,7 @@ task main() {
 				setSong("CastleComplete.nms");
 				break;
 			case 2:
-				setSong("ImperialMarch.nms");
+				setSong("Starman.nms");
 				break;
 			case 4:
 				setSong("1Up.nms");
