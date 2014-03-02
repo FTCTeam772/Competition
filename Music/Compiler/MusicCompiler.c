@@ -248,9 +248,9 @@ int main(int argc, char * argv[]) {
 				continue;
 			}
 
-			int line;
+			int number;
 			char lyric[64];
-			int n = sscanf(param, "%d \"%[^\"]", &line, lyric);
+			int n = sscanf(param, "%d \"%[^\"]", &number, lyric);
 
 			if(n != 2) {
 				fprintf(stderr, "Warning: Incorrect lyric syntax \"%s\"\n", line);
@@ -258,7 +258,7 @@ int main(int argc, char * argv[]) {
 				continue;
 			}
 
-			fprintf(out, "write %d \"%s\"\n", line, lyric);
+			fprintf(out, "write %d \"%s\"\n", number, lyric);
 		}
 		else if(strcmp(cmd, "clear") == 0) {
 			if(paramc != 0) {
