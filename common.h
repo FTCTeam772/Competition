@@ -48,13 +48,21 @@ void moveLeftArm(int shoulder, int elbow) {
 
 void openLeftHand() {
 	motor[LeftHand] = HAND_HIGH;
-	while(nMotorEncoder[LeftHand] < HAND_MAX); //Wait for hand to open
+	int interrupt = 0;
+	while(nMotorEncoder[LeftHand] < HAND_MAX && interrupt < 300) { //Wait for hand to open or until a pseudo interrupt happens
+		wait10Msec(1);
+		interrupt++;
+	}
 	motor[LeftHand] = 0;
 }
 
 void closeLeftHand() {
 	motor[LeftHand] = -HAND_HIGH;
-	while(nMotorEncoder[LeftHand] > HAND_MIN); //Wait for hand to close
+	int interrupt = 0;
+	while(nMotorEncoder[LeftHand] > HAND_MIN && interrupt < 300) { //Wait for hand to close
+		wait10Msec(1);
+		interrupt++;
+	}
 	motor[LeftHand] = 0;
 }
 
@@ -69,13 +77,21 @@ void moveRightArm(int shoulder, int elbow) {
 
 void openRightHand() {
 	motor[RightHand] = HAND_HIGH;
-	while(nMotorEncoder[RightHand] < HAND_MAX); //Wait for hand to open
+	int interrupt = 0;
+	while(nMotorEncoder[RightHand] < HAND_MAX && interrupt < 300) { //Wait for hand to open or until a pseudo interrupt happens
+		wait10Msec(1);
+		interrupt++;
+	}
 	motor[RightHand] = 0;
 }
 
 void closeRightHand() {
 	motor[RightHand] = -HAND_HIGH;
-	while(nMotorEncoder[RightHand] > HAND_MIN); //Wait for hand to close
+	int interrupt = 0;
+	while(nMotorEncoder[RightHand] > HAND_MIN && interrupt < 300) { //Wait for hand to close
+		wait10Msec(1);
+		interrupt++;
+	}
 	motor[RightHand] = 0;
 }
 
