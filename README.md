@@ -19,11 +19,12 @@ Music Files
 Music Folder
 ------------
 - Makefile: A makefile for building the music compiler and compiling the music into NXT Music Files
+- make.bat: A build script that allows compiling music files on Windows using a prebuilt binary
 
 ### Files ###
 - SuperMario.mus: Super Mario Bros. theme song
 - ImperialMarch.mus: The Imperial March (Darth Vader's Theme)
-- 1Up.mus: 1-Up sound from Super Mario Bros.
+- 1Up.mus: The 1-Up sound from Super Mario Bros.
 - CastleComplete.mus: The level complete sound from Super Mario Bros.
 - Starman.mus: The sound when Mario is invincible
 
@@ -33,6 +34,7 @@ Music Folder
 ### Compiler ###
 - Makefile: A makefile for building MusicCompiler
 - MusicCompiler.c: The source file for a program that compiles music from .mus format to .nms for the NXT
+- win32/MusicCompiler.exe: A prebuilt Windows binary of the program
 
 Music File Format
 -----------------
