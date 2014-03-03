@@ -44,7 +44,7 @@ task main() {
 			num--;
 			nxtDisplayCenteredTextLine(5, "%s", filename[num]); //Display the filename
 		}
-		else if(nNxtButtonPressed == 1 && num < files) { //Else if right is pressed, increment num
+		else if(nNxtButtonPressed == 1 && num < files - 1) { //Else if right is pressed, increment num
 			num++;
 			nxtDisplayCenteredTextLine(5, "%s", filename[num]); //Display the filename
 		}
