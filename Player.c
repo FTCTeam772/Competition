@@ -25,7 +25,9 @@ task main() {
 	}
 
 	if(files == 0) { //Notify user if there aren't any
-		nxtDisplayCenteredTextLine(4, "No music files found");
+		nxtDisplayCenteredTextLine(3, "Error:");
+		nxtDisplayCenteredTextLine(4, "No music files");
+		nxtDisplayCenteredTextLine(5, "found");
 
 		while(nNxtButtonPressed != 3); //Wait for button press
 		while(nNxtButtonPressed == 3); //And unpress
