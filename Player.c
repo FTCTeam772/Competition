@@ -40,11 +40,11 @@ task main() {
 	while(nNxtButtonPressed != 3) { //While center button is not pressed to select a song
 		wait10Msec(20);
 
-		if(nNxtButtonPressed == 1 && num > 0) { //If left is pressed, implement bounds and decrement num
+		if(nNxtButtonPressed == 2 && num > 0) { //If left is pressed, implement bounds and decrement num
 			num--;
 			nxtDisplayCenteredTextLine(5, "%s", filename[num]); //Display the filename
 		}
-		else if(nNxtButtonPressed == 2 && num < files) { //Else if right is pressed, increment num
+		else if(nNxtButtonPressed == 1 && num < files) { //Else if right is pressed, increment num
 			num++;
 			nxtDisplayCenteredTextLine(5, "%s", filename[num]); //Display the filename
 		}
