@@ -1,12 +1,3 @@
-/* Selected Autonomous Program
- *
- * 0 - Left and IR
- * 1 - Left and no IR
- * 2 - Right and IR
- * 3 - Right and no IR
- */
-#define AUTO_PROGRAM 0
-
 //Flags
 #define NONLINEARTARGET
 
@@ -37,7 +28,7 @@
 
 //Autonomous
 #define WAIT 30
-//Autonomous Programs 0 and 2
+//IR Autonomous Programs
 #define AUTO_DETECT 10400
 #define AUTO_IR_CORRECT -1300
 #define AUTO_IR_TURN 900
@@ -45,7 +36,7 @@
 #define AUTO_RAMP_2 6100
 #define AUTO_RAMP_TURN 900
 #define AUTO_RAMP_UP 3700
-//Autonomous Programs 1 and 3
+//Non-IR Autonomous Programs
 #define AUTO_FIRST_BASKET 2411
 #define AUTO_RAMP 2000
 #define AUTO_RAMP_OVER 6400
