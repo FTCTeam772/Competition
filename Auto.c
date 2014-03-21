@@ -27,27 +27,30 @@
 //Music player
 #include "Player.h"
 
+int num_programs = 4;
 const char * programs[] = { "Left IR", "Left Non-IR", "Right IR", "Right Non-IR" };
 
 task main() {
+	bDisplayDiagnostics = false; //Disable screen diagnostics until Autonomous is set up
+
 	//Initialize
 	initialize();
 
-	int program = 0; //Autonomous program
+	int prog = 0; //Autonomous program
 
 	//Prompt for autonomous program
-	nxtDisplayCenteredTextLine(3, "Select a program:");
-	nxtDisplayCenteredTextLine(5, "%s", programs[program]);
+	nxtDisplayCenteredTextLine(3, "Select program:");
+	nxtDisplayCenteredTextLine(5, "%s", programs[prog]);
 	while(nNxtButtonPressed != 3) { //Wait for press
 		wait10Msec(20);
 
-		if(nNxtButtonPressed == 1 && program > 0) { //Decrement the program
-			program--;
-			nxtDisplayCenteredTextLine(5, "%s", programs[program]); //Display its name
+		if(nNxtButtonPressed == 2 && prog > 0) { //Decrement the program
+			prog--;
+			nxtDisplayCenteredTextLine(5, "%s", programs[prog]); //Display its name
 		}
-		else if(nNxtButtonPressed == 3 && program < (sizeof programs)) { //Increment the program
-			program++;
-			nxtDisplayCenteredTextLine(5, "%s", programs[program]);
+		else if(nNxtButtonPressed == 1 && prog < num_programs - 1) { //Increment the program
+			prog++;
+			nxtDisplayCenteredTextLine(5, "%s", programs[prog]);
 		}
 	}
 	while(nNxtButtonPressed == 3); //Wait for unpress
@@ -59,16 +62,18 @@ task main() {
 	while(nNxtButtonPressed != 3) { //Wait for press
 		wait10Msec(20);
 
-		if(nNxtButtonPressed == 1 && delay > 0) { //Decrement the delay
+		if(nNxtButtonPressed == 2 && delay > 0) { //Decrement the delay
 			delay -= 2;
 			nxtDisplayCenteredTextLine(5, "%d", delay);
 		}
-		else if(nNxtButtonPressed == 3 && delay < 30) { //Increment the delay
+		else if(nNxtButtonPressed == 1 && delay < 30) { //Increment the delay
 			delay += 2;
 			nxtDisplayCenteredTextLine(5, "%d", delay);
 		}
 	}
 	while(nNxtButtonPressed == 3); //Wait for unpress
+
+	bDisplayDiagnostics = true; //Reenable screen diagnostics for match
 
 	//Go time!
 	waitForStart();
@@ -79,10 +84,10 @@ task main() {
 
 	wait10Msec(delay * 100);
 
-	if(program == 0 || program == 2) {
+	if(prog == 0 || prog == 2) {
 		//Go forward until the IR beacon is found
 		nMotorEncoder[FrontLeft] = nMotorEncoder[FrontRight] = nMotorEncoder[BackLeft] = nMotorEncoder[BackRight] = 0;
-		if(program == 0) {
+		if(prog == 0) {
 			motor[FrontLeft] = -DRIVE_HIGH;
 			motor[BackRight] = DRIVE_HIGH;
 		}
@@ -116,7 +121,7 @@ task main() {
 		offset -= AUTO_IR_CORRECT; //Correct offset for amount moved for IR correction
 		//Continue to end of line
 		nMotorEncoder[FrontLeft] = nMotorEncoder[FrontRight] = nMotorEncoder[BackLeft] = nMotorEncoder[BackRight] = 0;
-		if(program == 0) {
+		if(prog == 0) {
 			motor[FrontLeft] = -DRIVE_HIGH;
 			motor[BackRight] = DRIVE_HIGH;
 		}
@@ -129,7 +134,7 @@ task main() {
 		wait();
 
 		//Go to ramp
-		if(program == 0) {
+		if(prog == 0) {
 			move(0, AUTO_RAMP_1); //Go a little bit further
 		}
 		else {
@@ -140,7 +145,7 @@ task main() {
 		wait();
 		turn(AUTO_RAMP_TURN); //Turn so that two wheels hit the front of the ramp
 		wait();
-		if(program == 0) {
+		if(prog == 0) {
 			move(AUTO_RAMP_UP, -AUTO_RAMP_UP); //Go up the ramp
 		}
 		else {
@@ -148,9 +153,9 @@ task main() {
 		}
 		wait();
 	}
-	else if(program == 1 || program == 3) {
+	else if(prog == 1 || prog == 3) {
 		//Place a block in first basket
-		if(program == 1) {
+		if(prog == 1) {
 			move(AUTO_FIRST_BASKET, -AUTO_FIRST_BASKET); //Move up to first basket
 		}
 		else {
@@ -169,7 +174,7 @@ task main() {
 		wait();
 
 		//Go to ramp and drive through to the opposite side
-		if(program == 1) {
+		if(prog == 1) {
 			move(AUTO_RAMP, -AUTO_RAMP); //Move in front of ramp
 		}
 		else {
