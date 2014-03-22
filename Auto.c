@@ -73,7 +73,7 @@ task main() {
 	}
 	while(nNxtButtonPressed == 3); //Wait for unpress
 
-	bDisplayDiagnostics = true; //Reenable screen diagnostics for match
+	bDisplayDiagnostics = true; //Enable screen diagnostics for match
 
 	//Go time!
 	waitForStart();
