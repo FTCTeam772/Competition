@@ -1,135 +1,135 @@
 Imperial March
 #Composer: John Williams
 
-tone 392 51 62
-tone 392 25 31
-tone 392 8 10
-tone 392 8 10
+tone 392 44 53
+tone 392 21 26
 tone 392 7 9
-tone 392 25 31
-tone 392 8 10
-tone 392 8 10
 tone 392 7 9
-tone 622 8 10
-tone 622 8 10
+tone 392 6 8
+tone 392 21 26
+tone 392 7 9
+tone 392 7 9
+tone 392 6 8
 tone 622 7 9
-tone 622 25 31
-
-tone 392 51 62
-tone 392 25 31
-tone 392 8 10
-tone 392 8 10
-tone 392 7 9
-tone 392 25 31
-tone 392 8 10
-tone 392 8 10
-tone 392 7 9
-tone 622 8 10
-tone 622 8 10
 tone 622 7 9
-tone 622 25 31
+tone 622 6 8
+tone 622 21 26
 
-tone 784 51 62
-tone 784 51 62
-tone 784 51 62
-tone 622 38 46
-tone 932 12 15
-
-tone 784 51 62
-tone 622 38 46
-tone 932 12 15
-tone 784 25 31
-tone 392 8 10
-tone 392 8 10
+tone 392 44 53
+tone 392 21 26
 tone 392 7 9
-tone 622 8 10
-tone 622 8 10
+tone 392 7 9
+tone 392 6 8
+tone 392 21 26
+tone 392 7 9
+tone 392 7 9
+tone 392 6 8
 tone 622 7 9
-tone 622 25 31
+tone 622 7 9
+tone 622 6 8
+tone 622 21 26
 
-tone 1175 51 62
-tone 1175 51 62
-tone 1175 51 62
-tone 1245 38 46
-tone 932 12 15
+tone 784 44 53
+tone 784 44 53
+tone 784 44 53
+tone 622 32 39
+tone 932 10 13
 
-tone 740 51 62
-tone 622 38 46
-tone 932 12 15
-tone 784 25 31
-tone 587 8 10
-tone 587 8 10
+tone 784 44 53
+tone 622 32 39
+tone 932 10 13
+tone 784 21 26
+tone 392 7 9
+tone 392 7 9
+tone 392 6 8
+tone 622 7 9
+tone 622 7 9
+tone 622 6 8
+tone 622 21 26
+
+tone 1175 44 53
+tone 1175 44 53
+tone 1175 44 53
+tone 1245 32 39
+tone 932 10 13
+
+tone 740 44 53
+tone 622 32 39
+tone 932 10 13
+tone 784 21 26
 tone 587 7 9
-tone 622 8 10
-tone 622 8 10
+tone 587 7 9
+tone 587 6 8
 tone 622 7 9
-tone 698 25 31
+tone 622 7 9
+tone 622 6 8
+tone 698 21 26
 
-tone 1568 51 62
-tone 784 38 46
-tone 784 12 15
-tone 1568 51 62
-tone 1480 38 46
-tone 1397 12 15
+tone 1568 44 53
+tone 784 32 39
+tone 784 10 13
+tone 1568 44 53
+tone 1480 32 39
+tone 1397 10 13
 
-tone 1319 12 15
-tone 1245 12 15
-tone 1319 25 31
-wait 31
-tone 831 20 31
-tone 1109 51 62
-tone 1047 38 46
-tone 988 12 15
+tone 1319 10 13
+tone 1245 10 13
+tone 1319 21 26
+wait 27
+tone 831 17 26
+tone 1109 44 53
+tone 1047 32 39
+tone 988 10 13
 
-tone 932 12 15
-tone 880 12 15
-tone 932 25 31
-wait 31
-tone 622 25 31
-tone 740 51 62
-tone 622 38 46
-tone 784 12 15
+tone 932 10 13
+tone 880 10 13
+tone 932 21 26
+wait 27
+tone 622 21 26
+tone 740 44 53
+tone 622 32 39
+tone 784 10 13
 
-tone 932 51 62
-tone 784 38 46
-tone 932 12 15
-tone 1175 25 31
-tone 784 8 10
-tone 784 8 10
+tone 932 44 53
+tone 784 32 39
+tone 932 10 13
+tone 1175 21 26
 tone 784 7 9
-tone 784 8 10
-tone 784 8 10
 tone 784 7 9
-tone 784 25 31
+tone 784 6 8
+tone 784 7 9
+tone 784 7 9
+tone 784 6 8
+tone 784 21 26
 
-tone 1568 51 62
-tone 784 38 46
-tone 784 12 15
-tone 1568 51 62
-tone 1480 38 46
-tone 1397 12 15
+tone 1568 44 53
+tone 784 32 39
+tone 784 10 13
+tone 1568 44 53
+tone 1480 32 39
+tone 1397 10 13
 
-tone 1319 12 15
-tone 1245 12 15
-tone 1319 25 31
-wait 31
-tone 831 20 31
-tone 1109 51 62
-tone 1047 38 46
-tone 988 12 15
+tone 1319 10 13
+tone 1245 10 13
+tone 1319 21 26
+wait 27
+tone 831 17 26
+tone 1109 44 53
+tone 1047 32 39
+tone 988 10 13
 
-tone 932 12 15
-tone 880 12 15
-tone 932 25 31
-wait 31
-tone 622 25 31
-tone 740 51 62
-tone 622 38 46
-tone 932 12 15
+tone 932 10 13
+tone 880 10 13
+tone 932 21 26
+wait 27
+tone 622 21 26
+tone 740 44 53
+tone 622 32 39
+tone 932 10 13
 
-tone 784 51 62
-tone 622 38 46
-tone 932 12 15
-tone 784 51 62
-wait 62
+tone 784 44 53
+tone 622 32 39
+tone 932 10 13
+tone 784 44 53
+wait 53
 
