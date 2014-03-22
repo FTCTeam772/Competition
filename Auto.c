@@ -27,8 +27,7 @@
 //Music player
 #include "Player.h"
 
-int num_programs = 4;
-const char * programs[] = { "Left IR", "Left Non-IR", "Right IR", "Right Non-IR" };
+string programs[] = { "Left IR", "Left Non-IR", "Right IR", "Right Non-IR" };
 
 task main() {
 	bDisplayDiagnostics = false; //Disable screen diagnostics until Autonomous is set up
@@ -48,7 +47,7 @@ task main() {
 			prog--;
 			nxtDisplayCenteredTextLine(5, "%s", programs[prog]); //Display its name
 		}
-		else if(nNxtButtonPressed == 1 && prog < num_programs - 1) { //Increment the program
+		else if(nNxtButtonPressed == 1 && prog < sizeof(programs)/sizeof(programs[0]) - 1) { //Increment the program
 			prog++;
 			nxtDisplayCenteredTextLine(5, "%s", programs[prog]);
 		}
