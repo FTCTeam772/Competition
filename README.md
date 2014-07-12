@@ -1,4 +1,4 @@
-This repository contains all files used by Team 772 for the FIRST Tech Challenge. A majority of the files are RobotC source files, however there are other files as well for making music for the NXT.
+This repository contains all files used by Team 772 for the FIRST Tech Challenge. A majority of the files are RobotC source files, however there are other files for making music for the NXT.
 
 All code is open source under the MIT License, see `LICENSE` for details. All of the music is copyright by its artist, simplified and reproduced here under fair use.
 
@@ -6,7 +6,7 @@ Below is a list of all of the files and their purposes.
 
 Competition Files
 -----------------
-- Auto.c: Autonomous mode program
+- Auto.c: Autonomous mode program containing an autonomous script
 - TeleOp.c: Tele-Operated mode program containing main drive and arm control functions
 - common.h: Various functions useful between Auto.c and TeleOp.c
 - constants.h: Constants to calibrate the programs to the robot and the field
@@ -18,15 +18,15 @@ Music Files
 
 Music Folder
 ------------
-- Makefile: A makefile for building the music compiler and compiling the music into NXT Music Files
-- make.bat: A build script that allows compiling music files on Windows using a prebuilt binary
+- Makefile: A makefile for building the music compiler and compiling the music files into NXT music files
+- make.bat: A build script that compiles music files on Windows using a prebuilt binary
 
 ### Files ###
 - SuperMario.mus: Super Mario Bros. theme song
 - ImperialMarch.mus: The Imperial March (Darth Vader's Theme)
 - 1Up.mus: The 1-Up sound from Super Mario Bros.
 - CastleComplete.mus: The level complete sound from Super Mario Bros.
-- Starman.mus: The sound when Mario is invincible
+- Starman.mus: The invincible sound from Super Mario Bros.
 
 ### NXT ###
 - StillAlive.nms: This was a triumph...
@@ -41,7 +41,7 @@ Music File Format
 There are two music formats that are used, one that is easy to type up and is easy for humans to read and one that is easy for the NXT to read without much processing overhead.
 
 ### Music File ###
-Music Files are basically a form of typed sheet music, making it easy to write. They use the .mus extension and are made to be compiled to the NXT Music File that is easy for the NXT to read. The basic structure of a .mus file is as the following:
+Music files are basically a form of typed sheet music, making it easy to write. They use the .mus extension and are compiled to an NXT music file that is easy for the NXT to read. The basic structure of a .mus file is as the following:
 ```
 Test Song
 #That is the name of the song
@@ -82,7 +82,7 @@ note C4 2
 ```
 
 ### NXT Music File ###
-NXT Music Files are in a relatively simple format with both a tone and lyric engine. They use the .nms extension on the NXT and can be played by the Player program. The basic structure of a .nms file is as the following:
+NXT music files are in a relatively simple format with both a tone and lyric engine. They use the .nms extension on the NXT and can be played by the Player program. The basic structure of a .nms file is as the following:
 ```
 Test Song
 #That is the name of the song
