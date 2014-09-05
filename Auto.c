@@ -180,7 +180,7 @@ task main() {
 			move(-AUTO_RAMP, AUTO_RAMP);
 		}
 		wait();
-		move(AUTO_RAMP_OVER, AUTO_RAMP_OVER); //Go onto and to the other side of the ramp
+		move(AUTO_RAMP_OVER, AUTO_RAMP_OVER); //Go onto and over to the other side of the ramp.
 		wait();
 	}
 }
