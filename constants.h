@@ -6,7 +6,7 @@
 
 //Scaling
 #define DRIVE_HIGH 100
-#define DRIVE_LOW 30
+#define DRIVE_LOW 40
 #define ARM_HIGH 100
 #define ARM_LOW 30
 #define HAND_HIGH 50
