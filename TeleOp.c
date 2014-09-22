@@ -31,10 +31,6 @@
 byte drive_scale = DRIVE_HIGH; //Used to scale down robot movements
 byte arm_scale = ARM_HIGH;
 
-bool forwards = true; //Used for direction locking
-bool sideways = true;
-bool reversed = false; //Used for reversing front
-
 task driveControl() { //Asynchronous task for critical drive control
 	while(true) {
 		//Joystick 1 - Driver
@@ -44,32 +40,22 @@ task driveControl() { //Asynchronous task for critical drive control
 		float x1, y1, x2;
 
 		//Check each axis for deadband and direction locking
-		if((joystick.joy1_x1 > DEADBAND || joystick.joy1_x1 < -DEADBAND) && sideways)
-			x1 = joystick.joy1_x1 / 128.0;
-		else
-			x1 = 0;
-
-		if((joystick.joy1_y1 > DEADBAND || joystick.joy1_y1 < -DEADBAND) && forwards)
+		if(joystick.joy1_y1 > DEADBAND || joystick.joy1_y1 < -DEADBAND)
 			y1 = joystick.joy1_y1 / 128.0;
 		else
 			y1 = 0;
 
 		if(joystick.joy1_x2 > DEADBAND || joystick.joy1_x2 < -DEADBAND)
-			x2 = joystick.joy1_x2 / 128.0;
+			y2 = joystick.joy1_x2 / 128.0;
 		else
-			x2 = 0;
+			y2 = 0;
 
-		if(reversed) { //Reverse controls if reverse button is pressed
-			y1 *= -1;
-			x1 *= -1;
-			//x2 *= -1; // Don't reverse turning
-		}
 
 		//Set the motors to scale
-		motor[FrontLeft] = drive_scale * (-x2 + (-y1 + -x1));
-		motor[FrontRight] = drive_scale * (-x2 + (y1 + -x1));
-		motor[BackLeft] = drive_scale * (-x2 + (-y1 + x1));
-		motor[BackRight] = drive_scale * (-x2 + (y1 + x1));
+		motor[FrontLeft] = drive_scale * y1;
+		motor[FrontRight] = drive_scale * y2;
+		motor[BackLeft] = drive_scale * y1;
+		motor[BackRight] = drive_scale * y2;
 
 		//writeDebugStream("Wheels:\n\tFront Left:\t%d\n\tFront Right:\t%d\n\tBack Left:\t%d\n\tBack Right:\t%d\n", nMotorEncoder[FrontLeft], nMotorEncoder[FrontRight], nMotorEncoder[BackLeft], nMotorEncoder[BackRight]);
 	}
@@ -199,25 +185,10 @@ task main() {
 	while(true) {
 		//Joystick 1 - Driver
 
-		if(joy1Btn(6)) //If the driver is pressing button 6, give extra speed
-			drive_scale = DRIVE_HIGH;
-		else //Else be slower
+		if(joy1Btn(6)) //If the driver is pressing button 6, slow down movements
 			drive_scale = DRIVE_LOW;
-
-		if(joy1Btn(5)) //If the driver is pressing button 5, lock to y-axis movement
-			sideways = false;
-		else
-			sideways = true;
-
-		if(joy1Btn(7)) //If the driver is pressing button 7, lock to x-axis movement
-			forwards = false;
-		else
-			forwards = true;
-
-		if(joy1Btn(8)) //If the driver is pressing button 8, reverse the front
-			reversed = true;
-		else
-			reversed = false;
+		else //Else be full speed
+			drive_scale = DRIVE_HIGH;
 
 		if(joy1Btn(2)) //If the driver is pressing button 2, spin the flag turner
 			motor[Flag] = 100;
