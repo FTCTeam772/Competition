@@ -7,9 +7,9 @@
 #pragma config(Motor,  motorB,          LeftHand,      tmotorNXT, PIDControl, reversed, encoder)
 #pragma config(Motor,  motorC,          Flag,          tmotorNXT, openLoop, encoder)
 #pragma config(Motor,  mtr_S1_C1_1,     FrontLeft,     tmotorTetrix, PIDControl, encoder)
-#pragma config(Motor,  mtr_S1_C1_2,     FrontRight,    tmotorTetrix, PIDControl, encoder)
+#pragma config(Motor,  mtr_S1_C1_2,     FrontRight,    tmotorTetrix, PIDControl, reversed, encoder)
 #pragma config(Motor,  mtr_S1_C2_1,     BackLeft,      tmotorTetrix, PIDControl, encoder)
-#pragma config(Motor,  mtr_S1_C2_2,     BackRight,     tmotorTetrix, PIDControl, encoder)
+#pragma config(Motor,  mtr_S1_C2_2,     BackRight,     tmotorTetrix, PIDControl, reversed, encoder)
 #pragma config(Motor,  mtr_S2_C1_1,     LeftArmShoulder, tmotorTetrix, PIDControl, reversed, encoder)
 #pragma config(Motor,  mtr_S2_C1_2,     LeftArmElbow,  tmotorTetrix, PIDControl, encoder)
 #pragma config(Motor,  mtr_S2_C2_1,     RightArmShoulder, tmotorTetrix, PIDControl, reversed, encoder)
@@ -50,12 +50,9 @@ task driveControl() { //Asynchronous task for critical drive control
 		else
 			y2 = 0;
 
-
 		//Set the motors to scale
-		motor[FrontLeft] = drive_scale * y1;
-		motor[BackLeft] = drive_scale * y1;
-		motor[FrontRight] = drive_scale * y2;
-		motor[BackRight] = drive_scale * y2;
+		motor[FrontLeft] = motor[BackLeft] = drive_scale * y1;
+		motor[FrontRight] = motor[BackRight] = drive_scale * y2;
 
 		//writeDebugStream("Wheels:\n\tFront Left:\t%d\n\tFront Right:\t%d\n\tBack Left:\t%d\n\tBack Right:\t%d\n", nMotorEncoder[FrontLeft], nMotorEncoder[FrontRight], nMotorEncoder[BackLeft], nMotorEncoder[BackRight]);
 	}
