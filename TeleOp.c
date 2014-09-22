@@ -46,15 +46,15 @@ task driveControl() { //Asynchronous task for critical drive control
 			y1 = 0;
 
 		if(joystick.joy1_y2 > DEADBAND || joystick.joy1_y2 < -DEADBAND)
-			y2 = joystick.joy1_x2 / 128.0;
+			y2 = joystick.joy1_y2 / 128.0;
 		else
 			y2 = 0;
 
 
 		//Set the motors to scale
 		motor[FrontLeft] = drive_scale * y1;
-		motor[FrontRight] = drive_scale * y2;
 		motor[BackLeft] = drive_scale * y1;
+		motor[FrontRight] = drive_scale * y2;
 		motor[BackRight] = drive_scale * y2;
 
 		//writeDebugStream("Wheels:\n\tFront Left:\t%d\n\tFront Right:\t%d\n\tBack Left:\t%d\n\tBack Right:\t%d\n", nMotorEncoder[FrontLeft], nMotorEncoder[FrontRight], nMotorEncoder[BackLeft], nMotorEncoder[BackRight]);
