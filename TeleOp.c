@@ -40,20 +40,20 @@ task driveControl() { //Asynchronous task for critical drive control
 		float y1, y2;
 
 		//Tank Drive
-		if(joystick.joy1_y2 > DEADBAND || joystick.joy1_y2 < -DEADBAND)
-			y1 = joystick.joy1_y2 / 128.0;
+		if(joystick.joy1_y1 > DEADBAND || joystick.joy1_y1 < -DEADBAND)		//Left stick controls left wheels
+			y1 = joystick.joy1_y1 / 128.0;
 		else
 			y1 = 0;
-
-		if(joystick.joy1_y1 > DEADBAND || joystick.joy1_y1 < -DEADBAND)
-			y2 = joystick.joy1_y1 / 128.0;
+	
+		if(joystick.joy1_y2 > DEADBAND || joystick.joy1_y2 < -DEADBAND)		//Right stick controls right wheels
+			y2 = joystick.joy1_y2 / 128.0;
 		else
 			y2 = 0;
 
 		//Set the motors to scale
-		motor[BackRight] = motor[FrontRight] = drive_scale * y1;
-		motor[BackLeft] = motor[FrontLeft] = drive_scale * y2;
-
+		motor[BackLeft] = motor[FrontLeft] = drive_scale * y1;
+		motor[BackRight] = motor[FrontRight] = drive_scale * y2;
+		
 		//writeDebugStream("Wheels:\n\tFront Left:\t%d\n\tFront Right:\t%d\n\tBack Left:\t%d\n\tBack Right:\t%d\n", nMotorEncoder[FrontLeft], nMotorEncoder[FrontRight], nMotorEncoder[BackLeft], nMotorEncoder[BackRight]);
 	}
 }
