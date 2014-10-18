@@ -7,14 +7,14 @@
 //Scaling
 #define DRIVE_HIGH 100
 #define DRIVE_LOW 40
-#define ARM_HIGH 100
-#define ARM_LOW 30
+#define SLIDE_HIGH 100
+#define SLIDE_LOW 40
 #define HAND_HIGH 50
 
 //Robot Constants
 #define ENCODER_PRECISION 60
-#define ARM_SHOULDER_TOP 28000
-#define ARM_SHOULDER_BOTTOM 0
+#define SLIDE_TOP 28000       //Needs to be calibrated
+#define SLIDE_BOTTOM 0
 #define HAND_MAX 150
 #define HAND_MIN 0
 
