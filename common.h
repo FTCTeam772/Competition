@@ -1,7 +1,7 @@
 void initialize() {
 	//Initialize motors and encoders
-	motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor[BackRight] = motor[LeftSlide] = motor[LeftArmElbow] = motor[RightSlide] = motor[RightArmElbow] = motor[LeftHand] = motor[RightHand] = motor[Flag] = 0; //Turn off the motors
-	nMotorEncoder[FrontLeft] = nMotorEncoder[FrontRight] = nMotorEncoder[BackLeft] = nMotorEncoder[BackRight] = nMotorEncoder[LeftSlide] = nMotorEncoder[LeftArmElbow] = nMotorEncoder[RightSlide] = nMotorEncoder[RightArmElbow] = nMotorEncoder[LeftHand] = nMotorEncoder[RightHand] = nMotorEncoder[Flag] = 0; //Might as well reset the encoders too
+	motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor[BackRight] = motor[LeftSlide] = motor[RightSlide] = motor[LeftHand] = motor[RightHand] = motor[Flag] = 0; //Turn off the motors
+	nMotorEncoder[FrontLeft] = nMotorEncoder[FrontRight] = nMotorEncoder[BackLeft] = nMotorEncoder[BackRight] = nMotorEncoder[LeftSlide] = nMotorEncoder[RightSlide] = nMotorEncoder[LeftHand] = nMotorEncoder[RightHand] = nMotorEncoder[Flag] = 0; //Might as well reset the encoders too
 
 	//Display the robot's name
 	nxtDisplayCenteredTextLine(0, "Rock 0.4");
@@ -37,14 +37,14 @@ void move(int left_diag, int right_diag) {
 	motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor[BackRight] = 0; //Stop wheels
 }
 
-void moveLeftArm(int shoulder, int elbow) {
+//void moveLeftArm(int shoulder, int elbow) {
 	//While the shoulder and elbow are not within a certain amount
-	while(abs(nMotorEncoder[LeftArmShoulder] - shoulder) > ENCODER_PRECISION || abs(nMotorEncoder[LeftArmElbow] - elbow) > ENCODER_PRECISION) {
-		motor[LeftArmShoulder] = targetMotorSpeed(shoulder, nMotorEncoder[LeftArmShoulder]) * SLIDE_HIGH; //Shoulder goes ARM_HIGH
-		motor[LeftArmElbow] = targetMotorSpeed(elbow, nMotorEncoder[LeftArmElbow]) * SLIDE_LOW; //Elbow goes ARM_LOW
-	}
-	motor[LeftArmShoulder] = motor[LeftArmElbow] = 0; //Be sure the motors are stopped
-}
+//	while(abs(nMotorEncoder[LeftArmShoulder] - shoulder) > ENCODER_PRECISION || abs(nMotorEncoder[LeftArmElbow] - elbow) > ENCODER_PRECISION) {
+//		motor[LeftArmShoulder] = targetMotorSpeed(shoulder, nMotorEncoder[LeftArmShoulder]) * SLIDE_HIGH; //Shoulder goes ARM_HIGH
+//		motor[LeftArmElbow] = targetMotorSpeed(elbow, nMotorEncoder[LeftArmElbow]) * SLIDE_LOW; //Elbow goes ARM_LOW
+//	}
+//	motor[LeftArmShoulder] = motor[LeftArmElbow] = 0; //Be sure the motors are stopped
+//}
 
 void openLeftHand() {
 	motor[LeftHand] = HAND_HIGH;
