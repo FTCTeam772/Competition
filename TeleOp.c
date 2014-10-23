@@ -39,12 +39,12 @@ task driveControl() { //Asynchronous task for critical drive control
 
 		//Tank Drive
 		if(joystick.joy1_y1 > DEADBAND || joystick.joy1_y1 < -DEADBAND)		//Left stick controls left wheels
-			y1 = joystick.joy1_y1 / 128.0;
+			y1 = -joystick.joy1_y1 / 128.0;
 		else
 			y1 = 0;
 	
 		if(joystick.joy1_y2 > DEADBAND || joystick.joy1_y2 < -DEADBAND)		//Right stick controls right wheels
-			y2 = joystick.joy1_y2 / 128.0;
+			y2 = -joystick.joy1_y2 / 128.0;
 		else
 			y2 = 0;
 
