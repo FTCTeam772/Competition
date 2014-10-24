@@ -4,7 +4,7 @@ void initialize() {
 	nMotorEncoder[FrontLeft] = nMotorEncoder[FrontRight] = nMotorEncoder[BackLeft] = nMotorEncoder[BackRight] = nMotorEncoder[LeftSlide] = nMotorEncoder[RightSlide] = nMotorEncoder[LeftHand] = nMotorEncoder[RightHand] = nMotorEncoder[Flag] = 0; //Might as well reset the encoders too
 
 	//Display the robot's name
-	nxtDisplayCenteredTextLine(0, "Rock 0.4");
+	nxtDisplayCenteredTextLine(0, "Rock 0.5");
 }
 
 float targetMotorSpeed(int target, int current) {
