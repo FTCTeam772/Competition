@@ -20,34 +20,6 @@ float targetMotorSpeed(int target, int current) {
 #endif
 }
 
-void turn(int cclockwise) {
-	nMotorEncoder[FrontLeft] = nMotorEncoder[FrontRight] = nMotorEncoder[BackLeft] = nMotorEncoder[BackRight] = 0; //Reset encoders
-	motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor[BackRight] = sgn(cclockwise) * DRIVE_HIGH; //Drive wheels clockwise
-	while(abs(nMotorEncoder[FrontLeft]) < abs(cclockwise) || abs(nMotorEncoder[FrontRight]) < abs(cclockwise) || abs(nMotorEncoder[BackLeft]) < abs(cclockwise) || abs(nMotorEncoder[BackRight]) < abs(cclockwise)) { //Wait until all of the wheels reach encoderCount
-		motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor[BackRight] = 0; //Stop wheels
-	}
-}
-
-void move(int left_diag, int right_diag) {
-	nMotorEncoder[FrontLeft] = nMotorEncoder[FrontRight] = nMotorEncoder[BackLeft] = nMotorEncoder[BackRight] = 0; //Reset encoders
-	motor[FrontLeft] = -sgn(right_diag) * DRIVE_HIGH; //Set wheels
-	motor[FrontRight] = sgn(left_diag) * DRIVE_HIGH;
-	motor[BackLeft] = -sgn(left_diag) * DRIVE_HIGH;
-	motor[BackRight] = sgn(right_diag) * DRIVE_HIGH;
-	while(abs(nMotorEncoder[FrontLeft]) < abs(right_diag) || abs(nMotorEncoder[FrontRight]) < abs(left_diag) || abs(nMotorEncoder[BackLeft]) < abs(left_diag) || abs(nMotorEncoder[BackRight]) < abs(right_diag)){ //Wait until all of the wheels reach their encoder count
-		motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor[BackRight] = 0; //Stop wheels
-	}
-}
-
-//void moveLeftArm(int shoulder, int elbow) {
-	//While the shoulder and elbow are not within a certain amount
-//	while(abs(nMotorEncoder[LeftArmShoulder] - shoulder) > ENCODER_PRECISION || abs(nMotorEncoder[LeftArmElbow] - elbow) > ENCODER_PRECISION) {
-//		motor[LeftArmShoulder] = targetMotorSpeed(shoulder, nMotorEncoder[LeftArmShoulder]) * SLIDE_HIGH; //Shoulder goes ARM_HIGH
-//		motor[LeftArmElbow] = targetMotorSpeed(elbow, nMotorEncoder[LeftArmElbow]) * SLIDE_LOW; //Elbow goes ARM_LOW
-//	}
-//	motor[LeftArmShoulder] = motor[LeftArmElbow] = 0; //Be sure the motors are stopped
-//}
-
 void wait() {
 	wait10Msec(WAIT);
 }
