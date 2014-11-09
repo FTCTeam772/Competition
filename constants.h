@@ -12,16 +12,14 @@
 
 //Robot Constants
 #define ENCODER_PRECISION 60
+#define ANDYMARK_CONVERSION 78.0/100.0
 #define SLIDE_TOP 28000       //Needs to be calibrated
 #define SLIDE_BOTTOM 0
 
 //Presets
-#define LEFT_LOW_GOAL 2000
-#define RIGHT_LOW_GOAL 2000
-#define LEFT_MEDIUM_GOAL 4000
-#define RIGHT_MEDIUM_GOAL 4000
-#define LEFT_HIGH_GOAL 6000
-#define RIGHT_HIGH_GOAL 6000
+#define LOW_GOAL 2000
+#define MEDIUM_GOAL 4000
+#define HIGH_GOAL 6000
 //Autonomous
 #define WAIT 30
 
