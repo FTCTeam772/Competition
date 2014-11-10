@@ -12,7 +12,7 @@
 
 //Robot Constants
 #define ENCODER_PRECISION 60
-#define ANDYMARK_CONVERSION 78.0/100.0
+#define ANDYMARK_CONVERSION -78.0/100.0
 #define SLIDE_TOP 28000       //Needs to be calibrated
 #define SLIDE_BOTTOM 0
 
