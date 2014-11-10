@@ -17,9 +17,9 @@
 #define SLIDE_BOTTOM 0
 
 //Presets
-#define LOW_GOAL 2000
-#define MEDIUM_GOAL 4000
-#define HIGH_GOAL 6000
+#define LOW_GOAL 20000
+#define MEDIUM_GOAL 40000
+#define HIGH_GOAL 60000
 //Autonomous
 #define WAIT 30
 
