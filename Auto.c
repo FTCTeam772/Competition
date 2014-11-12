@@ -25,6 +25,116 @@
 
 string programs[] = { "Left IR", "Left Non-IR", "Right IR", "Right Non-IR" };
 
+void execute(bool ramp, bool def, bool kick, bool center, int roll) {			//I feel like this should be outside of task main()
+		
+	int irvalue = SensorValue[IR];	//May need to detect this at a different point
+
+	//***NOTE*** All IR values in various branches have not been calibrated. They might be (for example) 3, 4, or 5 instead of 4, 5, or 6.
+		if (ramp == true) {			//If starting from ramp
+			
+			if (def == true) {
+				//run defense program for ramp beginning
+			} 
+			else {
+				
+				if (kick == true) {
+					//run kickstand method for ramp start
+					if (irvalue == 4) {				
+						//knock over kickstand and return to a common point
+					}
+					
+					if (irvalue == 5) {
+						//knock over kickstand and return to a common point
+					}
+					
+					if (irvalue == 6) {
+						//knock over kickstand and return to a common point
+				  }
+				}
+				
+				if (center == true) {						//If scoring in center goal
+					//locate center goal and score in it
+					if (irvalue == 4) {
+					
+					}
+					if (irvalue == 5) {
+						
+					}
+					if (irvalue == 6) {
+						
+					}
+					//reset robot to home position
+				}
+				if (center == false) {		//If not scoring in center goal
+					
+					if (roll == 0) {
+					//do nothing
+					}
+					if (roll == 1) {
+					//score in medium goal and bring it back (bring it back can be a common.h method) to parking zone
+					}
+					if (roll == 2) {
+					//score in tallest goal and bring it back
+					}
+					if (roll == 3) {
+					//score in medium and tallest then bring back the tallest goal
+					}
+				}
+			}
+		
+		} 
+		
+		if (ramp == false) {
+			
+			if (def == true) {
+				//run defense program for floor beginning
+			}
+			if (kick == true) {
+					//run kickstand method for ramp start (try to combine with ramp == true branch by finding a common start point? idk)
+					if (irvalue == 4) {
+						
+					}
+					
+					if (irvalue == 5) {
+						
+					}
+					
+					if (irvalue == 6) {
+						
+				  }
+				}
+				
+				if (center == true) {
+					//locate center goal and score in it
+					if (irvalue == 4) {
+					
+					}
+					if (irvalue == 5) {
+						
+					}
+					if (irvalue == 6) {
+						
+					}
+					//reset robot to home position
+				}
+				if (center == false) {		//If not scoring in center goal
+					
+					if (roll == 0) {
+					//do nothing
+					}
+					if (roll == 1) {
+					//score in medium goal and bring it back (bring it back can be a common.h method) to parking zone
+					}
+					if (roll == 2) {
+					//score in tallest goal and bring it back
+					}
+					if (roll == 3) {
+					//score in medium and tallest then bring back the tallest goal
+					}
+				}
+			}
+	}
+		
 task main() {
 	bDisplayDiagnostics = false; //Disable screen diagnostics until Autonomous is set up
 
@@ -80,4 +190,14 @@ task main() {
 	wait10Msec(delay * 100);
 
 	}
+
+	//SensorValue[IR]
+	
+	execute(RAMP, DEF, KICK, CENTER, ROLLING);
+	
+
+//task rampCenterBoth () {		//Any tasks should be outside of task main() and then started in main by saying "StartTask(rampCenterBoth);"
+
+//	task big (boolean 
+	
 }
