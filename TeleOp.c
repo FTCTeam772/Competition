@@ -21,18 +21,19 @@
 #include "Player.h"
 
 //Initialize our globals
-byte drive_scale = DRIVE_HIGH; //Used to scale down robot movements
+byte drive_scale = DRIVE_HIGH; 		//Used to scale down robot movements
 byte slide_scale = SLIDE_HIGH;
 
-task driveControl() { //Asynchronous task for critical drive control
+task driveControl() { 		//Asynchronous task for critical drive control
 	while(true) {
 		//Joystick 1 - Driver
 
-		//Deadband between -DEADBAND to DEADBAND
 		//Scale linearly for all other values
 		float y1, y2;
 
 		//Tank Drive
+		//Left/Right stick movements are not registered until they exceed abs(DEADBAND)
+		
 		if(joystick.joy1_y1 > DEADBAND || joystick.joy1_y1 < -DEADBAND)		//Left stick controls left wheels
 			y1 = joystick.joy1_y1 / 128.0;
 		else
@@ -44,8 +45,8 @@ task driveControl() { //Asynchronous task for critical drive control
 			y2 = 0;
 
 		//Set the motors to scale
-		motor[BackLeft] = motor[FrontLeft] = drive_scale * y1 /** ANDYMARK_CONVERSION*/;
-		motor[BackRight] = motor[FrontRight] = drive_scale * y2 /** ANDYMARK_CONVERSION*/;
+		motor[BackLeft] = motor[FrontLeft] = drive_scale * y1 * ANDYMARK_CONVERSION;
+		motor[BackRight] = motor[FrontRight] = drive_scale * y2 * ANDYMARK_CONVERSION;
 
 		//writeDebugStream("Wheels:\n\tFront Left:\t%d\n\tFront Right:\t%d\n\tBack Left:\t%d\n\tBack Right:\t%d\n", nMotorEncoder[FrontLeft], nMotorEncoder[FrontRight], nMotorEncoder[BackLeft], nMotorEncoder[BackRight]);
 	}
@@ -136,7 +137,7 @@ task main() {
 	while(true) {
 		//Joystick 1 - Driver
 
-		if(joy1Btn(6)) //If the driver is pressing button 6, slow down movements
+		if(joy1Btn(6)) //If the driver is pressing button 6, slow down drive wheels
 			drive_scale = DRIVE_LOW;
 		else //Else be full speed
 			drive_scale = DRIVE_HIGH;
@@ -176,7 +177,7 @@ task main() {
 
 		//Joystick 2 - Operator
 
-		if(joy2Btn(6)) //If the operator is pressing button 6, scale down the slide movements
+		if(joy2Btn(6)) //If the operator is pressing button 6, scale down the lifting mechanism
 			slide_scale = SLIDE_LOW;
 		else
 			slide_scale = SLIDE_HIGH;
