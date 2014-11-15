@@ -20,6 +20,32 @@ float targetMotorSpeed(int target, int current) {
 #endif
 }
 
+double updateXpos(double angle, double Xpos, double dist) {
+	Xpos += (dist * cos(angle)); 
+	return Xpos;
+
+}
+
+double updateYpos (double angle, double Ypos, double dist) {
+	Ypos += (dist * sin (angle));
+	return Ypos;
+
+}
+
+void move(double angle, double Xpos, double Ypos, double dist) {
+		nMotorEncoder[FrontLeft] = nMotorEncoder[FrontRight] = nMotorEncoder[BackLeft] = nMotorEncoder[BackRight];
+		
+		while(nMotorEncoder[FrontLeft] <= dist && nMotorEncoder[FrontRight] <= dist && nMotorEncoder[BackLeft] <= dist && nMotorEncoder[BackRight] <= dist) {
+		motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor [BackRight] = DRIVE_HIGH;
+		}
+		
+		motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor [BackRight] = 0;
+		updateXpos(angle, Xpos, dist);
+		updateYpos(angle, Ypos, dist);
+}
+
+
+
 void wait() {
 	wait10Msec(WAIT);
 }
