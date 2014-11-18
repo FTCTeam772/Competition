@@ -1,6 +1,7 @@
 #pragma config(Hubs,  S1, HTMotor,  HTMotor,  none,     none)
 #pragma config(Hubs,  S2, HTMotor,  HTMotor,  none,     none)
 #pragma config(Sensor, S3,     IR,             sensorHiTechnicIRSeeker1200)
+#pragma config(Sensor, S4,     Compass,        sensorI2CHiTechnicCompass)
 #pragma config(Motor,  mtr_S1_C1_1,     FrontRight,    tmotorTetrix, PIDControl, reversed, encoder)
 #pragma config(Motor,  mtr_S1_C1_2,     BackRight,     tmotorTetrix, PIDControl, reversed, encoder)
 #pragma config(Motor,  mtr_S1_C2_1,     FrontLeft,     tmotorTetrix, PIDControl, encoder)
@@ -24,16 +25,15 @@
 byte drive_scale = DRIVE_HIGH; 		//Used to scale down robot movements
 byte slide_scale = SLIDE_HIGH;
 
-task driveControl() { 		//Asynchronous task for critical drive control
+task driveControl() { //Asynchronous task for critical drive control
 	while(true) {
 		//Joystick 1 - Driver
 
+		//Deadband between -DEADBAND to DEADBAND
 		//Scale linearly for all other values
 		float y1, y2;
 
 		//Tank Drive
-		//Left/Right stick movements are not registered until they exceed abs(DEADBAND)
-		
 		if(joystick.joy1_y1 > DEADBAND || joystick.joy1_y1 < -DEADBAND)		//Left stick controls left wheels
 			y1 = joystick.joy1_y1 / 128.0;
 		else
@@ -45,8 +45,8 @@ task driveControl() { 		//Asynchronous task for critical drive control
 			y2 = 0;
 
 		//Set the motors to scale
-		motor[BackLeft] = motor[FrontLeft] = drive_scale * y1 * ANDYMARK_CONVERSION;
-		motor[BackRight] = motor[FrontRight] = drive_scale * y2 * ANDYMARK_CONVERSION;
+		motor[BackLeft] = motor[FrontLeft] = drive_scale * y1 /** ANDYMARK_CONVERSION*/;
+		motor[BackRight] = motor[FrontRight] = drive_scale * y2 /** ANDYMARK_CONVERSION*/;
 
 		//writeDebugStream("Wheels:\n\tFront Left:\t%d\n\tFront Right:\t%d\n\tBack Left:\t%d\n\tBack Right:\t%d\n", nMotorEncoder[FrontLeft], nMotorEncoder[FrontRight], nMotorEncoder[BackLeft], nMotorEncoder[BackRight]);
 	}
@@ -70,7 +70,7 @@ task slideControl() {
 
 
 
-		//writeDebugStream("Slides:\n\tLeft Slide:\t%d\n\tRight Slide:\n", nMotorEncoder[LeftSlide], nMotorEncoder[RightSlide]);
+		writeDebugStream("Slides:\n\tLeft Slide:\t%d\n\tRight Slide:\n", nMotorEncoder[LeftSlide], nMotorEncoder[RightSlide]);
 
 		//Set the motors to scale
 		motor[LeftSlide] = motor[RightSlide] = slide_scale * y1 * ANDYMARK_CONVERSION;
@@ -120,6 +120,17 @@ task slideControl() {
 			}
 			motor[LeftSlide] = motor[RightSlide] = 0;
 		}
+			
+		//Center Goal
+		if(joy2Btn(7)) {
+			motor[LeftSlide] = motor[RightSlide] = 0;
+			while((abs(nMotorEncoder[LeftSlide] - CENTER_GOAL) > ENCODER_PRECISION || abs(nMotorEncoder[RightSlide] - CENTER_GOAL) > ENCODER_PRECISION) && !joy2Btn(5)) {
+				motor[LeftSlide] = targetMotorSpeed(CENTER_GOAL, nMotorEncoder[LeftSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
+				motor[RightSlide] = targetMotorSpeed(CENTER_GOAL, nMotorEncoder[RightSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
+				//writeDebugStream("LeftSlide:\t%d\t%d\RightSlide:\t%d\t%d\n", nMotorEncoder[LeftSlide], nMotorEncoder[RightSlide]);
+			}
+			motor[LeftSlide] = motor[RightSlide] = 0;
+		}
 
 	}
 }
@@ -130,18 +141,18 @@ task main() {
 
 	//Go time!
 	waitForStart();
-	
+
 	StartTask(driveControl); //Go ahead and start critical drive functions in their own task
 	StartTask(slideControl); //Start arm functions
 
 	while(true) {
 		//Joystick 1 - Driver
 
-		if(joy1Btn(6)) //If the driver is pressing button 6, slow down drive wheels
+		if(joy1Btn(6)) //If the driver is pressing button 6, slow down movements
 			drive_scale = DRIVE_LOW;
 		else //Else be full speed
 			drive_scale = DRIVE_HIGH;
-	
+
 		switch(joystick.joy1_TopHat) { //Play a song based on the D-pad value
 			case 0:
 				setSong("1Up.nms");
@@ -177,11 +188,11 @@ task main() {
 
 		//Joystick 2 - Operator
 
-		if(joy2Btn(6)) //If the operator is pressing button 6, scale down the lifting mechanism
+		if(joy2Btn(6)) //If the operator is pressing button 6, scale down the slide movements
 			slide_scale = SLIDE_LOW;
 		else
 			slide_scale = SLIDE_HIGH;
 
-		//writeDebugStream("IR:\t%d\n", SensorValue[IR]);
+		writeDebugStream("IR:\t%d\n", SensorValue[IR]);
 	}
 }
