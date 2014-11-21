@@ -44,10 +44,7 @@ void move(double angle, double xPos, double yPos, double dist) {
 			motor [BackRight] = DRIVE_HIGH * ANDYMARK_CONVERSION * dist/(abs(dist));
 		}
 
-		motor[FrontLeft] = 0;
-		motor[FrontRight] = 0;
-		motor[BackLeft] = 0;
-		motor [BackRight] = 0;
+		motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor[BackRight] = 0;
 		updateXpos(angle, Xpos, dist);
 		updateYpos(angle, Ypos, dist);
 }
