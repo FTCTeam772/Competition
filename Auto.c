@@ -29,6 +29,9 @@ string programs[] = { "Left IR", "Left Non-IR", "Right IR", "Right Non-IR" };
 void execute(bool ramp, bool def, bool kick, bool center, int roll) {			//I feel like this should be outside of task main()
 
 	int irvalue = SensorValue[IR];	//May need to detect this at a different point
+	double xPos = 0;
+	double yPos = 0;
+	double angle = 0;
 
 	//***NOTE*** All IR values in various branches have not been calibrated. They might be (for example) 3, 4, or 5 instead of 4, 5, or 6.
 		if (ramp == true) {			//If starting from ramp
@@ -36,11 +39,14 @@ void execute(bool ramp, bool def, bool kick, bool center, int roll) {			//I feel
 
 		if (def == true) {
 				//run defense program for ramp beginning
+
 			}
 			else {
 
 				if (kick == true) {
 					//run kickstand method for ramp start
+
+
 					if (irvalue == 4) {
 						//knock over kickstand and return to a common point
 					}
@@ -72,14 +78,35 @@ void execute(bool ramp, bool def, bool kick, bool center, int roll) {			//I feel
 					if (roll == 0) {
 					//do nothing
 					}
+
 					if (roll == 1) {
 					//score in medium goal and bring it back (bring it back can be a common.h method) to parking zone
+						turn(20, SensorValue[Compass]);
+						move(angle, xPos, yPos, 700);
+						//raiseSlides
+						//releaseBalls
+						//lowerSlides
+						turn (140, SensorValue[Compass]);
+						move(angle, xPos, yPos, 1000);
+
 					}
 					if (roll == 2) {
 					//score in tallest goal and bring it back
+						turn(30, SensorValue[Compass]);
+						move(angle, xPos, yPos, 200);
+						turn(-90, SensorValue[Compass]);
+						move(angle, xPos, yPos, 500);
+						//raiseSlides
+						//releaseBalls
+						//lowerSlides
+						turn(210, SensorValue[Compass]);
+						move(angle, xPos, yPos, 1200);
+
 					}
 					if (roll == 3) {
 					//score in medium and tallest then bring back the tallest goal
+
+
 					}
 				}
 			}
@@ -93,6 +120,7 @@ void execute(bool ramp, bool def, bool kick, bool center, int roll) {			//I feel
 			}
 			if (kick == true) {
 					//run kickstand method for ramp start (try to combine with ramp == true branch by finding a common start point? idk)
+
 					if (irvalue == 1) {
 
 					}
@@ -108,6 +136,7 @@ void execute(bool ramp, bool def, bool kick, bool center, int roll) {			//I feel
 
 				if (center == true) {
 					//locate center goal and score in it
+
 					if (irvalue == 1) {
 
 					}
@@ -123,15 +152,19 @@ void execute(bool ramp, bool def, bool kick, bool center, int roll) {			//I feel
 
 					if (roll == 0) {
 					//do nothing
+
 					}
 					if (roll == 1) {
 					//score in medium goal and bring it back (bring it back can be a common.h method) to parking zone
+
 					}
 					if (roll == 2) {
 					//score in tallest goal and bring it back
+
 					}
 					if (roll == 3) {
 					//score in medium and tallest then bring back the tallest goal
+
 					}
 				}
 			}
