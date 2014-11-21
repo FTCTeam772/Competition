@@ -2,6 +2,7 @@ void initialize() {
 	//Initialize motors and encoders
 	motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor[BackRight] = motor[LeftSlide] = motor[RightSlide] = 0; //Turn off the motors
 	nMotorEncoder[FrontLeft] = nMotorEncoder[FrontRight] = nMotorEncoder[BackLeft] = nMotorEncoder[BackRight] = nMotorEncoder[LeftSlide] = nMotorEncoder[RightSlide] = 0; //Might as well reset the encoders too
+	SensorValue[Compass] = 0;
 
 	//Display the robot's name
 	nxtDisplayCenteredTextLine(0, "Rock 0.5");
@@ -20,33 +21,40 @@ float targetMotorSpeed(int target, int current) {
 	#endif
 }
 
-double updateXpos(double angle, double Xpos, double dist) {
-	Xpos += (dist * cos(angle));
-	return Xpos;
+void updateXpos(double angle, double Xpos, double dist){
+	xPos += (dist * cos(angle));
 
 }
 
-double updateYpos (double angle, double Ypos, double dist) {
-	Ypos += (dist * sin (angle));
-	return Ypos;
+void updateYpos (double angle, double Ypos, double dist) {
+	yPos += (dist * sin (angle));
 
 }
 
-void move(double angle, double Xpos, double Ypos, double dist) {
-		nMotorEncoder[FrontLeft] = nMotorEncoder[FrontRight] = nMotorEncoder[BackLeft] = nMotorEncoder[BackRight] = 0;
+void move(double angle, double xPos, double yPos, double dist) {
+		nMotorEncoder[FrontLeft] = 0;
+		nMotorEncoder[FrontRight] = 0;
+		nMotorEncoder[BackLeft] = 0;
+		nMotorEncoder[BackRight] = 0;
 
 		while(abs(nMotorEncoder[FrontLeft] - dist) > ENCODER_PRECISION || abs(nMotorEncoder[FrontRight] - dist) > ENCODER_PRECISION || abs(nMotorEncoder[BackLeft] - dist) > ENCODER_PRECISION || abs(nMotorEncoder[BackRight] - dist) > ENCODER_PRECISION) {
-			motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor [BackRight] = DRIVE_HIGH * ANDYMARK_CONVERSION * dist/(abs(dist));
+			motor[FrontLeft] = DRIVE_HIGH * ANDYMARK_CONVERSION * dist/(abs(dist));
+			motor[FrontRight] = DRIVE_HIGH * ANDYMARK_CONVERSION * dist/(abs(dist));
+			motor[BackLeft] = DRIVE_HIGH * ANDYMARK_CONVERSION * dist/(abs(dist));
+			motor [BackRight] = DRIVE_HIGH * ANDYMARK_CONVERSION * dist/(abs(dist));
 		}
 
-		motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor [BackRight] = 0;
+		motor[FrontLeft] = 0;
+		motor[FrontRight] = 0;
+		motor[BackLeft] = 0;
+		motor [BackRight] = 0;
 		updateXpos(angle, Xpos, dist);
 		updateYpos(angle, Ypos, dist);
 }
 
-void turn(double angle){
-		while(abs(angle - SensorValue[Compass]) > ANGLE_PRECISION){
-			if(angle - SensorValue[Compass] > ANGLE_PRECISION){		//turn left
+double turn(double newAngle, double oldAngle){
+		while(abs(newAngle - SensorValue[Compass]) > ANGLE_PRECISION){
+			if(newAngle - SensorValue[Compass] > ANGLE_PRECISION){						//turn left
 				motor[FrontLeft] = motor[BackLeft] = DRIVE_HIGH * ANDYMARK_CONVERSION * -1;
 				motor[FrontRight] = motor[BackRight] = DRIVE_HIGH * ANDYMARK_CONVERSION;
 			}
@@ -54,12 +62,10 @@ void turn(double angle){
 				motor[FrontLeft] = motor[BackLeft] = DRIVE_HIGH * ANDYMARK_CONVERSION;
 				motor[FrontRight] = motor[BackRight] = DRIVE_HIGH * ANDYMARK_CONVERSION * -1;
 			}
-	}
+		}
+		return newAngle;
 }
 
-double updateAngle (double angleOld, double angleNew){  //returns
-	return angleNew - angleOld;
-}
 
 void wait() {
 	wait10Msec(WAIT);
