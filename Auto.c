@@ -29,9 +29,9 @@ string programs[] = { "Left IR", "Left Non-IR", "Right IR", "Right Non-IR" };
 void execute(bool ramp, bool def, bool kick, bool center, int roll) {			//I feel like this should be outside of task main()
 
 	int irvalue = SensorValue[IR];	//May need to detect this at a different point
-	double xPos = 0;
-	double yPos = 0;
-	double angle = 0;
+	float xPos = 0;
+	float yPos = 0;
+	float angle = 0;
 
 	//***NOTE*** All IR values in various branches have not been calibrated. They might be (for example) 3, 4, or 5 instead of 4, 5, or 6.
 		if (ramp == true) {			//If starting from ramp
@@ -96,9 +96,7 @@ void execute(bool ramp, bool def, bool kick, bool center, int roll) {			//I feel
 						move(angle, xPos, yPos, 200);
 						turn(-90, SensorValue[Compass]);
 						move(angle, xPos, yPos, 500);
-						//raiseSlides
-						//releaseBalls
-						//lowerSlides
+						liftScore(HIGH_GOAL);
 						turn(210, SensorValue[Compass]);
 						move(angle, xPos, yPos, 1200);
 
