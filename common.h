@@ -21,35 +21,31 @@ float targetMotorSpeed(int target, int current) {
 	#endif
 }
 
-void updateXpos(double angle, double Xpos, double dist){
+float updatexPos(float angle, float xPos, float dist){
 	xPos += (dist * cos(angle));
-
+	
+	return xPos;
 }
 
-void updateYpos (double angle, double Ypos, double dist) {
+float updateyPos (float angle, float yPos, float dist) {
 	yPos += (dist * sin (angle));
-
+	
+	return yPos;
 }
 
-void move(double angle, double xPos, double yPos, double dist) {
-		nMotorEncoder[FrontLeft] = 0;
-		nMotorEncoder[FrontRight] = 0;
-		nMotorEncoder[BackLeft] = 0;
-		nMotorEncoder[BackRight] = 0;
+void move(float angle, float xPos, float yPos, float dist) {
+		nMotorEncoder[FrontLeft] = nMotorEncoder[FrontRight] = nMotorEncoder[BackLeft] = nMotorEncoder[BackRight] = 0;
 
 		while(abs(nMotorEncoder[FrontLeft] - dist) > ENCODER_PRECISION || abs(nMotorEncoder[FrontRight] - dist) > ENCODER_PRECISION || abs(nMotorEncoder[BackLeft] - dist) > ENCODER_PRECISION || abs(nMotorEncoder[BackRight] - dist) > ENCODER_PRECISION) {
-			motor[FrontLeft] = DRIVE_HIGH * ANDYMARK_CONVERSION * dist/(abs(dist));
-			motor[FrontRight] = DRIVE_HIGH * ANDYMARK_CONVERSION * dist/(abs(dist));
-			motor[BackLeft] = DRIVE_HIGH * ANDYMARK_CONVERSION * dist/(abs(dist));
-			motor [BackRight] = DRIVE_HIGH * ANDYMARK_CONVERSION * dist/(abs(dist));
+			motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor[BackRight] = DRIVE_HIGH * ANDYMARK_CONVERSION * dist/(abs(dist));
 		}
 
 		motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor[BackRight] = 0;
-		updateXpos(angle, Xpos, dist);
-		updateYpos(angle, Ypos, dist);
+		updatexPos(angle, xPos, dist);
+		updateyPos(angle, yPos, dist);
 }
 
-double turn(double newAngle, double oldAngle){
+float turn(float newAngle, float oldAngle){
 		while(abs(newAngle - SensorValue[Compass]) > ANGLE_PRECISION){
 			if(newAngle - SensorValue[Compass] > ANGLE_PRECISION){						//turn left
 				motor[FrontLeft] = motor[BackLeft] = DRIVE_HIGH * ANDYMARK_CONVERSION * -1;
@@ -63,7 +59,22 @@ double turn(double newAngle, double oldAngle){
 		return newAngle;
 }
 
-
 void wait() {
 	wait10Msec(WAIT);
+}
+
+void liftScore(int targetHeight){
+		while(abs(nMotorEncoder[LeftSlide] - targetHeight) > ENCODER_PRECISION && abs(nMotorEncoder[RightSlide] - targetHeight) > ENCODER_PRECISION){
+			motor[LeftSlide] = motor[RightSlide] = SLIDE_HIGH * ANDYMARK_CONVERSION;		//Full power until they reach the desired encoder value
+		}
+		motor[LeftSlide] = motor[RightSlide] = 0;		//Stop lift motors after they have reached the desired height
+		
+		servo[zipties] = 100;		//Score balls
+		wait();
+		servo[zipties] = 0;			//Stop servo after wait
+		
+		while((nMotorEncoder[LeftSlide] > ENCODER_PRECISION && nMotorEncoder[RightSlide] > ENCODER_PRECISION)){
+			motor[LeftSlide] = motor[RightSlide] = -SLIDE_HIGH * ANDYMARK_CONVERSION;		//Full power until they reach the home position
+		}
+		motor[LeftSlide] = motor[RightSlide] = 0;		//Stop motors
 }
