@@ -24,229 +24,184 @@
 //Music player
 #include "Player.h"
 
-string programs[] = { "Left IR", "Left Non-IR", "Right IR", "Right Non-IR" };
+//Initialize our globals
+byte drive_scale = DRIVE_HIGH; 		//Used to scale down robot movements
+byte slide_scale = SLIDE_HIGH;
 
-void execute(bool ramp, bool def, bool kick, bool center, int roll) {			//I feel like this should be outside of task main()
+task driveControl() { //Asynchronous task for critical drive control
+	while(true) {
+		//Joystick 1 - Driver
 
-	int irvalue = SensorValue[IR];	//May need to detect this at a different point
-	float xPos = 0;
-	float yPos = 0;
-	float angle = 0;
+		//Deadband between -DEADBAND to DEADBAND
+		//Scale linearly for all other values
+		float y1, y2;
 
-	//***NOTE*** All IR values in various branches have not been calibrated. They might be (for example) 3, 4, or 5 instead of 4, 5, or 6.
-		if (ramp == true) {			//If starting from ramp
-			move(0, 0, 0, 800);
+		//Tank Drive
+		if(joystick.joy1_y1 > DEADBAND || joystick.joy1_y1 < -DEADBAND)		//Left stick controls left wheels
+			y1 = joystick.joy1_y1 / 128.0;
+		else
+			y1 = 0;
 
-		if (def == true) {
-				//run defense program for ramp beginning
+		if(joystick.joy1_y2 > DEADBAND || joystick.joy1_y2 < -DEADBAND)		//Right stick controls right wheels
+			y2 = joystick.joy1_y2 / 128.0;
+		else
+			y2 = 0;
 
+		//Set the motors to scale
+		motor[BackLeft] = motor[FrontLeft] = drive_scale * y1 /** ANDYMARK_CONVERSION*/;
+		motor[BackRight] = motor[FrontRight] = drive_scale * y2 /** ANDYMARK_CONVERSION*/;
+
+		//writeDebugStream("Wheels:\n\tFront Left:\t%d\n\tFront Right:\t%d\n\tBack Left:\t%d\n\tBack Right:\t%d\n", nMotorEncoder[FrontLeft], nMotorEncoder[FrontRight], nMotorEncoder[BackLeft], nMotorEncoder[BackRight]);
+	}
+}
+
+task slideControl() {
+	while(true) {
+		//Joystick 2 - Operator
+
+		float y1;
+
+		//Check each axis for deadband
+		if((joystick.joy2_y1 > DEADBAND || joystick.joy2_y1 < -DEADBAND) && abs(joystick.joy2_y1) > abs(joystick.joy2_x1))
+			y1 = joystick.joy2_y1 / 128.0;
+		else
+			y1 = 0;
+
+		//Protect slides unless button 5 is pressed
+		if(((y1 < 0 && nMotorEncoder[LeftSlide] <= SLIDE_BOTTOM) || (y1 < 0 && nMotorEncoder[RightSlide] <= SLIDE_BOTTOM) || (y1 > 0 && nMotorEncoder[LeftSlide] >= SLIDE_TOP) || (y1 > 0 && nMotorEncoder[LeftSlide] >= SLIDE_TOP)) && !joy2Btn(5))
+			y1 = 0;
+
+
+
+		writeDebugStream("Slides:\n\tLeft Slide:\t%d\n\tRight Slide:\n", nMotorEncoder[LeftSlide], nMotorEncoder[RightSlide]);
+
+		//Set the motors to scale
+		motor[LeftSlide] = motor[RightSlide] = slide_scale * y1 * ANDYMARK_CONVERSION;
+
+		//Preset Positions
+
+		//Home
+		if(joy2Btn(2)) {
+			motor[LeftSlide] = motor[RightSlide] = 0;
+			while((nMotorEncoder[LeftSlide] > ENCODER_PRECISION || nMotorEncoder[RightSlide] > ENCODER_PRECISION) && !joy2Btn(5)) {
+				motor[LeftSlide] = targetMotorSpeed(0, nMotorEncoder[LeftSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
+				motor[RightSlide] = targetMotorSpeed(0, nMotorEncoder[RightSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
+				//writeDebugStream("LeftSlide:\t%d\t%d\RightSlide:\t%d\t%d\n", nMotorEncoder[LeftSlide], nMotorEncoder[RightSlide]);
 			}
-			else {
-
-				if (kick == true) {
-					//run kickstand method for ramp start
-
-
-					if (irvalue == 4) { //center goal is facing the box
-						//knock over kickstand and return to a common point
-						turn(45, SensorValue[Compass]);
-						move(angle, xPos, yPos, 400);
-						turn(180, SensorValue[Compass]);
-						move(angle, xPos, yPos, 300);
-						moveTo(angle, xPos, yPos, 0, 800);
-					}
-
-					if (irvalue == 5) { //center goal is facing at a 45 degree angle between the box and side of the ramp
-						//knock over kickstand and return to a common point
-						
-						
-					
-					}
-
-					if (irvalue == 6) { //center goal is facing at a 45 degree angle between the box and side wall near the other alliance
-						//knock over kickstand and return to a common point
-				  }
-				}
-
-				if (center == true) {						//If scoring in center goal
-					//locate center goal and score in it
-					if (irvalue == 4) { //center goal is facing toward the box
-						turn(45, SensorValue[Compass]);
-						move(angle, xPos, yPos, 1000);
-						turn(0, SensorValue[Compass]);
-						liftScore(CENTER_GOAL);
-					
-					}
-					if (irvalue == 5) {
-
-					}
-					if (irvalue == 6) {
-
-					}
-					//reset robot to home position
-				}
-				if (center == false) {		//If not scoring in center goal
-
-					//(0 = no rolling goals, 1 = medium goal only, 2 = high goal only, 3 = both goals)
-					if (roll == 0) {
-					//do nothing
-					}
-
-					if (roll == 1) {
-					//score in medium goal and bring it back (bring it back can be a common.h method) to parking zone
-						turn(20, SensorValue[Compass]);
-						move(angle, xPos, yPos, 700);
-						liftScore(MEDIUM_GOAL);
-						turn (170, SensorValue[Compass]);
-						move(angle, xPos, yPos, 1000);
-
-					}
-					if (roll == 2) {
-					//score in tallest goal and bring it back
-						turn(30, SensorValue[Compass]);
-						move(angle, xPos, yPos, 200);
-						turn(-30, SensorValue[Compass]);
-						move(angle, xPos, yPos, 500);
-						liftScore(HIGH_GOAL);
-						turn(120, SensorValue[Compass]);
-						move(angle, xPos, yPos, 1200);
-
-					}
-					if (roll == 3) {
-					//score in medium and tallest then bring back the tallest goal
-						turn(30, SensorValue[Compass]);
-						move(angle, xPos, yPos, 200);
-						turn(-30, SensorValue[Compass]);
-						move(angle, xPos, yPos, 500);
-						liftScore(HIGH_GOAL);
-						turn(30, SensorValue[Compass];
-						liftScore(MEDIUM_GOAL);
-						turn (170, SensorValue[Compass]);
-						move(angle, xPos, yPos, 1000);
-
-					}
-				}
-			}
-
+			motor[LeftSlide] = motor[RightSlide] = 0;
 		}
 
-		if (ramp == false) {
-
-			if (def == true) {
-				//run defense program for floor beginning
+		//Low Rolling Goal
+		if(joy2Btn(1)) {
+			motor[LeftSlide] = motor[RightSlide] = 0;
+			while((abs(nMotorEncoder[LeftSlide] - LOW_GOAL) > ENCODER_PRECISION || abs(nMotorEncoder[RightSlide] - LOW_GOAL) > ENCODER_PRECISION) && !joy2Btn(5)) {
+				motor[LeftSlide] = targetMotorSpeed(LOW_GOAL, nMotorEncoder[LeftSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
+				motor[RightSlide] = targetMotorSpeed(LOW_GOAL, nMotorEncoder[RightSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
+				//writeDebugStream("LeftSlide:\t%d\t%d\RightSlide:\t%d\t%d\n", nMotorEncoder[LeftSlide], nMotorEncoder[RightSlide]);
 			}
-			if (kick == true) {
-					//run kickstand method for ramp start (try to combine with ramp == true branch by finding a common start point? idk)
+			motor[LeftSlide] = motor[RightSlide] = 0;
+		}
 
-					if (irvalue == 1) {
-
-					}
-
-					if (irvalue == 2) {
-
-					}
-
-					if (irvalue == 3) {
-
-				  }
-				}
-
-				if (center == true) {
-					//locate center goal and score in it
-
-					if (irvalue == 1) {
-
-					}
-					if (irvalue == 2) {
-
-					}
-					if (irvalue == 3) {
-
-					}
-					//reset robot to home position
-				}
-				if (center == false) {		//If not scoring in center goal
-
-					if (roll == 0) {
-					//do nothing
-
-					}
-					if (roll == 1) {
-					//score in medium goal and bring it back (bring it back can be a common.h method) to parking zone
-
-					}
-					if (roll == 2) {
-					//score in tallest goal and bring it back
-
-					}
-					if (roll == 3) {
-					//score in medium and tallest then bring back the tallest goal
-
-					}
-				}
+		//Medium Rolling Goal
+		if(joy2Btn(3)) {
+			motor[LeftSlide] = motor[RightSlide] = 0;
+			while((abs(nMotorEncoder[LeftSlide] - MEDIUM_GOAL) > ENCODER_PRECISION || abs(nMotorEncoder[RightSlide] - MEDIUM_GOAL) > ENCODER_PRECISION) && !joy2Btn(5)) {
+				motor[LeftSlide] = targetMotorSpeed(MEDIUM_GOAL, nMotorEncoder[LeftSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
+				motor[RightSlide] = targetMotorSpeed(MEDIUM_GOAL, nMotorEncoder[RightSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
+				//writeDebugStream("LeftSlide:\t%d\t%d\RightSlide:\t%d\t%d\n", nMotorEncoder[LeftSlide], nMotorEncoder[RightSlide]);
 			}
+			motor[LeftSlide] = motor[RightSlide] = 0;
+		}
+
+		//High Rolling Goal
+		if(joy2Btn(4)) {
+			motor[LeftSlide] = motor[RightSlide] = 0;
+			while((abs(nMotorEncoder[LeftSlide] - HIGH_GOAL) > ENCODER_PRECISION || abs(nMotorEncoder[RightSlide] - HIGH_GOAL) > ENCODER_PRECISION) && !joy2Btn(5)) {
+				motor[LeftSlide] = targetMotorSpeed(HIGH_GOAL, nMotorEncoder[LeftSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
+				motor[RightSlide] = targetMotorSpeed(HIGH_GOAL, nMotorEncoder[RightSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
+				//writeDebugStream("LeftSlide:\t%d\t%d\RightSlide:\t%d\t%d\n", nMotorEncoder[LeftSlide], nMotorEncoder[RightSlide]);
+			}
+			motor[LeftSlide] = motor[RightSlide] = 0;
+		}
+
+		//Center Goal
+		if(joy2Btn(7)) {
+			motor[LeftSlide] = motor[RightSlide] = 0;
+			while((abs(nMotorEncoder[LeftSlide] - CENTER_GOAL) > ENCODER_PRECISION || abs(nMotorEncoder[RightSlide] - CENTER_GOAL) > ENCODER_PRECISION) && !joy2Btn(5)) {
+				motor[LeftSlide] = targetMotorSpeed(CENTER_GOAL, nMotorEncoder[LeftSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
+				motor[RightSlide] = targetMotorSpeed(CENTER_GOAL, nMotorEncoder[RightSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
+				//writeDebugStream("LeftSlide:\t%d\t%d\RightSlide:\t%d\t%d\n", nMotorEncoder[LeftSlide], nMotorEncoder[RightSlide]);
+			}
+			motor[LeftSlide] = motor[RightSlide] = 0;
+		}
+
 	}
+}
 
 task main() {
-	bDisplayDiagnostics = false; //Disable screen diagnostics until Autonomous is set up
-
 	//Initialize
 	initialize();
-
-	int prog = 0; //Autonomous program
-
-	//Prompt for autonomous program
-	nxtDisplayCenteredTextLine(3, "Select program:");
-	nxtDisplayCenteredTextLine(5, "%s", programs[prog]);
-	while(nNxtButtonPressed != 3) { //Wait for press
-		wait10Msec(20);
-
-		if(nNxtButtonPressed == 2 && prog > 0) { //Decrement the program
-			prog--;
-			nxtDisplayCenteredTextLine(5, "%s", programs[prog]); //Display its name
-		}
-		else if(nNxtButtonPressed == 1 && prog < sizeof(programs)/sizeof(programs[0]) - 1) { //Increment the program
-			prog++;
-			nxtDisplayCenteredTextLine(5, "%s", programs[prog]);
-		}
-	}
-	while(nNxtButtonPressed == 3){ //Wait for unpress
-
-		//Add a delay
-	int delay = 0;
-	nxtDisplayCenteredTextLine(3, "Delay:");
-	nxtDisplayCenteredTextLine(5, "%d", delay);
-	while(nNxtButtonPressed != 3) { //Wait for press
-		wait10Msec(20);
-
-		if(nNxtButtonPressed == 2 && delay > 0) { //Decrement the delay
-			delay -= 2;
-			nxtDisplayCenteredTextLine(5, "%d", delay);
-		}
-		else if(nNxtButtonPressed == 1 && delay < 30) { //Increment the delay
-			delay += 2;
-			nxtDisplayCenteredTextLine(5, "%d", delay);
-		}
-	}
-	while(nNxtButtonPressed == 3); //Wait for unpress
-
-	bDisplayDiagnostics = true; //Enable screen diagnostics for match
 
 	//Go time!
 	waitForStart();
 
-	//Play the Imperial March
-	setSong("ImperialMarch.nms");
-	play();
+	StartTask(driveControl); //Go ahead and start critical drive functions in their own task
+	StartTask(slideControl); //Start arm functions
 
-	wait10Msec(delay * 100);
+	while(true) {
+		//Joystick 1 - Driver
 
+		if(joy1Btn(6)) //If the driver is pressing button 6, slow down movements
+			drive_scale = DRIVE_LOW;
+		else //Else be full speed
+			drive_scale = DRIVE_HIGH;
+
+		switch(joystick.joy1_TopHat) { //Play a song based on the D-pad value
+			case 0:
+				setSong("1Up.nms");
+				play();
+				break;
+			case 2:
+				setSong("SuperMario.nms");
+				play();
+				break;
+			case 4:
+				setSong("CastleComplete.nms");
+				play();
+				break;
+			case 6:
+				setSong("Starman.nms");
+				play();
+				break;
+		}
+
+		if(joy1Btn(4)) { //If the driver is pressing button 4, play the Imperial March
+			setSong("ImperialMarch.nms");
+			play();
+		}
+
+		if(joy1Btn(9)) { //If the driver is pressing button 9, play Still Alive
+			setSong("StillAlive.nms");
+			play();
+		}
+
+		if(joy1Btn(10)) { //If the driver is pressing button 10, stop song
+			stop();
+		}
+
+		//Joystick 2 - Operator
+
+		if(joy2Btn(6)) //If the operator is pressing button 6, scale down the slide movements
+			slide_scale = SLIDE_LOW;
+		else
+			slide_scale = SLIDE_HIGH;
+
+		//Zip Ties
+		if(joystick.joy2_x2 > DEADBAND || joystick.joy2_x2 < -DEADBAND)		//If the operator is putting in a value on the x-axis of the right stick
+			servo[zipties] = joystick.joy2_x2;															//Make the servo spin accordingly
+		else
+			servo[zipties] = 0;					//If within DEADBAND, remain stopped
+
+		//writeDebugStream("IR:\t%d\n", SensorValue[IR]);
 	}
-
-	//SensorValue[IR]
-
-	execute(RAMP, DEF, KICK, CENTER, ROLLING);
-
-	//writeDebugStream("IR:\t%d\n", SensorValue[IR]);
-
 }
