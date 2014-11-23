@@ -35,7 +35,7 @@ void execute(bool ramp, bool def, bool kick, bool center, int roll) {			//I feel
 
 	//***NOTE*** All IR values in various branches have not been calibrated. They might be (for example) 3, 4, or 5 instead of 4, 5, or 6.
 		if (ramp == true) {			//If starting from ramp
-			move(0, 100, 200, 800);
+			move(0, 0, 0, 800);
 
 		if (def == true) {
 				//run defense program for ramp beginning
@@ -47,23 +47,35 @@ void execute(bool ramp, bool def, bool kick, bool center, int roll) {			//I feel
 					//run kickstand method for ramp start
 
 
-					if (irvalue == 4) {
+					if (irvalue == 4) { //center goal is facing the box
 						//knock over kickstand and return to a common point
+						turn(45, SensorValue[Compass]);
+						move(angle, xPos, yPos, 400);
+						turn(180, SensorValue[Compass]);
+						move(angle, xPos, yPos, 300);
+						moveTo(angle, xPos, yPos, 0, 800);
 					}
 
-					if (irvalue == 5) {
+					if (irvalue == 5) { //center goal is facing at a 45 degree angle between the box and side of the ramp
 						//knock over kickstand and return to a common point
+						
+						
+					
 					}
 
-					if (irvalue == 6) {
+					if (irvalue == 6) { //center goal is facing at a 45 degree angle between the box and side wall near the other alliance
 						//knock over kickstand and return to a common point
 				  }
 				}
 
 				if (center == true) {						//If scoring in center goal
 					//locate center goal and score in it
-					if (irvalue == 4) {
-
+					if (irvalue == 4) { //center goal is facing toward the box
+						turn(45, SensorValue[Compass]);
+						move(angle, xPos, yPos, 1000);
+						turn(0, SensorValue[Compass]);
+						liftScore(CENTER_GOAL);
+					
 					}
 					if (irvalue == 5) {
 
@@ -75,6 +87,7 @@ void execute(bool ramp, bool def, bool kick, bool center, int roll) {			//I feel
 				}
 				if (center == false) {		//If not scoring in center goal
 
+					//(0 = no rolling goals, 1 = medium goal only, 2 = high goal only, 3 = both goals)
 					if (roll == 0) {
 					//do nothing
 					}
@@ -83,10 +96,8 @@ void execute(bool ramp, bool def, bool kick, bool center, int roll) {			//I feel
 					//score in medium goal and bring it back (bring it back can be a common.h method) to parking zone
 						turn(20, SensorValue[Compass]);
 						move(angle, xPos, yPos, 700);
-						//raiseSlides
-						//releaseBalls
-						//lowerSlides
-						turn (140, SensorValue[Compass]);
+						liftScore(MEDIUM_GOAL);
+						turn (170, SensorValue[Compass]);
 						move(angle, xPos, yPos, 1000);
 
 					}
@@ -94,16 +105,24 @@ void execute(bool ramp, bool def, bool kick, bool center, int roll) {			//I feel
 					//score in tallest goal and bring it back
 						turn(30, SensorValue[Compass]);
 						move(angle, xPos, yPos, 200);
-						turn(-90, SensorValue[Compass]);
+						turn(-30, SensorValue[Compass]);
 						move(angle, xPos, yPos, 500);
 						liftScore(HIGH_GOAL);
-						turn(210, SensorValue[Compass]);
+						turn(120, SensorValue[Compass]);
 						move(angle, xPos, yPos, 1200);
 
 					}
 					if (roll == 3) {
 					//score in medium and tallest then bring back the tallest goal
-
+						turn(30, SensorValue[Compass]);
+						move(angle, xPos, yPos, 200);
+						turn(-30, SensorValue[Compass]);
+						move(angle, xPos, yPos, 500);
+						liftScore(HIGH_GOAL);
+						turn(30, SensorValue[Compass];
+						liftScore(MEDIUM_GOAL);
+						turn (170, SensorValue[Compass]);
+						move(angle, xPos, yPos, 1000);
 
 					}
 				}
