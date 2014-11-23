@@ -21,16 +21,16 @@ float targetMotorSpeed(int target, int current) {
 	#endif
 }
 
-float updatexPos(float angle, float xPos, float dist){
-	xPos += (dist * cos(angle));
+void updatexPos(float angle, float Xpos, float dist){
+	xPos += (dist * sin (angle));
 	
-	return xPos;
+	xPos = Xpos;
 }
 
-float updateyPos (float angle, float yPos, float dist) {
-	yPos += (dist * sin (angle));
+void updateyPos (float angle, float Ypos, float dist) {
+	yPos += (dist * cos (angle));
 	
-	return yPos;
+	yPos = Ypos;
 }
 
 void move(float angle, float xPos, float yPos, float dist) {
@@ -45,7 +45,7 @@ void move(float angle, float xPos, float yPos, float dist) {
 		updateyPos(angle, yPos, dist);
 }
 
-float turn(float newAngle, float oldAngle){
+void turn(float newAngle, float oldAngle){
 		while(abs(newAngle - SensorValue[Compass]) > ANGLE_PRECISION){
 			if(newAngle - SensorValue[Compass] > ANGLE_PRECISION){						//turn left
 				motor[FrontLeft] = motor[BackLeft] = DRIVE_HIGH * ANDYMARK_CONVERSION * -1;
@@ -56,7 +56,14 @@ float turn(float newAngle, float oldAngle){
 				motor[FrontRight] = motor[BackRight] = DRIVE_HIGH * ANDYMARK_CONVERSION * -1;
 			}
 		}
-		return newAngle;
+		oldAngle = newAngle;
+}
+
+void moveTo(float angle, float Xi, float Yi, float Xf, float Yf) {
+	float theta = atan((Xf - Xi)/(Yf - Yi));
+	turn(theta, angle);
+	float dist = sqrt(pow(Xf-Xi, 2) + pow(Yf-Yi, 2));
+	move(angle, Xi, Yi, dist);
 }
 
 void wait() {
@@ -70,7 +77,7 @@ void liftScore(int targetHeight){
 		motor[LeftSlide] = motor[RightSlide] = 0;		//Stop lift motors after they have reached the desired height
 		
 		servo[zipties] = 100;		//Score balls
-		wait();
+		wait10Msec(ZIPTIE_WAIT);
 		servo[zipties] = 0;			//Stop servo after wait
 		
 		while((nMotorEncoder[LeftSlide] > ENCODER_PRECISION && nMotorEncoder[RightSlide] > ENCODER_PRECISION)){
