@@ -7,8 +7,8 @@
 //Scaling
 #define DRIVE_HIGH 100
 #define DRIVE_LOW 40
-#define SLIDE_HIGH 100
-#define SLIDE_LOW 40
+#define SLIDE_HIGH -100
+#define SLIDE_LOW -40
 
 //Robot Constants
 #define ENCODER_PRECISION 60
@@ -24,8 +24,9 @@
 #define CENTER_GOAL 28000
 //Autonomous
 #define WAIT 30
+#define ZIPTIE_WAIT 100
 #define RAMP true    //Will the robot start on the ramp?
 #define DEF true     //Will the robot do defense?
 #define KICK true    //Will the robot knock down the kick stand?
 #define CENTER true  //Will the robot go for the center goal?
-#define ROLLING 0    //Which rolling goal will the robot go for?  (0 = no rolling goals, 1 = medium goal only, 2 = tall goal only, 3 = both goals)
+#define ROLLING 0    //Which rolling goal will the robot go for?  (0 = no rolling goals, 1 = medium goal only, 2 = high goal only, 3 = both goals)
