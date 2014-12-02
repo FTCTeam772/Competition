@@ -2,7 +2,7 @@ void initialize() {
 	//Initialize motors and encoders
 	motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor[BackRight] = motor[LeftSlide] = motor[RightSlide] = 0; //Turn off the motors
 	nMotorEncoder[FrontLeft] = nMotorEncoder[FrontRight] = nMotorEncoder[BackLeft] = nMotorEncoder[BackRight] = nMotorEncoder[LeftSlide] = nMotorEncoder[RightSlide] = 0; //Might as well reset the encoders too
-	SensorValue[Compass] = 0;
+	SensorValue[Compass] = 0;		//NEED TO DO THIS DIFFERENTLY IT ALWAYS READ NORTH
 
 	//Display the robot's name
 	nxtDisplayCenteredTextLine(0, "Rock 0.5");
@@ -23,13 +23,13 @@ float targetMotorSpeed(int target, int current) {
 
 void updatexPos(float angle, float Xpos, float dist){
 	xPos += (dist * sin (angle));
-	
+
 	xPos = Xpos;
 }
 
 void updateyPos (float angle, float Ypos, float dist) {
 	yPos += (dist * cos (angle));
-	
+
 	yPos = Ypos;
 }
 
@@ -45,7 +45,7 @@ void move(float angle, float xPos, float yPos, float dist) {
 		updateyPos(angle, yPos, dist);
 }
 
-void turn(float newAngle, float oldAngle){
+void turnTo(float newAngle){
 		while(abs(newAngle - SensorValue[Compass]) > ANGLE_PRECISION){
 			if(newAngle - SensorValue[Compass] > ANGLE_PRECISION){						//turn left
 				motor[FrontLeft] = motor[BackLeft] = DRIVE_HIGH * ANDYMARK_CONVERSION * -1;
@@ -56,14 +56,30 @@ void turn(float newAngle, float oldAngle){
 				motor[FrontRight] = motor[BackRight] = DRIVE_HIGH * ANDYMARK_CONVERSION * -1;
 			}
 		}
-		oldAngle = newAngle;
 }
 
 void moveTo(float angle, float Xi, float Yi, float Xf, float Yf) {
-	float theta = atan((Xf - Xi)/(Yf - Yi));
-	turn(theta, angle);
-	float dist = sqrt(pow(Xf-Xi, 2) + pow(Yf-Yi, 2));
+	float theta = atan2((Xf - Xi),(Yf - Yi)) * (180.0 / PI);
+	turnTo(theta);
+	float dist = sqrt(pow(Xf - Xi, 2) + pow(Yf - Yi, 2));
 	move(angle, Xi, Yi, dist);
+}
+float atan2(float x, float y){
+  float phi;
+
+   if (x>0) {phi=atan(y/x);}
+   else
+   if ((x<0)&&(y>=0))  {phi=PI+atan(y/x);}
+   else
+   if ((x<0)&&(y<0))   {phi=-PI+atan(y/x);}
+   else
+   if ((x==0)&&(y>0))  {phi=PI/2;}
+   else
+   if ((x==0)&&(y<0))  {phi=-PI/2;}
+   else
+   if ((x==0)&&(y==0)) {phi=0;}
+
+   return phi;
 }
 
 void wait() {
@@ -75,11 +91,11 @@ void liftScore(int targetHeight){
 			motor[LeftSlide] = motor[RightSlide] = SLIDE_HIGH * ANDYMARK_CONVERSION;		//Full power until they reach the desired encoder value
 		}
 		motor[LeftSlide] = motor[RightSlide] = 0;		//Stop lift motors after they have reached the desired height
-		
+
 		servo[zipties] = 100;		//Score balls
 		wait10Msec(ZIPTIE_WAIT);
 		servo[zipties] = 0;			//Stop servo after wait
-		
+
 		while((nMotorEncoder[LeftSlide] > ENCODER_PRECISION && nMotorEncoder[RightSlide] > ENCODER_PRECISION)){
 			motor[LeftSlide] = motor[RightSlide] = -SLIDE_HIGH * ANDYMARK_CONVERSION;		//Full power until they reach the home position
 		}
