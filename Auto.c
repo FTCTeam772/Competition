@@ -49,18 +49,18 @@ void execute(bool ramp, bool def, bool kick, bool center, int roll) {			//I feel
 
 					if (irvalue == 4) { //center goal is facing the box
 						//knock over kickstand and return to a common point
-						turn(45, SensorValue[Compass]);
+						turnTo(45);
 						move(angle, xPos, yPos, 400);
-						turn(180, SensorValue[Compass]);
+						turnTo(180);
 						move(angle, xPos, yPos, 300);
 						moveTo(angle, xPos, yPos, 0, 800);
 					}
 
 					if (irvalue == 5) { //center goal is facing at a 45 degree angle between the box and side of the ramp
 						//knock over kickstand and return to a common point
-						
-						
-					
+
+
+
 					}
 
 					if (irvalue == 6) { //center goal is facing at a 45 degree angle between the box and side wall near the other alliance
@@ -71,13 +71,14 @@ void execute(bool ramp, bool def, bool kick, bool center, int roll) {			//I feel
 				if (center == true) {						//If scoring in center goal
 					//locate center goal and score in it
 					if (irvalue == 4) { //center goal is facing toward the box
-						turn(45, SensorValue[Compass]);
+						turnTo(45);
 						move(angle, xPos, yPos, 1000);
-						turn(0, SensorValue[Compass]);
+						turnTo(0);
 						liftScore(CENTER_GOAL);
-					
+
 					}
 					if (irvalue == 5) {
+
 
 					}
 					if (irvalue == 6) {
@@ -94,34 +95,34 @@ void execute(bool ramp, bool def, bool kick, bool center, int roll) {			//I feel
 
 					if (roll == 1) {
 					//score in medium goal and bring it back (bring it back can be a common.h method) to parking zone
-						turn(20, SensorValue[Compass]);
+						turnTo(20);
 						move(angle, xPos, yPos, 700);
 						liftScore(MEDIUM_GOAL);
-						turn (170, SensorValue[Compass]);
+						turnTo(170);
 						move(angle, xPos, yPos, 1000);
 
 					}
 					if (roll == 2) {
 					//score in tallest goal and bring it back
-						turn(30, SensorValue[Compass]);
+						turnTo(30);
 						move(angle, xPos, yPos, 200);
-						turn(-30, SensorValue[Compass]);
+						turnTo(-30);
 						move(angle, xPos, yPos, 500);
 						liftScore(HIGH_GOAL);
-						turn(120, SensorValue[Compass]);
+						turnTo(120);
 						move(angle, xPos, yPos, 1200);
 
 					}
 					if (roll == 3) {
 					//score in medium and tallest then bring back the tallest goal
-						turn(30, SensorValue[Compass]);
+						turnTo(30);
 						move(angle, xPos, yPos, 200);
-						turn(-30, SensorValue[Compass]);
+						turnTo(-30);
 						move(angle, xPos, yPos, 500);
 						liftScore(HIGH_GOAL);
-						turn(30, SensorValue[Compass];
+						turnTo(30);
 						liftScore(MEDIUM_GOAL);
-						turn (170, SensorValue[Compass]);
+						turnTo(170);
 						move(angle, xPos, yPos, 1000);
 
 					}
@@ -131,6 +132,7 @@ void execute(bool ramp, bool def, bool kick, bool center, int roll) {			//I feel
 		}
 
 		if (ramp == false) {
+			xPos = 500;
 
 			if (def == true) {
 				//run defense program for floor beginning
@@ -174,9 +176,16 @@ void execute(bool ramp, bool def, bool kick, bool center, int roll) {			//I feel
 					if (roll == 1) {
 					//score in medium goal and bring it back (bring it back can be a common.h method) to parking zone
 
+
 					}
 					if (roll == 2) {
 					//score in tallest goal and bring it back
+						move(angle, xPos, yPos,200);
+						turnTo(-30);
+						move(angle, xPos, yPos, 700);
+						liftScore(HIGH_GOAL);
+						turnTo(-120);
+						move(angle, xPos, yPos, 700);
 
 					}
 					if (roll == 3) {
