@@ -4,6 +4,7 @@
 //Controller constants
 #define DEADBAND 15
 
+
 //Scaling
 #define DRIVE_HIGH 100
 #define DRIVE_LOW 40
@@ -16,6 +17,7 @@
 #define ANDYMARK_CONVERSION -78.0/100.0
 #define SLIDE_TOP 28000       //Needs to be calibrated
 #define SLIDE_BOTTOM 0
+#define CONT_SERVO_CENTER 128
 
 //Presets (all must be calibrated)
 #define LOW_GOAL 7000
