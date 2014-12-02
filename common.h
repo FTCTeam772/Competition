@@ -58,6 +58,15 @@ void turnTo(float newAngle){
 		}
 }
 
+void turn(float amount){
+		nMotorEncoder[FrontLeft] = nMotorEncoder[FrontRight] = nMotorEncoder[BackLeft] = nMotorEncoder[BackRight] = 0; 	//Reset encoders
+		while((abs(nMotorEncoder[FrontLeft] + amount) > ENCODER_PRECISION && abs(nMotorEncoder[FrontRight] - amount) > ENCODER_PRECISION) && (abs(nMotorEncoder[BackLeft] + amount) > ENCODER_PRECISION && abs(nMotorEncoder[BackRight] - amount) > ENCODER_PRECISION)) {
+				motor[FrontLeft] = motor[BackLeft] = DRIVE_HIGH * ANDYMARK_CONVERSION * sgn(amount);
+				motor[FrontRight] = motor[BackRight] = DRIVE_HIGH * ANDYMARK_CONVERSION * -sgn(amount);
+		}
+		motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor[BackRight] = 0;
+}
+
 void moveTo(float angle, float Xi, float Yi, float Xf, float Yf) {
 	float theta = atan2((Xf - Xi),(Yf - Yi)) * (180.0 / PI);
 	turnTo(theta);
