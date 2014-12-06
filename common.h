@@ -2,11 +2,15 @@ void initialize() {
 	//Initialize motors and encoders
 	motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor[BackRight] = motor[LeftSlide] = motor[RightSlide] = 0; //Turn off the motors
 	nMotorEncoder[FrontLeft] = nMotorEncoder[FrontRight] = nMotorEncoder[BackLeft] = nMotorEncoder[BackRight] = nMotorEncoder[LeftSlide] = nMotorEncoder[RightSlide] = 0; //Might as well reset the encoders too
-	SensorValue[Compass] = 0;		//NEED TO DO THIS DIFFERENTLY IT ALWAYS READ NORTH
+//	float initialCompassValue = SensorValue[Compass];//NEED TO DO THIS DIFFERENTLY IT ALWAYS READS NORTH
+
+//	float calculateCompass () {
+//		return (SensorValue[Compass] - initialCompassValue) % 360;
+	}
 
 	//Display the robot's name
-	nxtDisplayCenteredTextLine(0, "Rock 0.5");
-}
+//	nxtDisplayCenteredTextLine(0, "Rock 0.5");
+//}
 
 float targetMotorSpeed(int target, int current) {
 	#ifdef NONLINEARTARGET
@@ -20,7 +24,7 @@ float targetMotorSpeed(int target, int current) {
 		return (abs(current - target) > ENCODER_PRECISION) ? 1 : 0;
 	#endif
 }
-
+/*
 void updatexPos(float angle, float Xpos, float dist){
 	xPos += (dist * sin (angle));
 
@@ -31,23 +35,33 @@ void updateyPos (float angle, float Ypos, float dist) {
 	yPos += (dist * cos (angle));
 
 	yPos = Ypos;
-}
+}*/
 
-void move(float angle, float xPos, float yPos, float dist) {
+/** void move(float angle, float xPos, float yPos, float dist) {
 		nMotorEncoder[FrontLeft] = nMotorEncoder[FrontRight] = nMotorEncoder[BackLeft] = nMotorEncoder[BackRight] = 0;
 
 		while(abs(nMotorEncoder[FrontLeft] - dist) > ENCODER_PRECISION || abs(nMotorEncoder[FrontRight] - dist) > ENCODER_PRECISION || abs(nMotorEncoder[BackLeft] - dist) > ENCODER_PRECISION || abs(nMotorEncoder[BackRight] - dist) > ENCODER_PRECISION) {
-			motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor[BackRight] = DRIVE_HIGH * ANDYMARK_CONVERSION * dist/(abs(dist));
+			motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor[BackRight] = DRIVE_HIGH * ANDYMARK_CONVERSION * sgn(dist);
 		}
 
 		motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor[BackRight] = 0;
 		updatexPos(angle, xPos, dist);
 		updateyPos(angle, yPos, dist);
 }
+ **/
 
-void turnTo(float newAngle){
-		while(abs(newAngle - SensorValue[Compass]) > ANGLE_PRECISION){
-			if(newAngle - SensorValue[Compass] > ANGLE_PRECISION){						//turn left
+void drive(float amount) {
+		nMotorEncoder[FrontLeft] = nMotorEncoder[FrontRight] = nMotorEncoder[BackLeft] = nMotorEncoder[BackRight] = 0; 	//Reset encoders
+		while((abs(nMotorEncoder[FrontLeft] + amount) > ENCODER_PRECISION && abs(nMotorEncoder[FrontRight] + amount) > ENCODER_PRECISION) && (abs(nMotorEncoder[BackLeft] + amount) > ENCODER_PRECISION && abs(nMotorEncoder[BackRight] + amount) > ENCODER_PRECISION)) {
+				motor[FrontLeft] = motor[BackLeft] = DRIVE_HIGH * ANDYMARK_CONVERSION * sgn(amount);
+				motor[FrontRight] = motor[BackRight] = DRIVE_HIGH * ANDYMARK_CONVERSION * sgn(amount);
+		}
+		motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor[BackRight] = 0;
+}
+
+/*void turnTo(float newAngle){
+		while(abs(newAngle - calculateCompass()) > ANGLE_PRECISION){
+			if(newAngle - calculateCompass() > ANGLE_PRECISION){						//turn left
 				motor[FrontLeft] = motor[BackLeft] = DRIVE_HIGH * ANDYMARK_CONVERSION * -1;
 				motor[FrontRight] = motor[BackRight] = DRIVE_HIGH * ANDYMARK_CONVERSION;
 			}
@@ -56,9 +70,10 @@ void turnTo(float newAngle){
 				motor[FrontRight] = motor[BackRight] = DRIVE_HIGH * ANDYMARK_CONVERSION * -1;
 			}
 		}
-}
+}*/
 
-void turn(float amount){
+void turn(float amount){		//If amount is positive, a left turn is made.
+		amount *= ENCODERCONVERSION;
 		nMotorEncoder[FrontLeft] = nMotorEncoder[FrontRight] = nMotorEncoder[BackLeft] = nMotorEncoder[BackRight] = 0; 	//Reset encoders
 		while((abs(nMotorEncoder[FrontLeft] + amount) > ENCODER_PRECISION && abs(nMotorEncoder[FrontRight] - amount) > ENCODER_PRECISION) && (abs(nMotorEncoder[BackLeft] + amount) > ENCODER_PRECISION && abs(nMotorEncoder[BackRight] - amount) > ENCODER_PRECISION)) {
 				motor[FrontLeft] = motor[BackLeft] = DRIVE_HIGH * ANDYMARK_CONVERSION * sgn(amount);
@@ -67,18 +82,40 @@ void turn(float amount){
 		motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor[BackRight] = 0;
 }
 
-void moveTo(float angle, float Xi, float Yi, float Xf, float Yf) {
-	float theta = atan2((Xf - Xi),(Yf - Yi)) * (180.0 / PI);
+/*	float theta = atan((Xf - Xi),(Yf - Yi)) * (180.0 / PI);
+		if (theta < 0) {
+			if (x < 0 && y < 0) {
+				theta += 180;
+			}
+		}
+		if (theta > 0) {
+			if (x > 0 && y < 0) {
+				theta += 180;
+			}
+		}
+		if (theta = 0) {
+			if (y < 0) {
+				theta += 180
+			}
+		}
+		if (theta = 90) {
+			if (x > 0) {
+				theta = 270;
+			}
+		}
 	turnTo(theta);
 	float dist = sqrt(pow(Xf - Xi, 2) + pow(Yf - Yi, 2));
 	move(angle, Xi, Yi, dist);
 }
-float atan2(float x, float y){
+
+*/
+/**float atan2(float x, float y){
   float phi;
 
    if (x>0) {phi=atan(y/x);}
    else
-   if ((x<0)&&(y>=0))  {phi=PI+atan(y/x);}
+
+  if ((x<0)&&(y>=0))  {phi=PI+atan(y/x);}
    else
    if ((x<0)&&(y<0))   {phi=-PI+atan(y/x);}
    else
@@ -90,6 +127,7 @@ float atan2(float x, float y){
 
    return phi;
 }
+**/
 
 void wait() {
 	wait10Msec(WAIT);
