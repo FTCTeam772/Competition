@@ -23,7 +23,7 @@
 //Music player
 #include "Player.h"
 
-string programs[] = { "Left IR", "Left Non-IR", "Right IR", "Right Non-IR" };
+//string programs[] = { "Left IR", "Left Non-IR", "Right IR", "Right Non-IR" };
 
 void execute(bool ramp, bool def, bool kick, bool center, int roll) {			//I feel like this should be outside of task main()
 
@@ -33,18 +33,17 @@ void execute(bool ramp, bool def, bool kick, bool center, int roll) {			//I feel
 
 	//***NOTE*** All IR values in various branches have not been calibrated. They might be (for example) 3, 4, or 5 instead of 4, 5, or 6.
 		if (ramp == true) {			//If starting from ramp
-		drive(18000);
-		
+
 			if (def == true) {
 				//run defense program for ramp beginning
 
 			}
 			else {
 
-				if (kick == true) {
-					//run kickstand method for ramp start	
+				/*if (kick == true) {
+					//run kickstand method for ramp start
 
-					if (SensorValue[IR_left] == 7 && SensorValue[IR_right] == 0) { //center goal is facing the box
+					if (SensorValue[IR_left] == 4 && SensorValue[IR_right] == 0) { //center goal is facing the box
 						//knock over kickstand and return to a common point
 						turn(45);
 						drive(4000);
@@ -53,7 +52,7 @@ void execute(bool ramp, bool def, bool kick, bool center, int roll) {			//I feel
 						//moveTo(angle, xPos, yPos, 0, 800);
 					}
 
-					if (SensorValue[IR_left] == 5 && SensorValue[IR_right] == 6) { //center goal is facing at a 45 degree angle between the box and side of the ramp
+					if (SensorValue[IR_left] == 4 && SensorValue[IR_right] == 5) { //center goal is facing at a 45 degree angle between the box and side of the ramp
 						//knock over kickstand and return to a common point
 						turn(45);
 						drive(4000);
@@ -69,11 +68,12 @@ void execute(bool ramp, bool def, bool kick, bool center, int roll) {			//I feel
 						drive(3000);
 						//moveTo(angle, xPos, yPos, 0, 800);
 				  }
-				}
+				}*/
 			}
 
 				if (center == true) {//If scoring in center goal
-					//locate center goal and score in it
+					drive(9000);
+				//locate center goal and score in it
 					if (SensorValue[IR_left] == 7 && SensorValue[IR_right] == 0) { //center goal is facing toward the box
 						turn(45);
 						drive(10000);
@@ -105,40 +105,41 @@ void execute(bool ramp, bool def, bool kick, bool center, int roll) {			//I feel
 
 					if (roll == 1) {
 					//score in medium goal and bring it back (bring it back can be a common.h method) to parking zone
-						turn(20);
-						drive(7000);
+						drive(12000);
 						liftScore(MEDIUM_GOAL);
-						turn(150);
-						drive(10000);
+						//turn(150);
+						//drive(10000);
 					}
 					if (roll == 2) {
 					//score in tallest goal and bring it back
-						turn(30);
-						drive(2000);
-						turn(-60);
-						drive(5000);
+						drive(9000);
+						turn(-2500);
+						drive(2250);
+						turn(4250);
+						drive(4000);
 						liftScore(HIGH_GOAL);
-						turn(90);
-						drive(12000);
+						//turn(90);
+						//drive(12000);
 					}
 					if (roll == 3) {
 					//score in medium and tallest then bring back the tallest goal
-						turn(30);
-						drive(2000);
-						turn(-60);
-						drive(5000);
-						liftScore(HIGH_GOAL);
-						turn(60);
+						drive(12000);
 						liftScore(MEDIUM_GOAL);
-						turn(140);
-						drive(10000);
+						drive(-1500);
+						turn(-2500);
+						drive(2000);
+						turn(4250);
+						drive(4000);
+						liftScore(HIGH_GOAL);
+						//turn(140);
+						//drive(10000);
 					}
 				}
 
 		if (ramp == false) {
 			drive(12000);
 			turn(45);
-		
+
 			if (def == true) {
 				//run defense program for floor beginning
 			}
@@ -173,7 +174,7 @@ void execute(bool ramp, bool def, bool kick, bool center, int roll) {			//I feel
 
 				if (center == true) {
 					//locate center goal and score in it
-					
+
 					if (SensorValue[IR_left] == 7 && SensorValue[IR_right] == 0) { //center goal is facing toward the box
 						turn(45);
 						drive(10000);
@@ -247,7 +248,7 @@ task main() {
 	int prog = 0; //Autonomous program
 
 	//Prompt for autonomous program
-	nxtDisplayCenteredTextLine(3, "Select program:");
+/*	nxtDisplayCenteredTextLine(3, "Select program:");
 	nxtDisplayCenteredTextLine(5, "%s", programs[prog]);
 	while(nNxtButtonPressed != 3) { //Wait for press
 		wait10Msec(20);
@@ -260,7 +261,7 @@ task main() {
 			prog++;
 			nxtDisplayCenteredTextLine(5, "%s", programs[prog]);
 		}
-	}
+	}*/
 	while(nNxtButtonPressed == 3){ //Wait for unpress
 
 		//Add a delay
@@ -296,8 +297,10 @@ task main() {
 
 	//SensorValue[IR]
 
-	execute(RAMP, DEF, KICK, CENTER, ROLLING);
+  execute(RAMP, DEF, KICK, CENTER, ROLLING);
 
 	//writeDebugStream("IR:\t%d\n", SensorValue[IR]);
+  writeDebugStream("LeftSlide:\t%d\n", nMotorEncoder[LeftSlide]);
+  writeDebugStream("RightSlide:\t%d\n", nMotorEncoder[RightSlide]);
 
 }
