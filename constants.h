@@ -18,6 +18,7 @@
 #define SLIDE_TOP 28000       //Needs to be calibrated
 #define SLIDE_BOTTOM 0
 #define CONT_SERVO_CENTER 128
+#define ENCODERCONVERSION 4.0; //degree to encoder value conversion
 
 //Presets (all must be calibrated)
 #define LOW_GOAL 7000
