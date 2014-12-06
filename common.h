@@ -73,7 +73,6 @@ void drive(float amount) {
 }*/
 
 void turn(float amount){		//If amount is positive, a left turn is made.
-		amount *= ENCODERCONVERSION;
 		nMotorEncoder[FrontLeft] = nMotorEncoder[FrontRight] = nMotorEncoder[BackLeft] = nMotorEncoder[BackRight] = 0; 	//Reset encoders
 		while((abs(nMotorEncoder[FrontLeft] + amount) > ENCODER_PRECISION && abs(nMotorEncoder[FrontRight] - amount) > ENCODER_PRECISION) && (abs(nMotorEncoder[BackLeft] + amount) > ENCODER_PRECISION && abs(nMotorEncoder[BackRight] - amount) > ENCODER_PRECISION)) {
 				motor[FrontLeft] = motor[BackLeft] = DRIVE_HIGH * ANDYMARK_CONVERSION * sgn(amount);
@@ -134,17 +133,25 @@ void wait() {
 }
 
 void liftScore(int targetHeight){
-		while(abs(nMotorEncoder[LeftSlide] - targetHeight) > ENCODER_PRECISION && abs(nMotorEncoder[RightSlide] - targetHeight) > ENCODER_PRECISION){
-			motor[LeftSlide] = motor[RightSlide] = SLIDE_HIGH * ANDYMARK_CONVERSION;		//Full power until they reach the desired encoder value
+		while(abs(nMotorEncoder[LeftSlide] - targetHeight) > ENCODER_PRECISION || abs(nMotorEncoder[RightSlide] - targetHeight) > ENCODER_PRECISION){
+			motor[LeftSlide] = targetMotorSpeed(targetHeight, nMotorEncoder[LeftSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
+			motor[RightSlide] = targetMotorSpeed(targetHeight, nMotorEncoder[RightSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
 		}
 		motor[LeftSlide] = motor[RightSlide] = 0;		//Stop lift motors after they have reached the desired height
+
+		drive(300);
 
 		servo[zipties] = 100;		//Score balls
 		wait10Msec(ZIPTIE_WAIT);
 		servo[zipties] = 0;			//Stop servo after wait
-
-		while((nMotorEncoder[LeftSlide] > ENCODER_PRECISION && nMotorEncoder[RightSlide] > ENCODER_PRECISION)){
-			motor[LeftSlide] = motor[RightSlide] = -SLIDE_HIGH * ANDYMARK_CONVERSION;		//Full power until they reach the home position
+		
+		drive(-300);
+		
+		while(nMotorEncoder[LeftSlide] > ENCODER_PRECISION || nMotorEncoder[RightSlide] > ENCODER_PRECISION){
+			motor[LeftSlide] = targetMotorSpeed(0, nMotorEncoder[LeftSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
+			motor[RightSlide] = targetMotorSpeed(0, nMotorEncoder[RightSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
 		}
+
 		motor[LeftSlide] = motor[RightSlide] = 0;		//Stop motors
+		
 }
