@@ -30,6 +30,7 @@ void execute(bool ramp, bool def, bool kick, bool center, int roll) {			//I feel
 //	float xPos = 0;
 //	float yPos = 0;
 //	float angle = 0;
+int irvalue;
 
 		if (ramp == true) {			//If starting from ramp
 
@@ -148,28 +149,45 @@ void execute(bool ramp, bool def, bool kick, bool center, int roll) {			//I feel
 
 				drive(-3000);
 
-					if ((SensorValue[IR_left] == 0 && SensorValue[IR_right] == 0)	|| (SensorValue[IR_left] == 6 && SensorValue[IR_right] == 0)) { //center goal is facing at 45 degree angle
-						//knock over kickstand and return to a common point
+					if ((SensorValue[IR_left] == 0 && SensorValue[IR_right] == 0)	|| (SensorValue[IR_left] == 6 && SensorValue[IR_right] == 0) || (SensorValue[IR_left] == 7 && SensorValue[IR_right] == 0)) { //center goal is facing at 45 degree angle
+						//knock over kickstand
+						irvalue = 0;
 						turn(2500);
 						drive(4000);
-						turn(-1600);
-						drive(-5000);
+						turn(-1580);
+						drive(-5500);
+						if(center == true){
+							drive(2800);
+						}
 						//moveTo(angle, xPos, yPos, 0, 800);
 					}
 
 					if ((SensorValue[IR_left] == 5 && SensorValue[IR_right] == 6) || (SensorValue[IR_left] == 5 && SensorValue[IR_right] == 7)) { //center goal is facing the box
-						//knock over kickstand and return to a common point
+						//knock over kickstand
+						irvalue = 1;
 						oneSideTurn(-1300, false);
 						oneSideTurn(-1300, true);
 						drive(-4000);
+						if(center == true) {
+							drive(2800);
+						}
 						//moveTo(angle, xPos, yPos, 0, 800);
 					}
 
 					if ((SensorValue[IR_left] == 3 && SensorValue[IR_right] == 0) || (SensorValue[IR_left] == 4 && SensorValue[IR_right] == 0)) { //center goal is facing toward the side of the ramp
+						//knock over kickstand
+						irvalue = 2;
 						oneSideTurn(-2000, false);
-						drive(-1500);
-						turn(-4800);
+						drive(-1400);
+						turn(-4685);
 						drive(-4000);
+						if(center == true){
+							drive(-2300);
+						}
+						else {
+							drive(4000);
+							turn(3000);
+						}
 						//moveTo(angle, xPos, yPos, 0, 800);
 				  }
 				}
@@ -177,24 +195,25 @@ void execute(bool ramp, bool def, bool kick, bool center, int roll) {			//I feel
 				if (center == true) {
 					//locate center goal and score in it
 
-					if (SensorValue[IR_left] == 7 && SensorValue[IR_right] == 0) { //center goal is facing toward the box
-						turn(45);
-						drive(10000);
-						turn(-45);
+					if (irvalue == 0 || irvalue == 1) { //center goal is facing at a 45 degree angle
+						turn(3450);
+						drive(2000);
+						turn(3450);
+						drive(-1500);
 						liftScore(CENTER_GOAL);
 
 					}
-					if (SensorValue[IR_left] == 6 && SensorValue[IR_right] == 5) { //center goal is facing at a 45 degree angle between the box and side of the ramp
+					/*if (irvalue == 1) { //center goal is facing the side of the ramp
 						//knock over kickstand and return to a common point
 						turn(45);
 						drive(10000);
 						turn(30);
 						liftScore(CENTER_GOAL);
-					}
-					if (SensorValue[IR_left] == 5 && SensorValue[IR_right] == 5) { //center goal is facing toward the side of the ramp
-						turn(45);
-						drive(10000);
-						turn(80);
+					}*/
+					if (irvalue == 2) { //center goal is facing the box
+						oneSideTurn(-3000, false);
+						oneSideTurn(-3000, true);
+						drive(300);
 						liftScore(CENTER_GOAL);
 					}
 					//reset robot to home position
