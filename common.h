@@ -6,11 +6,10 @@ void initialize() {
 
 //	float calculateCompass () {
 //		return (SensorValue[Compass] - initialCompassValue) % 360;
-	}
 
 	//Display the robot's name
-//	nxtDisplayCenteredTextLine(0, "Rock 0.5");
-//}
+	nxtDisplayCenteredTextLine(0, "Rock 0.8");
+}
 
 float targetMotorSpeed(int target, int current) {
 	#ifdef NONLINEARTARGET
@@ -81,6 +80,21 @@ void turn(float amount){		//If amount is positive, a left turn is made.
 		motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor[BackRight] = 0;
 }
 
+void oneSideTurn(float amount, bool leftWheel){
+		nMotorEncoder[FrontLeft] = nMotorEncoder[FrontRight] = nMotorEncoder[BackLeft] = nMotorEncoder[BackRight] = 0; 	//Reset encoders
+		if(leftWheel == true){
+			while(abs(nMotorEncoder[FrontLeft] + amount) > ENCODER_PRECISION && abs(nMotorEncoder[BackLeft] + amount) > ENCODER_PRECISION) {
+				motor[FrontLeft] = motor[BackLeft] = DRIVE_HIGH * ANDYMARK_CONVERSION * sgn(amount);
+			}
+		}
+		if(leftWheel == false){
+			while(abs(nMotorEncoder[FrontRight] + amount) > ENCODER_PRECISION && abs(nMotorEncoder[BackRight] + amount) > ENCODER_PRECISION) {
+				motor[FrontRight] = motor[BackRight] = DRIVE_HIGH * ANDYMARK_CONVERSION * sgn(amount);
+			}
+		}
+		motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor[BackRight] = 0;
+}
+
 /*	float theta = atan((Xf - Xi),(Yf - Yi)) * (180.0 / PI);
 		if (theta < 0) {
 			if (x < 0 && y < 0) {
@@ -144,14 +158,14 @@ void liftScore(int targetHeight){
 		servo[zipties] = 100;		//Score balls
 		wait10Msec(ZIPTIE_WAIT);
 		servo[zipties] = 0;			//Stop servo after wait
-		
+
 		drive(-300);
-		
+
 		while(nMotorEncoder[LeftSlide] > ENCODER_PRECISION || nMotorEncoder[RightSlide] > ENCODER_PRECISION){
 			motor[LeftSlide] = targetMotorSpeed(0, nMotorEncoder[LeftSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
 			motor[RightSlide] = targetMotorSpeed(0, nMotorEncoder[RightSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
 		}
 
 		motor[LeftSlide] = motor[RightSlide] = 0;		//Stop motors
-		
+
 }
