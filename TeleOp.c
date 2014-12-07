@@ -68,8 +68,25 @@ task slideControl() {
 		//Check each axis for deadband
 		if((joystick.joy2_y1 > DEADBAND || joystick.joy2_y1 < -DEADBAND) && abs(joystick.joy2_y1) > abs(joystick.joy2_x1))
 			y1 = joystick.joy2_y1 / 128.0;
-		else
+		else if(joystick.joy2_TopHat == 0){		//If the operator is holding the top of the D-pad...
+			if(joy2Btn(9)){
+				motor[LeftSlide] = SLIDE_LOW * ANDYMARK_CONVERSION;		//...and pressing button 9, the *LEFT* slide will go *UP* slowly
+			}
+			if(joy2Btn(10)){
+				motor[RightSlide] = SLIDE_LOW * ANDYMARK_CONVERSION;	//...and pressing button 10, the *RIGHT* slide will go *UP* slowly
+			}
+		}
+		else if(joystick.joy2_TopHat == 4){		//If the operator is holding the bottom of the D-pad...
+			if(joy2Btn(9)){
+				motor[LeftSlide] = SLIDE_LOW * ANDYMARK_CONVERSION * -1;		//...and pressing button 9, the *LEFT* slide will go *DOWN* slowly
+			}
+			if(joy2Btn(10)){
+				motor[RightSlide] = SLIDE_LOW * ANDYMARK_CONVERSION * -1;		//...and pressing button 10, the *RIGHT* slide will go *UP* slowly
+			}
+		}
+		else {
 			y1 = 0;
+		}
 
 		//Protect slides unless button 5 is pressed
 		if(((y1 < 0 && nMotorEncoder[LeftSlide] <= SLIDE_BOTTOM) || (y1 < 0 && nMotorEncoder[RightSlide] <= SLIDE_BOTTOM) || (y1 > 0 && nMotorEncoder[LeftSlide] >= SLIDE_TOP) || (y1 > 0 && nMotorEncoder[LeftSlide] >= SLIDE_TOP)) && !joy2Btn(5))
@@ -155,9 +172,9 @@ task main() {
 	while(true) {
 		//Joystick 1 - Driver
 
-		if(joy1Btn(6)) //If the driver is pressing button 6, slow down movements
+		if(joy1Btn(6)) 		//If the driver is pressing button 6, slow down movements
 			drive_scale = DRIVE_LOW;
-		else //Else be full speed
+		else 		//Else be full speed
 			drive_scale = DRIVE_HIGH;
 
 		switch(joystick.joy1_TopHat) { //Play a song based on the D-pad value
@@ -200,23 +217,6 @@ task main() {
 		else
 			slide_scale = SLIDE_HIGH;
 
-		//Emergency slide corrections (moving only one side of the slides at a time.
-		if(joystick.joy2_TopHat == 0){		//If the operator is holding the top of the D-pad...
-			if(joy2Btn(9)){
-				motor[LeftSlide] = SLIDE_LOW * ANDYMARK_CONVERSION;		//...and pressing button 9, the *LEFT* slide will go *UP* slowly
-			}
-			if(joy2Btn(10)){
-				motor[RightSlide] = SLIDE_LOW * ANDYMARK_CONVERSION;	//...and pressing button 10, the *RIGHT* slide will go *UP* slowly
-			}
-		}
-		if(joystick.joy2_TopHat == 4){		//If the operator is holding the bottom of the D-pad...
-			if(joy2Btn(9)){
-				motor[LeftSlide] = SLIDE_LOW * ANDYMARK_CONVERSION * -1;		//...and pressing button 9, the *LEFT* slide will go *DOWN* slowly
-			}
-			if(joy2Btn(10)){
-				motor[RightSlide] = SLIDE_LOW * ANDYMARK_CONVERSION * -1;		//...and pressing button 10, the *RIGHT* slide will go *UP* slowly
-			}
-		}
 		//Zip Ties
 		if(joystick.joy2_x2 > DEADBAND || joystick.joy2_x2 < -DEADBAND)		//If the operator is putting in a value on the x-axis of the right stick
 			servo[zipties] = joystick.joy2_x2 + CONT_SERVO_CENTER;															//Make the servo spin accordingly
