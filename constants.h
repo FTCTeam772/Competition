@@ -18,7 +18,7 @@
 #define SLIDE_BOTTOM 0
 #define CONT_SERVO_CENTER 128
 
-//Presets (all must be calibrated)
+//Presets
 #define LOW_GOAL 15000
 #define MEDIUM_GOAL 24000
 #define HIGH_GOAL 32000
