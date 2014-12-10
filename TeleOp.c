@@ -56,7 +56,8 @@ task driveControl() { //Asynchronous task for critical drive control
 		motor[BackLeft] = motor[FrontLeft] = drive_scale * y1 * ANDYMARK_CONVERSION;
 		motor[BackRight] = motor[FrontRight] = drive_scale * y2 * ANDYMARK_CONVERSION;
 
-		//writeDebugStream("Wheels:\n\tFront Left:\t%d\n\tFront Right:\t%d\n\tBack Left:\t%d\n\tBack Right:\t%d\n", nMotorEncoder[FrontLeft], nMotorEncoder[FrontRight], nMotorEncoder[BackLeft], nMotorEncoder[BackRight]);
+		//writeDebugStream("Wheels:\n\tFront Left:\t%d\n\tFront Right:\t%d\n\tBack Left:\t%d\n\tBack Right:\t%d\n",
+nMotorEncoder[FrontLeft], nMotorEncoder[FrontRight], nMotorEncoder[BackLeft], nMotorEncoder[BackRight]);
 	}
 }
 
@@ -67,12 +68,12 @@ task slideControl() {
 		float y1;
 
 		//Check each axis for deadband
-		if((joystick.joy2_y1 > DEADBAND || joystick.joy2_y1 < -DEADBAND) && abs(joystick.joy2_y1) > abs(joystick.joy2_x1)){
+		if(joystick.joy2_y1 > DEADBAND || joystick.joy2_y1 < -DEADBAND){
 			y1 = joystick.joy2_y1 / 128.0;
 		}
 		else if(joystick.joy2_TopHat == 0){		//If the operator is holding the top of the D-pad...
 			if(joy2Btn(9)){
-				motor[LeftSlide] = SLIDE_HIGH * ANDYMARK_CONVERSION;		//...and pressing button 9, the *LEFT* slide will go *UP* slowly
+				motor[LeftSlide] = SLIDE_HIGH * ANDYMARK_CONVERSION;	//...and pressing button 9, the *LEFT* slide will go *UP* slowly
 			}
 			if(joy2Btn(10)){
 				motor[RightSlide] = SLIDE_HIGH * ANDYMARK_CONVERSION;	//...and pressing button 10, the *RIGHT* slide will go *UP* slowly
@@ -150,7 +151,7 @@ task slideControl() {
 		//Center Goal
 		if(joy2Btn(7)) {
 			motor[LeftSlide] = motor[RightSlide] = 0;
-			while((abs(nMotorEncoder[LeftSlide] - centergoal) > ENCODER_PRECISION || abs(nMotorEncoder[RightSlide] - CENTER_GOAL) > ENCODER_PRECISION) && !joy2Btn(5)) {
+			while((abs(nMotorEncoder[LeftSlide] - centergoal) > ENCODER_PRECISION || abs(nMotorEncoder[RightSlide] - centergoal) > ENCODER_PRECISION) && !joy2Btn(5)) {
 				motor[LeftSlide] = targetMotorSpeed(centergoal, nMotorEncoder[LeftSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
 				motor[RightSlide] = targetMotorSpeed(centergoal, nMotorEncoder[RightSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
 				//writeDebugStream("LeftSlide:\t%d\t%d\RightSlide:\t%d\t%d\n", nMotorEncoder[LeftSlide], nMotorEncoder[RightSlide]);
@@ -220,8 +221,8 @@ task main() {
 			slide_scale = SLIDE_HIGH;
 
 		//Zip Ties
-		if(joystick.joy2_x2 > DEADBAND || joystick.joy2_x2 < -DEADBAND)		//If the operator is putting in a value on the x-axis of the right stick
-			servo[zipties] = joystick.joy2_x2 + CONT_SERVO_CENTER;															//Make the servo spin accordingly
+		if(joystick.joy2_y2 > DEADBAND || joystick.joy2_y2 < -DEADBAND)		//If the operator is putting in a value on the x-axis of the right stick
+			servo[zipties] = joystick.joy2_y2 + CONT_SERVO_CENTER;															//Make the servo spin accordingly
 		else
 			servo[zipties] = CONT_SERVO_CENTER;					//If within DEADBAND, remain stopped
 
