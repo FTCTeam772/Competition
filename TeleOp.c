@@ -28,10 +28,13 @@
 byte drive_scale = DRIVE_HIGH; 		//Used to scale down robot movements
 byte slide_scale = SLIDE_HIGH;
 
+//Declare large constants as longs
 long lowgoal = LOW_GOAL;
 long mediumgoal = MEDIUM_GOAL;
 long highgoal = HIGH_GOAL;
 long centergoal = CENTER_GOAL;
+long slidetop = SLIDE_TOP;
+
 
 task driveControl() { //Asynchronous task for critical drive control
 	while(true) {
@@ -74,28 +77,12 @@ task slideControl() {
 		if(joystick.joy2_y1 > DEADBAND || joystick.joy2_y1 < -DEADBAND){
 			y1 = joystick.joy2_y1 / 128.0;
 		}
-		else if(joystick.joy2_TopHat == 0){		//If the operator is holding the top of the D-pad...
-			if(joy2Btn(9)){
-				motor[LeftSlide] = SLIDE_HIGH * ANDYMARK_CONVERSION;		//...and pressing button 9, the *LEFT* slide will go *UP* slowly
-			}
-			if(joy2Btn(10)){
-				motor[RightSlide] = SLIDE_HIGH * ANDYMARK_CONVERSION;	//...and pressing button 10, the *RIGHT* slide will go *UP* slowly
-			}
-		}
-		else if(joystick.joy2_TopHat == 4){		//If the operator is holding the bottom of the D-pad...
-			if(joy2Btn(9)){
-				motor[LeftSlide] = SLIDE_HIGH * ANDYMARK_CONVERSION * -1;		//...and pressing button 9, the *LEFT* slide will go *DOWN* slowly
-			}
-			if(joy2Btn(10)){
-				motor[RightSlide] = SLIDE_HIGH * ANDYMARK_CONVERSION * -1;		//...and pressing button 10, the *RIGHT* slide will go *DOWN* slowly
-			}
-		}
 		else {
 			y1 = 0;
 		}
-
+		
 		//Protect slides unless button 5 is pressed
-		if(((y1 < 0 && nMotorEncoder[LeftSlide] <= SLIDE_BOTTOM) || (y1 < 0 && nMotorEncoder[RightSlide] <= SLIDE_BOTTOM) || (y1 > 0 && nMotorEncoder[LeftSlide] >= SLIDE_TOP) || (y1 > 0 && nMotorEncoder[LeftSlide] >= SLIDE_TOP)) && !joy2Btn(5))
+		if(((y1 < 0 && nMotorEncoder[LeftSlide] <= SLIDE_BOTTOM) || (y1 < 0 && nMotorEncoder[RightSlide] <= SLIDE_BOTTOM) || (y1 > 0 && nMotorEncoder[LeftSlide] >= slidetop) || (y1 > 0 && nMotorEncoder[LeftSlide] >= slidetop)) && !joy2Btn(5))
 			y1 = 0;
 
 
@@ -103,7 +90,17 @@ task slideControl() {
 		//writeDebugStream("Slides:\n\tLeft Slide:\t%d\n\tRight Slide:\t%d\n", nMotorEncoder[LeftSlide], nMotorEncoder[RightSlide]);
 
 		//Set the motors to scale
+		if(joy2Btn(9)){		//If button nine is pressed, only move the left side
+			motor[LeftSlide] = slide_scale * y1 * ANDYMARK_CONVERSION;
+			motor[RightSlide] = 0;
+		}
+		else if(joy2Btn(10)){		//If button ten is pressed, only move the right side
+			motor[LeftSlide] = 0;
+			motor[RightSlide] = slide_scale * y1 * ANDYMARK_CONVERSION;
+		}
+		else {		//Else move both
 		motor[LeftSlide] = motor[RightSlide] = slide_scale * y1 * ANDYMARK_CONVERSION;
+		}
 
 		//Preset Positions
 
