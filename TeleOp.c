@@ -27,7 +27,11 @@
 //Initialize our globals
 byte drive_scale = DRIVE_HIGH; 		//Used to scale down robot movements
 byte slide_scale = SLIDE_HIGH;
-long centergoal = CENTER_GOAL + HIGH_GOAL;
+
+long lowgoal = LOW_GOAL;
+long mediumgoal = MEDIUM_GOAL;
+long highgoal = HIGH_GOAL;
+long centergoal = CENTER_GOAL;
 
 task driveControl() { //Asynchronous task for critical drive control
 	while(true) {
@@ -56,8 +60,7 @@ task driveControl() { //Asynchronous task for critical drive control
 		motor[BackLeft] = motor[FrontLeft] = drive_scale * y1 * ANDYMARK_CONVERSION;
 		motor[BackRight] = motor[FrontRight] = drive_scale * y2 * ANDYMARK_CONVERSION;
 
-		//writeDebugStream("Wheels:\n\tFront Left:\t%d\n\tFront Right:\t%d\n\tBack Left:\t%d\n\tBack Right:\t%d\n",
-nMotorEncoder[FrontLeft], nMotorEncoder[FrontRight], nMotorEncoder[BackLeft], nMotorEncoder[BackRight]);
+		//writeDebugStream("Wheels:\n\tFront Left:\t%d\n\tFront Right:\t%d\n\tBack Left:\t%d\n\tBack Right:\t%d\n", nMotorEncoder[FrontLeft], nMotorEncoder[FrontRight], nMotorEncoder[BackLeft], nMotorEncoder[BackRight]);
 	}
 }
 
@@ -73,7 +76,7 @@ task slideControl() {
 		}
 		else if(joystick.joy2_TopHat == 0){		//If the operator is holding the top of the D-pad...
 			if(joy2Btn(9)){
-				motor[LeftSlide] = SLIDE_HIGH * ANDYMARK_CONVERSION;	//...and pressing button 9, the *LEFT* slide will go *UP* slowly
+				motor[LeftSlide] = SLIDE_HIGH * ANDYMARK_CONVERSION;		//...and pressing button 9, the *LEFT* slide will go *UP* slowly
 			}
 			if(joy2Btn(10)){
 				motor[RightSlide] = SLIDE_HIGH * ANDYMARK_CONVERSION;	//...and pressing button 10, the *RIGHT* slide will go *UP* slowly
@@ -118,9 +121,9 @@ task slideControl() {
 		//Low Rolling Goal
 		if(joy2Btn(1)) {
 			motor[LeftSlide] = motor[RightSlide] = 0;
-			while((abs(nMotorEncoder[LeftSlide] - LOW_GOAL) > ENCODER_PRECISION || abs(nMotorEncoder[RightSlide] - LOW_GOAL) > ENCODER_PRECISION) && !joy2Btn(5)) {
-				motor[LeftSlide] = targetMotorSpeed(LOW_GOAL, nMotorEncoder[LeftSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
-				motor[RightSlide] = targetMotorSpeed(LOW_GOAL, nMotorEncoder[RightSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
+			while((abs(nMotorEncoder[LeftSlide] - lowgoal) > ENCODER_PRECISION || abs(nMotorEncoder[RightSlide] - lowgoal) > ENCODER_PRECISION) && !joy2Btn(5)) {
+				motor[LeftSlide] = targetMotorSpeed(lowgoal, nMotorEncoder[LeftSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
+				motor[RightSlide] = targetMotorSpeed(lowgoal, nMotorEncoder[RightSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
 				//writeDebugStream("LeftSlide:\t%d\t%d\RightSlide:\t%d\t%d\n", nMotorEncoder[LeftSlide], nMotorEncoder[RightSlide]);
 			}
 			motor[LeftSlide] = motor[RightSlide] = 0;
@@ -129,9 +132,9 @@ task slideControl() {
 		//Medium Rolling Goal
 		if(joy2Btn(3)) {
 			motor[LeftSlide] = motor[RightSlide] = 0;
-			while((abs(nMotorEncoder[LeftSlide] - MEDIUM_GOAL) > ENCODER_PRECISION || abs(nMotorEncoder[RightSlide] - MEDIUM_GOAL) > ENCODER_PRECISION) && !joy2Btn(5)) {
-				motor[LeftSlide] = targetMotorSpeed(MEDIUM_GOAL, nMotorEncoder[LeftSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
-				motor[RightSlide] = targetMotorSpeed(MEDIUM_GOAL, nMotorEncoder[RightSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
+			while((abs(nMotorEncoder[LeftSlide] - mediumgoal) > ENCODER_PRECISION || abs(nMotorEncoder[RightSlide] - mediumgoal) > ENCODER_PRECISION) && !joy2Btn(5)) {
+				motor[LeftSlide] = targetMotorSpeed(mediumgoal, nMotorEncoder[LeftSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
+				motor[RightSlide] = targetMotorSpeed(mediumgoal, nMotorEncoder[RightSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
 				//writeDebugStream("LeftSlide:\t%d\t%d\RightSlide:\t%d\t%d\n", nMotorEncoder[LeftSlide], nMotorEncoder[RightSlide]);
 			}
 			motor[LeftSlide] = motor[RightSlide] = 0;
@@ -140,9 +143,9 @@ task slideControl() {
 		//High Rolling Goal
 		if(joy2Btn(4)) {
 			motor[LeftSlide] = motor[RightSlide] = 0;
-			while((abs(nMotorEncoder[LeftSlide] - HIGH_GOAL) > ENCODER_PRECISION || abs(nMotorEncoder[RightSlide] - HIGH_GOAL) > ENCODER_PRECISION) && !joy2Btn(5)) {
-				motor[LeftSlide] = targetMotorSpeed(HIGH_GOAL, nMotorEncoder[LeftSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
-				motor[RightSlide] = targetMotorSpeed(HIGH_GOAL, nMotorEncoder[RightSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
+			while((abs(nMotorEncoder[LeftSlide] - highgoal) > ENCODER_PRECISION || abs(nMotorEncoder[RightSlide] - highgoal) > ENCODER_PRECISION) && !joy2Btn(5)) {
+				motor[LeftSlide] = targetMotorSpeed(highgoal, nMotorEncoder[LeftSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
+				motor[RightSlide] = targetMotorSpeed(highgoal, nMotorEncoder[RightSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
 				//writeDebugStream("LeftSlide:\t%d\t%d\RightSlide:\t%d\t%d\n", nMotorEncoder[LeftSlide], nMotorEncoder[RightSlide]);
 			}
 			motor[LeftSlide] = motor[RightSlide] = 0;
