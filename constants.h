@@ -19,10 +19,10 @@
 #define CONT_SERVO_CENTER 128
 
 //Presets
-#define LOW_GOAL 15000
-#define MEDIUM_GOAL 24000
-#define HIGH_GOAL 32000
-#define CENTER_GOAL 8000
+#define LOW_GOAL 18000
+#define MEDIUM_GOAL 34000
+#define HIGH_GOAL 48000
+#define CENTER_GOAL 20000
 //Autonomous
 #define WAIT 30
 #define ZIPTIE_WAIT 120
