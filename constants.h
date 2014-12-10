@@ -22,12 +22,12 @@
 #define LOW_GOAL 18000
 #define MEDIUM_GOAL 34000
 #define HIGH_GOAL 48000
-#define CENTER_GOAL 20000
+#define CENTER_GOAL 70000
 //Autonomous
 #define WAIT 30
 #define ZIPTIE_WAIT 120
-#define RAMP false    //Will the robot start on the ramp?
+#define RAMP true    //Will the robot start on the ramp?
 #define DEF false     //Will the robot do defense?
-#define KICK true    //Will the robot knock down the kick stand?
+#define KICK false    //Will the robot knock down the kick stand?
 #define CENTER false  //Will the robot go for the center goal?
 #define ROLLING 1    //Which rolling goal will the robot go for?  (0 = no rolling goals, 1 = medium goal only, 2 = high goal only, 3 = both goals)
