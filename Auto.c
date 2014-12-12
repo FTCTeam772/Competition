@@ -26,8 +26,6 @@
 
 void execute(bool ramp, bool def, bool kick, bool center, int roll) {			//I feel like this should be outside of task main()
 
-
-
 int irvalue;
 
 		if (ramp == true) {			//If starting from ramp
@@ -221,14 +219,9 @@ int irvalue;
 		}
 }
 task main() {
-//	bDisplayDiagnostics = false; //Disable screen diagnostics until Autonomous is set up
 
 	//Initialize
 	initialize();
-
-//	int prog = 0; //Autonomous program
-
-//	bDisplayDiagnostics = true; //Enable screen diagnostics for match
 
 	//Go time!
 	waitForStart();
@@ -237,7 +230,7 @@ task main() {
 	//setSong("ImperialMarch.nms");
 	//play();
 
-//	wait10Msec(delay * 100);
+	//wait10Msec(delay * 100);
 
  execute(RAMP, DEF, KICK, CENTER, ROLLING);
 
