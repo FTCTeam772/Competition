@@ -8,7 +8,7 @@ void initialize() {
 //		return (SensorValue[Compass] - initialCompassValue) % 360;
 
 	//Display the robot's name
-	nxtDisplayCenteredTextLine(0, "Rock 0.8");	
+	nxtDisplayCenteredTextLine(0, "Rock 0.8");
 }
 
 float targetMotorSpeed(int target, int current) {
@@ -148,22 +148,23 @@ void wait() {
 
 void liftScore(int targetHeight){
 		while(abs(nMotorEncoder[LeftSlide] - targetHeight) > ENCODER_PRECISION || abs(nMotorEncoder[RightSlide] - targetHeight) > ENCODER_PRECISION){
-			motor[LeftSlide] = targetMotorSpeed(targetHeight, nMotorEncoder[LeftSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
-			motor[RightSlide] = targetMotorSpeed(targetHeight, nMotorEncoder[RightSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
+			motor[LeftSlide] = targetMotorSpeed(targetHeight, nMotorEncoder[LeftSlide]) * SLIDE_LOW * ANDYMARK_CONVERSION;
+			motor[RightSlide] = targetMotorSpeed(targetHeight, nMotorEncoder[RightSlide]) * SLIDE_LOW * ANDYMARK_CONVERSION;
 		}
 		motor[LeftSlide] = motor[RightSlide] = 0;		//Stop lift motors after they have reached the desired height
 
 		drive(300);
-
-		servo[zipties] = 100;		//Score balls
+		wait();
+		wait();
+		servo[zipties] = 200;		//Score balls
 		wait10Msec(ZIPTIE_WAIT);
-		servo[zipties] = 0;			//Stop servo after wait
+		servo[zipties] = 128;			//Stop servo after wait
 
-		drive(-300);
+		drive(-600);
 
 		while(nMotorEncoder[LeftSlide] > ENCODER_PRECISION || nMotorEncoder[RightSlide] > ENCODER_PRECISION){
-			motor[LeftSlide] = targetMotorSpeed(0, nMotorEncoder[LeftSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
-			motor[RightSlide] = targetMotorSpeed(0, nMotorEncoder[RightSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
+			motor[LeftSlide] = targetMotorSpeed(0, nMotorEncoder[LeftSlide]) * SLIDE_LOW * ANDYMARK_CONVERSION;
+			motor[RightSlide] = targetMotorSpeed(0, nMotorEncoder[RightSlide]) * SLIDE_LOW * ANDYMARK_CONVERSION;
 		}
 
 		motor[LeftSlide] = motor[RightSlide] = 0;		//Stop motors
