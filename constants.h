@@ -8,26 +8,26 @@
 #define DRIVE_HIGH 100
 #define DRIVE_LOW 40
 #define SLIDE_HIGH -100
-#define SLIDE_LOW -70
+#define SLIDE_LOW -50
 
 //Robot Constants
-#define ENCODER_PRECISION 60
+#define ENCODER_PRECISION 80
 #define ANGLE_PRECISION 3
 #define ANDYMARK_CONVERSION -78.0/100.0
-#define SLIDE_TOP 40000       //Needs to be calibrated
+#define SLIDE_TOP 8000
 #define SLIDE_BOTTOM 0
 #define CONT_SERVO_CENTER 128
 
 //Presets
-#define LOW_GOAL 18000
-#define MEDIUM_GOAL 34000
-#define HIGH_GOAL 48000
-#define CENTER_GOAL 70000
+#define LOW_GOAL 2000
+#define MEDIUM_GOAL 4350
+#define HIGH_GOAL 6500
+#define CENTER_GOAL 7000
 //Autonomous
 #define WAIT 30
-#define ZIPTIE_WAIT 120
-#define RAMP true    //Will the robot start on the ramp?
+#define ZIPTIE_WAIT 150
+#define RAMP false    //Will the robot start on the ramp?
 #define DEF false     //Will the robot do defense?
-#define KICK false    //Will the robot knock down the kick stand?
+#define KICK true    //Will the robot knock down the kick stand?
 #define CENTER false  //Will the robot go for the center goal?
 #define ROLLING 1    //Which rolling goal will the robot go for?  (0 = no rolling goals, 1 = medium goal only, 2 = high goal only, 3 = both goals)
