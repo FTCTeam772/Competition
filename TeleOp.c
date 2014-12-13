@@ -1,9 +1,7 @@
 #pragma config(Hubs,  S1, HTMotor,  HTMotor,  none,     none)
 #pragma config(Hubs,  S2, HTMotor,  HTServo,  none,     none)
-#pragma config(Sensor, S1,     ,               sensorI2CMuxController)
-#pragma config(Sensor, S2,     ,               sensorI2CMuxController)
-#pragma config(Sensor, S3,     IR_left,        sensorHiTechnicIRSeeker1200)
-#pragma config(Sensor, S4,     IR_right,       sensorHiTechnicIRSeeker1200)
+#pragma config(Sensor, S3,     Compass,        sensorI2CHiTechnicCompass)
+#pragma config(Sensor, S4,     Multi,          sensorI2CCustom)
 #pragma config(Motor,  mtr_S1_C1_1,     FrontRight,    tmotorTetrix, PIDControl, reversed, encoder)
 #pragma config(Motor,  mtr_S1_C1_2,     BackRight,     tmotorTetrix, PIDControl, reversed, encoder)
 #pragma config(Motor,  mtr_S1_C2_1,     FrontLeft,     tmotorTetrix, PIDControl, encoder)
@@ -29,7 +27,6 @@ byte drive_scale = DRIVE_HIGH; 		//Used to scale down robot movements
 byte slide_scale = SLIDE_HIGH;
 
 //Declare large constants as longs
-
 task driveControl() { //Asynchronous task for critical drive control
 	while(true) {
 		//Joystick 1 - Driver
