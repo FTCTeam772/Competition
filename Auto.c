@@ -45,11 +45,11 @@ int irvalue;
 
 					if (roll == 1) {
 					//score in medium goal and bring it back (bring it back can be a common.h method) to parking zone
-						drive(11500);
+						drive(11550);
 						liftScore(MEDIUM_GOAL);
 						drive(-500);
 						turn(3200);
-						drive(-2300);
+						drive(-2200);
 						//drive(10000);
 					}
 					if (roll == 2) {
@@ -63,33 +63,33 @@ int irvalue;
 						//turn(90);
 						//drive(12000);
 					}
+
 					if (kick == true) {
 					//run kickstand method for ramp start
 
-					if ((SensorValue[IR_left] == 4 && SensorValue[IR_right] == 5) || (SensorValue[IR_left] == 0 && SensorValue[IR_right] == 0)) { //center goal is facing the box
-						//knock over kickstand and return to a common point
-						drive(-2000);
-						turn(-4000);
-						drive(-6000);
-						//moveTo(angle, xPos, yPos, 0, 800);
-					}
+						if ((SensorValue[IR_left] == 4 && SensorValue[IR_right] == 5) || (SensorValue[IR_left] == 0 && SensorValue[IR_right] == 0)) { //center goal is facing the box
+							//knock over kickstand and return to a common point
+							drive(-2000);
+							turn(-4000);
+							drive(-6000);
+							//moveTo(angle, xPos, yPos, 0, 800);
+						}
 
-					if (SensorValue[IR_left] == 5 && SensorValue[IR_right] == 5) { //center goal is facing at a 45 degree angle between the box and side of the ramp
-						//knock over kickstand and return to a common point
-						drive(-900);
-						turn(-2800);
-						drive(-6000);
-						//moveTo(angle, xPos, yPos, 0, 800);
-					}
+						if (SensorValue[IR_left] == 5 && SensorValue[IR_right] == 5) { //center goal is facing at a 45 degree angle between the box and side of the ramp
+							//knock over kickstand and return to a common point
+							turn(-2800);
+							drive(-6000);
+							//moveTo(angle, xPos, yPos, 0, 800);
+						}
 
-					if ((SensorValue[IR_left] == 5 && SensorValue[IR_right] == 6) || (SensorValue[IR_left] == 7 && SensorValue[IR_right] == 7)) { //center goal is facing toward the side of the ramp
-						turn(-3900);
-						drive(-4000);
-						turn(3900);
-						drive(-5000);
-						//moveTo(angle, xPos, yPos, 0, 800);
-				  }
-				}
+						if ((SensorValue[IR_left] == 5 && SensorValue[IR_right] == 6) || (SensorValue[IR_left] == 7 && SensorValue[IR_right] == 7)) { //center goal is facing toward the side of the ramp
+							turn(-3900);
+							drive(-4000);
+							turn(3900);
+							drive(-5000);
+							//moveTo(angle, xPos, yPos, 0, 800);
+				  	}
+					}
 				}
 			}
 		}
@@ -185,7 +185,7 @@ int irvalue;
 					}
 					if (roll == 1) {
 						//score in medium goal and bring it back
-						turn(-4965);
+						turn(-4975);
 						drive(10000);
 						liftScore(MEDIUM_GOAL);
 						if (kick == true){
@@ -210,9 +210,9 @@ int irvalue;
 					}
 					if (roll == 2) {
 						//score in tallest goal and bring it back
-						
+
 					}
-				  
+
 				//}
 				}
 			}
