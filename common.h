@@ -1,3 +1,9 @@
+#include "drivers/hitechnic-sensormux.h"
+#include "drivers/hitechnic-irseeker-v2.h"
+
+const tMUXSensor IR_left = msensor_S4_1;
+const tMUXSensor IR_right = msensor_S4_2;
+
 void initialize() {
 	//Initialize motors and encoders
 	motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor[BackRight] = motor[LeftSlide] = motor[RightSlide] = 0; //Turn off the motors
@@ -8,7 +14,8 @@ void initialize() {
 //		return (SensorValue[Compass] - initialCompassValue) % 360;
 
 	//Display the robot's name
-	nxtDisplayCenteredTextLine(0, "Rock 0.8");
+	nxtDisplayCenteredTextLine(0, "Rock 1.0");
+
 }
 
 float targetMotorSpeed(int target, int current) {
@@ -54,6 +61,15 @@ void drive(float amount) {
 		while((abs(nMotorEncoder[FrontLeft] + amount) > ENCODER_PRECISION && abs(nMotorEncoder[FrontRight] + amount) > ENCODER_PRECISION) && (abs(nMotorEncoder[BackLeft] + amount) > ENCODER_PRECISION && abs(nMotorEncoder[BackRight] + amount) > ENCODER_PRECISION)) {
 				motor[FrontLeft] = motor[BackLeft] = DRIVE_HIGH * ANDYMARK_CONVERSION * sgn(amount);
 				motor[FrontRight] = motor[BackRight] = DRIVE_HIGH * ANDYMARK_CONVERSION * sgn(amount);
+		}
+		motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor[BackRight] = 0;
+}
+
+void halfDrive(float amount) {
+		nMotorEncoder[FrontLeft] = nMotorEncoder[FrontRight] = nMotorEncoder[BackLeft] = nMotorEncoder[BackRight] = 0; 	//Reset encoders
+		while((abs(nMotorEncoder[FrontLeft] + amount) > ENCODER_PRECISION && abs(nMotorEncoder[FrontRight] + amount) > ENCODER_PRECISION) && (abs(nMotorEncoder[BackLeft] + amount) > ENCODER_PRECISION && abs(nMotorEncoder[BackRight] + amount) > ENCODER_PRECISION)) {
+				motor[FrontLeft] = motor[BackLeft] = DRIVE_LOW * ANDYMARK_CONVERSION * sgn(amount);
+				motor[FrontRight] = motor[BackRight] = DRIVE_LOW * ANDYMARK_CONVERSION * sgn(amount);
 		}
 		motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor[BackRight] = 0;
 }
@@ -153,14 +169,14 @@ void liftScore(int targetHeight){
 		}
 		motor[LeftSlide] = motor[RightSlide] = 0;		//Stop lift motors after they have reached the desired height
 
-		drive(300);
+		halfDrive(500);
 		wait();
 		wait();
 		servo[zipties] = 200;		//Score balls
 		wait10Msec(ZIPTIE_WAIT);
 		servo[zipties] = 128;			//Stop servo after wait
 
-		drive(-600);
+		halfDrive(-700);
 
 		while(nMotorEncoder[LeftSlide] > ENCODER_PRECISION || nMotorEncoder[RightSlide] > ENCODER_PRECISION){
 			motor[LeftSlide] = targetMotorSpeed(0, nMotorEncoder[LeftSlide]) * SLIDE_LOW * ANDYMARK_CONVERSION;
