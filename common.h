@@ -12,7 +12,8 @@ void initialize() {
 
 //	float calculateCompass () {
 //		return (SensorValue[Compass] - initialCompassValue) % 360;
-
+		servo[leftGrab] = 0;
+		servo[rightGrab] = 270;
 	//Display the robot's name
 	nxtDisplayCenteredTextLine(0, "Rock 1.0");
 
