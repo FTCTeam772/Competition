@@ -65,7 +65,6 @@ task slideControl() {
 		//Joystick 2 - Operator
 
 		float y1;
-
 		//Check each axis for deadband
 		if(joystick.joy2_y1 > DEADBAND || joystick.joy2_y1 < -DEADBAND){
 			y1 = joystick.joy2_y1 / 128.0;
@@ -77,8 +76,6 @@ task slideControl() {
 		//Protect slides unless button 5 is pressed
 		if(((y1 < 0 && nMotorEncoder[LeftSlide] <= SLIDE_BOTTOM) || (y1 < 0 && nMotorEncoder[RightSlide] <= SLIDE_BOTTOM) || (y1 > 0 && nMotorEncoder[LeftSlide] >= SLIDE_TOP) || (y1 > 0 && nMotorEncoder[LeftSlide] >= SLIDE_TOP)) && !joy2Btn(5))
 			y1 = 0;
-
-
 
 		//writeDebugStream("Slides:\n\tLeft Slide:\t%d\n\tRight Slide:\t%d\n", nMotorEncoder[LeftSlide], nMotorEncoder[RightSlide]);
 
@@ -94,7 +91,6 @@ task slideControl() {
 		else {		//Else move both
 		motor[LeftSlide] = motor[RightSlide] = slide_scale * y1 * ANDYMARK_CONVERSION;
 		}
-
 		//Preset Positions
 
 		//Home
@@ -151,7 +147,6 @@ task slideControl() {
 			}
 			motor[LeftSlide] = motor[RightSlide] = 0;
 		}
-
 	}
 }
 
@@ -196,12 +191,10 @@ task main() {
 			setSong("ImperialMarch.nms");
 			play();
 		}
-
 		if(joy1Btn(9)) { //If the driver is pressing button 9, play Still Alive
 			setSong("StillAlive.nms");
 			play();
 		}
-
 		if(joy1Btn(10)) { //If the driver is pressing button 10, stop song
 			stop();
 		}
@@ -215,15 +208,15 @@ task main() {
 			servo[leftGrab] = 0;
 			servo[rightGrab] = 270;
 		}
-		if(joy1Btn(1)){
+		if(joy1Btn(1)){		//If driver is holding down the one button he can control the left grabber by itself
 			if(joy1Btn(2) && !joy1Btn(4)) {		//Left grabber goes into the down position
-    		servo[leftGrab] = 190;
+				servo[leftGrab] = 190;
     	}
-    	if(!joy1Btn(2) && joy1Btn(4)) {		//Left grabber goes into the up position
-    	servo[leftGrab] = 0;
+   		if(!joy1Btn(2) && joy1Btn(4)) {		//Left grabber goes into the up position
+    		servo[leftGrab] = 0;
   		}
-  	}
-  	if(joy1Btn(3)){
+ 		}
+ 		if(joy1Btn(3)){		//If driver is holding down the three button he can control the right grabber by itself
   		if(joy1Btn(2) && !joy1Btn(4)) {		//Right grabber goes into the down position
     		servo[rightGrab] = 60;
   		}
