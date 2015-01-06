@@ -200,11 +200,11 @@ task main() {
 		}
 		
 		//Goal Grabbers
-		if(joy1Btn(1) && !joy1Btn(2) && !joy1Btn(4)) {		//Both grabbers go into the down position
+		if(joy1Btn(2) && !joy1Btn(1) && !joy1Btn(4) && !joy1Btn(3)) {		//Both grabbers go into the down position
 			servo[leftGrab] = 190;
 			servo[rightGrab] = 60;
 		}
-		if(joy1Btn(3) && !joy1Btn(2) && !joy1Btn(4)) {		//Both grabbers go into the up position
+		if(joy1Btn(4) && !joy1Btn(3) && !joy1Btn(4)&& !joy1Btn(2)) {		//Both grabbers go into the up position
 			servo[leftGrab] = 0;
 			servo[rightGrab] = 270;
 		}
