@@ -198,35 +198,30 @@ task main() {
 		if(joy1Btn(10)) { //If the driver is pressing button 10, stop song
 			stop();
 		}
-		
+
 		//Goal Grabbers
 		if(joy1Btn(2) && !joy1Btn(1) && !joy1Btn(4) && !joy1Btn(3)) {		//Both grabbers go into the down position
 			servo[leftGrab] = 190;
 			servo[rightGrab] = 60;
 		}
-		if(joy1Btn(4) && !joy1Btn(3) && !joy1Btn(4)&& !joy1Btn(2)) {		//Both grabbers go into the up position
+		if(joy1Btn(4) && !joy1Btn(3) && !joy1Btn(1)&& !joy1Btn(2)) {		//Both grabbers go into the up position
 			servo[leftGrab] = 0;
 			servo[rightGrab] = 270;
 		}
-		if(joy1Btn(1)){		//If driver is holding down the one button he can control the left grabber by itself
-			if(joy1Btn(2) && !joy1Btn(4)) {		//Left grabber goes into the down position
-				servo[leftGrab] = 190;
-    	}
-   		if(!joy1Btn(2) && joy1Btn(4)) {		//Left grabber goes into the up position
-    		servo[leftGrab] = 0;
-  		}
- 		}
- 		if(joy1Btn(3)){		//If driver is holding down the three button he can control the right grabber by itself
-  		if(joy1Btn(2) && !joy1Btn(4)) {		//Right grabber goes into the down position
-    		servo[rightGrab] = 60;
-  		}
-  		if(!joy1Btn(2) && joy1Btn(4)) {		//Right grabber goes into the up position
-   	 		servo[rightGrab] = 270;
-  		}
+		if(joy1Btn(1) && joy1Btn(2) && !joy1Btn(4)) {		//Left grabber goes into the down position
+			servo[leftGrab] = 190;
+   	}
+   	if(joy1Btn(1) && !joy1Btn(2) && joy1Btn(4)) {		//Left grabber goes into the up position
+    	servo[leftGrab] = 0;
   	}
-		
+  	if(joy1Btn(3) && joy1Btn(2) && !joy1Btn(4)) {		//Right grabber goes into the down position
+    	servo[rightGrab] = 60;
+    }
+  	if(joy1Btn(3) && !joy1Btn(2) && joy1Btn(4)) {		//Right grabber goes into the up position
+   		servo[rightGrab] = 270;
+  	}
+  	
   	//Joystick 2 - Operator
-
 		if(joy2Btn(6)) //If the operator is pressing button 6, scale down the slide movements
 			slide_scale = SLIDE_LOW;
 		else
