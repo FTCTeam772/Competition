@@ -26,31 +26,6 @@ float targetMotorSpeed(int target, int current) {
 		return (abs(current - target) > ENCODER_PRECISION) ? 1 : 0;
 	#endif
 }
-/*
-void updatexPos(float angle, float Xpos, float dist){
-	xPos += (dist * sin (angle));
-
-	xPos = Xpos;
-}
-
-void updateyPos (float angle, float Ypos, float dist) {
-	yPos += (dist * cos (angle));
-
-	yPos = Ypos;
-}*/
-
-/** void move(float angle, float xPos, float yPos, float dist) {
-		nMotorEncoder[FrontLeft] = nMotorEncoder[FrontRight] = nMotorEncoder[BackLeft] = nMotorEncoder[BackRight] = 0;
-
-		while(abs(nMotorEncoder[FrontLeft] - dist) > ENCODER_PRECISION || abs(nMotorEncoder[FrontRight] - dist) > ENCODER_PRECISION || abs(nMotorEncoder[BackLeft] - dist) > ENCODER_PRECISION || abs(nMotorEncoder[BackRight] - dist) > ENCODER_PRECISION) {
-			motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor[BackRight] = DRIVE_HIGH * ANDYMARK_CONVERSION * sgn(dist);
-		}
-
-		motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor[BackRight] = 0;
-		updatexPos(angle, xPos, dist);
-		updateyPos(angle, yPos, dist);
-}
- **/
 
 void drive(float amount) {
 		nMotorEncoder[FrontLeft] = nMotorEncoder[FrontRight] = nMotorEncoder[BackLeft] = nMotorEncoder[BackRight] = 0; 	//Reset encoders
@@ -107,53 +82,6 @@ void oneSideTurn(float amount, bool leftWheel){
 		}
 		motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor[BackRight] = 0;
 }
-
-/*	float theta = atan((Xf - Xi),(Yf - Yi)) * (180.0 / PI);
-		if (theta < 0) {
-			if (x < 0 && y < 0) {
-				theta += 180;
-			}
-		}
-		if (theta > 0) {
-			if (x > 0 && y < 0) {
-				theta += 180;
-			}
-		}
-		if (theta = 0) {
-			if (y < 0) {
-				theta += 180
-			}
-		}
-		if (theta = 90) {
-			if (x > 0) {
-				theta = 270;
-			}
-		}
-	turnTo(theta);
-	float dist = sqrt(pow(Xf - Xi, 2) + pow(Yf - Yi, 2));
-	move(angle, Xi, Yi, dist);
-}
-
-*/
-/**float atan2(float x, float y){
-  float phi;
-
-   if (x>0) {phi=atan(y/x);}
-   else
-
-  if ((x<0)&&(y>=0))  {phi=PI+atan(y/x);}
-   else
-   if ((x<0)&&(y<0))   {phi=-PI+atan(y/x);}
-   else
-   if ((x==0)&&(y>0))  {phi=PI/2;}
-   else
-   if ((x==0)&&(y<0))  {phi=-PI/2;}
-   else
-   if ((x==0)&&(y==0)) {phi=0;}
-
-   return phi;
-}
-**/
 
 void wait() {
 	wait10Msec(WAIT);
