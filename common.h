@@ -47,8 +47,17 @@ void halfDrive(float amount) {
 
 void turnBy(float amount){
 		float originalValue = SensorValue[Compass];
-		while(abs(SensorValue[Compass] - originalValue) > ANGLE_PRECISION){
-			if(SensorValue[Compass] - originalValue > ANGLE_PRECISION){						//turn left
+		float targetValue = originalValue + amount;
+		
+		if(targetValue > 360){			//correct targetValue if it is too large
+			targetValue = targetValue - 360;
+		}
+		else if(targetValue < 0){		//correct targetValue if it is too small
+			targetValue = targetValue + 360;
+		}
+		
+		while(abs(SensorValue[Compass] - targetValue) > ANGLE_PRECISION){
+			if(amount < 0){						//turn left (negative)
 				motor[FrontLeft] = motor[BackLeft] = DRIVE_HIGH * ANDYMARK_CONVERSION * -1;
 				motor[FrontRight] = motor[BackRight] = DRIVE_HIGH * ANDYMARK_CONVERSION;
 			}
@@ -66,6 +75,16 @@ void turn(float amount){		//If amount is positive, a right turn is made.
 				motor[FrontRight] = motor[BackRight] = DRIVE_HIGH * ANDYMARK_CONVERSION * -sgn(amount);
 		}
 		motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor[BackRight] = 0;
+}
+
+void grabGoal(){
+	servo[leftGrab] = 0;
+	servo[rightGrab] = 270;
+}
+
+void releaseGoal(){
+	servo[leftGrab] = 190;
+	servo[rightGrab] = 60;
 }
 
 void oneSideTurn(float amount, bool leftWheel){
