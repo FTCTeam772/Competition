@@ -8,15 +8,10 @@ void initialize() {
 	//Initialize motors and encoders
 	motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor[BackRight] = motor[LeftSlide] = motor[RightSlide] = 0; //Turn off the motors
 	nMotorEncoder[FrontLeft] = nMotorEncoder[FrontRight] = nMotorEncoder[BackLeft] = nMotorEncoder[BackRight] = nMotorEncoder[LeftSlide] = nMotorEncoder[RightSlide] = 0; //Might as well reset the encoders too
-//	float initialCompassValue = SensorValue[Compass];//NEED TO DO THIS DIFFERENTLY IT ALWAYS READS NORTH
-
-//	float calculateCompass () {
-//		return (SensorValue[Compass] - initialCompassValue) % 360;
-		servo[leftGrab] = 0;
-		servo[rightGrab] = 270;
+	servo[leftGrab] = 0;
+	servo[rightGrab] = 270;
 	//Display the robot's name
-	nxtDisplayCenteredTextLine(0, "Rock 1.0");
-
+	nxtDisplayCenteredTextLine(0, "Rock 1.3");
 }
 
 float targetMotorSpeed(int target, int current) {
@@ -75,9 +70,10 @@ void halfDrive(float amount) {
 		motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor[BackRight] = 0;
 }
 
-/*void turnTo(float newAngle){
-		while(abs(newAngle - calculateCompass()) > ANGLE_PRECISION){
-			if(newAngle - calculateCompass() > ANGLE_PRECISION){						//turn left
+void turnBy(float amount){
+		float originalValue = SensorValue[Compass];
+		while(abs(SensorValue[Compass] - originalValue) > ANGLE_PRECISION){
+			if(SensorValue[Compass] - originalValue > ANGLE_PRECISION){						//turn left
 				motor[FrontLeft] = motor[BackLeft] = DRIVE_HIGH * ANDYMARK_CONVERSION * -1;
 				motor[FrontRight] = motor[BackRight] = DRIVE_HIGH * ANDYMARK_CONVERSION;
 			}
@@ -86,7 +82,7 @@ void halfDrive(float amount) {
 				motor[FrontRight] = motor[BackRight] = DRIVE_HIGH * ANDYMARK_CONVERSION * -1;
 			}
 		}
-}*/
+}
 
 void turn(float amount){		//If amount is positive, a right turn is made.
 		nMotorEncoder[FrontLeft] = nMotorEncoder[FrontRight] = nMotorEncoder[BackLeft] = nMotorEncoder[BackRight] = 0; 	//Reset encoders
