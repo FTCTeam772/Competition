@@ -33,18 +33,7 @@ int irvalue;
 
 		if (ramp == true) {			//If starting from ramp
 
-			if (def == true) {
-				//run defense program for ramp beginning
-
-			}
-			else {
-
 				if (center == false) {		//If not scoring in center goal
-
-					//(0 = no rolling goals, 1 = medium goal only, 2 = high goal only, 3 = both goals)
-					if (roll == 0) {
-					//do nothing
-					}
 
 					if (roll == 1) {
 					//score in medium goal and bring it back (bring it back can be a common.h method) to parking zone
@@ -54,17 +43,6 @@ int irvalue;
 						turn(3200);
 						drive(-2200);
 						//drive(10000);
-					}
-					if (roll == 2) {
-					//score in tallest goal and bring it back
-						drive(9000);
-						turn(-2500);
-						drive(2250);
-						turn(4250);
-						drive(4000);
-						liftScore(HIGH_GOAL);
-						//turn(90);
-						//drive(12000);
 					}
 
 					if (kick == true) {
@@ -95,7 +73,6 @@ int irvalue;
 					}
 				}
 			}
-		}
 
 		if (ramp == false) {
 
@@ -215,12 +192,11 @@ int irvalue;
 						//score in tallest goal and bring it back
 
 					}
-
-				//}
 				}
 			}
 		}
 }
+
 task main() {
 
 	//Initialize
@@ -241,5 +217,4 @@ task main() {
 	//writeDebugStream("IR:\t%d\n", SensorValue[IR]);
   //writeDebugStream("LeftSlide:\t%d\n", nMotorEncoder[LeftSlide]);
   //writeDebugStream("RightSlide:\t%d\n", nMotorEncoder[RightSlide]);
-
 }
