@@ -27,52 +27,104 @@
 //Music player
 #include "Player.h"
 
+void kickCenter(bool kick, bool center){
+		
+		//Get IR Values
+		int irvalue = -1;
+			
+		if ((SensorValue[IR_left] == 4 && SensorValue[IR_right] == 5) || (SensorValue[IR_left] == 0 && SensorValue[IR_right] == 0)) { //center goal is facing the box
+			irvalue = 0;
+		}
+
+		if (SensorValue[IR_left] == 5 && SensorValue[IR_right] == 5) { //center goal is facing at a 45 degree angle between the box and side of the ramp
+			irvalue = 1;
+		}
+
+		if ((SensorValue[IR_left] == 5 && SensorValue[IR_right] == 6) || (SensorValue[IR_left] == 7 && SensorValue[IR_right] == 7)) { //center goal is facing toward the side of the ramp
+			irvalue = 2;
+		}
+				
+		if (center == true) {
+			//run kickstand method for ramp start
+
+		if (irvalue == 0) { //center goal is facing the box
+			//score in the centergoal
+				
+		if (kick == true){
+			//knock over kickstand
+					
+		}
+	}
+
+	if (irvalue == 1) { //center goal is facing at a 45 degree angle between the box and side of the ramp
+		//score in the centergoal
+				
+		if (kick == true){
+			//knock over kickstand
+					
+			}
+		}
+
+		if (irvalue == 2) { //center goal is facing toward the side of the ramp
+			//score in the centergoal
+				
+			if (kick == true){
+				//knock over kickstand
+					
+			}
+		}
+	}
+			
+		else if (kick == true){		//center is false & kickstand is true
+			
+			if (irvalue == 0) { //center goal is facing at 45 degree angle
+				//knock over kickstand
+				irvalue = 0;
+				turn(2500);
+				drive(4000);
+				turn(-1580);
+				drive(-5500);
+			}
+
+			if (irvalue == 1) { //center goal is facing the box
+				//knock over kickstand
+				irvalue = 1;
+				oneSideTurn(-1300, false);
+				oneSideTurn(-1300, true);
+				drive(-4000);
+			}
+
+			if (irvalue == 2) { //center goal is facing toward the side of the ramp
+				//knock over kickstand
+				irvalue = 2;
+				oneSideTurn(-2000, false);
+				drive(-1400);
+				turn(-4685);
+				drive(-4000);
+		  }
+		}
+	}
+
+
 void execute(bool ramp, bool def, bool kick, bool center, int roll) {			//I feel like this should be outside of task main()
 
 int irvalue;
 
 		if (ramp == true) {			//If starting from ramp
 
-				if (center == false) {		//If not scoring in center goal
-
-					if (roll == 1) {
-					//score in medium goal and bring it back (bring it back can be a common.h method) to parking zone
-						drive(11550);
-						liftScore(MEDIUM_GOAL);
-						drive(-500);
-						turn(3200);
-						drive(-2200);
-						//drive(10000);
-					}
-
-					if (kick == true) {
-					//run kickstand method for ramp start
-
-						if ((SensorValue[IR_left] == 4 && SensorValue[IR_right] == 5) || (SensorValue[IR_left] == 0 && SensorValue[IR_right] == 0)) { //center goal is facing the box
-							//knock over kickstand and return to a common point
-							drive(-2000);
-							turn(-4000);
-							drive(-6000);
-							//moveTo(angle, xPos, yPos, 0, 800);
-						}
-
-						if (SensorValue[IR_left] == 5 && SensorValue[IR_right] == 5) { //center goal is facing at a 45 degree angle between the box and side of the ramp
-							//knock over kickstand and return to a common point
-							turn(-2800);
-							drive(-6000);
-							//moveTo(angle, xPos, yPos, 0, 800);
-						}
-
-						if ((SensorValue[IR_left] == 5 && SensorValue[IR_right] == 6) || (SensorValue[IR_left] == 7 && SensorValue[IR_right] == 7)) { //center goal is facing toward the side of the ramp
-							turn(-3900);
-							drive(-4000);
-							turn(3900);
-							drive(-5000);
-							//moveTo(angle, xPos, yPos, 0, 800);
-				  	}
-					}
-				}
+			if (roll == 1) {
+				//score in medium goal and bring it back (bring it back can be a common.h method) to parking zone
+				drive(11550);
+				liftScore(MEDIUM_GOAL);
+				grabGoal();
+				turnBy(40);
+				drive(-10000);
+				turnBy(110);
+				releaseGoal();
 			}
+			
+			kickCenter(kick, center);
+		}
 
 		if (ramp == false) {
 
@@ -80,122 +132,40 @@ int irvalue;
 				//run defense program for floor beginning
 			}
 			if (def == false) {
-				//needs to be calibrated
-				if (center == true) {
-					//locate center goal and score in it
-					drive(-3000);
 
-					if ((SensorValue[IR_left] == 0 && SensorValue[IR_right] == 0)	|| (SensorValue[IR_left] == 6 && SensorValue[IR_right] == 0) || (SensorValue[IR_left] == 7 && SensorValue[IR_right] == 0)) { //center goal is facing at 45 degree angle
-						//score in center goal
-						turn(3350);
-						drive(12000);
-						turn(3350);
-						drive(3000);
-						turn(3350);
-						drive(500);
-						liftScore(CENTER_GOAL);
-						irvalue = 0;
-					}
-					if ((SensorValue[IR_left] == 3 && SensorValue[IR_right] == 0) || (SensorValue[IR_left] == 4 && SensorValue[IR_right] == 0)) { //center goal is facing toward the side of the ramp
-						//score in center goal
-						turn(45);
-						drive(10000);
-						turn(30);
-						liftScore(CENTER_GOAL);
-						irvalue = 1;
-					}
-					if ((SensorValue[IR_left] == 5 && SensorValue[IR_right] == 6) || (SensorValue[IR_left] == 5 && SensorValue[IR_right] == 7)) { //center goal is facing the box
-						//score in center goal
-						oneSideTurn(-3000, false);
-						oneSideTurn(-3000, true);
-						drive(300);
-						liftScore(CENTER_GOAL);
-						irvalue = 2;
-					}
-					//reset robot to home position
-				if (kick == true) {
-
-					if (irvalue == 0) { //center goal is facing at 45 degree angle
-						//knock over kickstand
-						irvalue = 0;
-						turn(2500);
-						drive(4000);
-						turn(-1580);
-						drive(-5500);
-						//moveTo(angle, xPos, yPos, 0, 800);
-					}
-
-					if (irvalue == 1) { //center goal is facing the box
-						//knock over kickstand
-						irvalue = 1;
-						oneSideTurn(-1300, false);
-						oneSideTurn(-1300, true);
-						drive(-4000);
-
-						//moveTo(angle, xPos, yPos, 0, 800);
-					}
-
-					if (irvalue == 2) { //center goal is facing toward the side of the ramp
-						//knock over kickstand
-						irvalue = 2;
-						oneSideTurn(-2000, false);
-						drive(-1400);
-						turn(-4685);
-						drive(-4000);
-
-						//moveTo(angle, xPos, yPos, 0, 800);
-				  }
+				if (roll == 0) {		//If not scoring in center goal
+					drive(-300);
 				}
-			}
 
-				if (center == false) {		//If not scoring in center goal
-
-					//if (kick == true) {
-
-					drive(-3000);
-					irvalue = -1;		//If we don't get an irvalue that matches, do nothing
-					if ((SensorValue[IR_left] == 6 && SensorValue[IR_right] == 0) || (SensorValue[IR_left] == 7 && SensorValue[IR_right] == 0)) { //center goal is facing at 45 degree angle
-						irvalue = 0;
-					}
-					if ((SensorValue[IR_left] == 5 && SensorValue[IR_right] == 6) || (SensorValue[IR_left] == 5 && SensorValue[IR_right] == 7)) { //center goal is facing toward the box
-						irvalue = 1;
-					}
-					if ((SensorValue[IR_left] == 0 && SensorValue[IR_right] == 0) || (SensorValue[IR_left] == 3 && SensorValue[IR_right] == 0) || (SensorValue[IR_left] == 4 && SensorValue[IR_right] == 0)) { //center goal is facing the side of the ramp
-						irvalue = 2;
-					}
-					if (roll == 1) {
-						//score in medium goal and bring it back
-						turn(-4975);
-						drive(10000);
-						liftScore(MEDIUM_GOAL);
-						if (kick == true){
-							if (irvalue == 0){
-							drive(-1000);
-							oneSideTurn(-4200, false);
-							oneSideTurn(-4200, true);
-							drive(-6000);
-							}
-							if (irvalue == 1){
-							turn(3000);
-							drive(-3500);
-							turn(-3500);
-							drive(-6000);
-							}
-							if (irvalue == 2){
-							drive(-4600);
-							turn(1650);
-							drive(-6000);
-							}
-						}
+				if (roll == 1) {
+					//score in medium goal and bring it back
+					drive(300);
+					turnBy(10);
+					drive(10000);
+					liftScore(MEDIUM_GOAL);
+					grabGoal();
+					turnBy(40);
+					drive(-10000);
+					turnBy(130);
+					releaseGoal();
 					}
 					if (roll == 2) {
-						//score in tallest goal and bring it back
-
+					//score in tallest goal and bring it back
+					drive(300);
+					turnBy(10);
+					drive(10000);
+					liftScore(MEDIUM_GOAL);
+					grabGoal();
+					turnBy(40);
+					drive(-10000);
+					turnBy(130);
+					releaseGoal();
 					}
 				}
+				
+				kickCenter(kick, center);
 			}
 		}
-}
 
 task main() {
 
