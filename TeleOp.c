@@ -210,25 +210,36 @@ task main() {
 		}
 
 		//Goal Grabbers
+		int leftpos = 0;		//Keeps track of the position of the left servo
+		int rightpos = 0;		//Keeps track of the position of the right servo
+		
 		if(joy1Btn(2)) {		//Both grabbers go into the down position
-			servo[leftGrab] = 180;
-			servo[rightGrab] = 60;
+			servo[leftGrab] = LEFT_GRAB_DOWN;
+			servo[rightGrab] = RIGHT_GRAB_DOWN;
+			leftpos = 1;
+			rightpos = 1;
 		}
 		if(joy1Btn(4)) {		//Both grabbers go into the up position
-			servo[leftGrab] = 0;
-			servo[rightGrab] = 270;
+			servo[leftGrab] = LEFT_GRAB_UP;
+			servo[rightGrab] = LEFT_GRAB_DOWN;
+			leftpos = 0;
+			rightpos = 0;
 		}
-		if(joy1Btn(1) && joy1Btn(2)) {		//Left grabber goes into the down position
-			servo[leftGrab] = 180;
+		if(joy1Btn(1) && leftpos == 0) {		//Left grabber goes into the down position
+			servo[leftGrab] = LEFT_GRAB_DOWN;
+			leftpos = 1;
    	}
-   	if(joy1Btn(1) && joy1Btn(4)) {		//Left grabber goes into the up position
-    	servo[leftGrab] = 0;
+   	if(joy1Btn(1) && leftpos == 1) {		//Left grabber goes into the up position
+    	servo[leftGrab] = LEFT_GRAB_UP;
+    	leftpos = 0;
   	}
-  	if(joy1Btn(3) && joy1Btn(2)) {		//Right grabber goes into the down position
-    	servo[rightGrab] = 60;
+  	if(joy1Btn(3) && rightpos == 0) {		//Right grabber goes into the down position
+    	servo[rightGrab] = RIGHT_GRAB_DOWN;
+    	rightpos = 1;
     }
-  	if(joy1Btn(3) && joy1Btn(4)) {		//Right grabber goes into the up position
-   		servo[rightGrab] = 270;
+  	if(joy1Btn(3) && rightpos == 1) {		//Right grabber goes into the up position
+   		servo[rightGrab] = RIGHT_GRAB_UP;
+   		rightpos = 0;
   	}
 
   	//Joystick 2 - Operator
