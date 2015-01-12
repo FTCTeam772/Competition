@@ -1,8 +1,8 @@
-#include "drivers/hitechnic-sensormux.h"
-#include "drivers/hitechnic-irseeker-v2.h"
+//#include "drivers/hitechnic-sensormux.h"
+//#include "drivers/hitechnic-irseeker-v2.h"
 
-const tMUXSensor IR_left = msensor_S4_1;
-const tMUXSensor IR_right = msensor_S4_2;
+//const tMUXSensor IR_left = msensor_S4_1;
+//const tMUXSensor IR_right = msensor_S4_2;
 
 void initialize() {
 	//Initialize motors and encoders
@@ -45,28 +45,28 @@ void halfDrive(float amount) {
 		motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor[BackRight] = 0;
 }
 
-void turnBy(float amount){
-		float originalValue = SensorValue[Compass];
-		float targetValue = originalValue + amount;
-		
-		if(targetValue > 360){			//correct targetValue if it is too large
-			targetValue = targetValue - 360;
-		}
-		else if(targetValue < 0){		//correct targetValue if it is too small
-			targetValue = targetValue + 360;
-		}
-		
-		while(abs(SensorValue[Compass] - targetValue) > ANGLE_PRECISION){
-			if(amount < 0){						//turn left (negative)
-				motor[FrontLeft] = motor[BackLeft] = DRIVE_HIGH * ANDYMARK_CONVERSION * -1;
-				motor[FrontRight] = motor[BackRight] = DRIVE_HIGH * ANDYMARK_CONVERSION;
-			}
-			else {		//turn right
-				motor[FrontLeft] = motor[BackLeft] = DRIVE_HIGH * ANDYMARK_CONVERSION;
-				motor[FrontRight] = motor[BackRight] = DRIVE_HIGH * ANDYMARK_CONVERSION * -1;
-			}
-		}
-}
+//void turnBy(float amount){
+//		float originalValue = SensorValue[Compass];
+//		float targetValue = originalValue + amount;
+
+//		if(targetValue > 359){			//correct targetValue if it is too large
+//			targetValue = targetValue - 360;
+//		}
+//		else if(targetValue < 0){		//correct targetValue if it is too small
+//			targetValue = targetValue + 360;
+//		}
+
+//		while(abs(SensorValue[Compass] - targetValue) > ANGLE_PRECISION){
+//			if(amount < 0){						//turn left (negative)
+//				motor[FrontLeft] = motor[BackLeft] = DRIVE_HIGH * ANDYMARK_CONVERSION * -1;
+//				motor[FrontRight] = motor[BackRight] = DRIVE_HIGH * ANDYMARK_CONVERSION;
+//			}
+//			else {		//turn right
+//				motor[FrontLeft] = motor[BackLeft] = DRIVE_HIGH * ANDYMARK_CONVERSION;
+//				motor[FrontRight] = motor[BackRight] = DRIVE_HIGH * ANDYMARK_CONVERSION * -1;
+//			}
+//		}
+//}
 
 void turn(float amount){		//If amount is positive, a right turn is made.
 		nMotorEncoder[FrontLeft] = nMotorEncoder[FrontRight] = nMotorEncoder[BackLeft] = nMotorEncoder[BackRight] = 0; 	//Reset encoders
@@ -77,14 +77,19 @@ void turn(float amount){		//If amount is positive, a right turn is made.
 		motor[FrontLeft] = motor[FrontRight] = motor[BackLeft] = motor[BackRight] = 0;
 }
 
-void grabGoal(){
+void releaseGoal(){
 	servo[leftGrab] = 0;
 	servo[rightGrab] = 270;
 }
 
-void releaseGoal(){
-	servo[leftGrab] = 190;
+void grabGoal(){
+	servo[leftGrab] = 180;
 	servo[rightGrab] = 60;
+}
+
+void setGrabbers(){
+	servo[leftGrab] = 140;
+	servo[rightGrab] = 100;
 }
 
 void oneSideTurn(float amount, bool leftWheel){
@@ -107,9 +112,9 @@ void wait() {
 }
 
 void liftScore(int targetHeight){
-		while(abs(nMotorEncoder[LeftSlide] - targetHeight) > ENCODER_PRECISION || abs(nMotorEncoder[RightSlide] - targetHeight) > ENCODER_PRECISION){
-			motor[LeftSlide] = targetMotorSpeed(targetHeight, nMotorEncoder[LeftSlide]) * SLIDE_LOW * ANDYMARK_CONVERSION;
-			motor[RightSlide] = targetMotorSpeed(targetHeight, nMotorEncoder[RightSlide]) * SLIDE_LOW * ANDYMARK_CONVERSION;
+		while(abs(nMotorEncoder[RightSlide] - targetHeight) > ENCODER_PRECISION){ //abs(nMotorEncoder[LeftSlide] - targetHeight) > ENCODER_PRECISION ||
+			motor[LeftSlide] = SLIDE_HIGH * ANDYMARK_CONVERSION;		//targetMotorSpeed(targetHeight, nMotorEncoder[LeftSlide]) *
+			motor[RightSlide] = SLIDE_HIGH * ANDYMARK_CONVERSION;		//targetMotorSpeed(targetHeight, nMotorEncoder[RightSlide]) *
 		}
 		motor[LeftSlide] = motor[RightSlide] = 0;		//Stop lift motors after they have reached the desired height
 
@@ -120,11 +125,11 @@ void liftScore(int targetHeight){
 		wait10Msec(ZIPTIE_WAIT);
 		servo[zipties] = 128;			//Stop servo after wait
 
-		halfDrive(-700);
+		halfDrive(-400);
 
-		while(nMotorEncoder[LeftSlide] > ENCODER_PRECISION || nMotorEncoder[RightSlide] > ENCODER_PRECISION){
-			motor[LeftSlide] = targetMotorSpeed(0, nMotorEncoder[LeftSlide]) * SLIDE_LOW * ANDYMARK_CONVERSION;
-			motor[RightSlide] = targetMotorSpeed(0, nMotorEncoder[RightSlide]) * SLIDE_LOW * ANDYMARK_CONVERSION;
+		while(nMotorEncoder[LeftSlide] > ENCODER_PRECISION || (nMotorEncoder[RightSlide] - 100) > ENCODER_PRECISION){
+			motor[LeftSlide] = -SLIDE_HIGH * ANDYMARK_CONVERSION;		//REMEMBER to take out negatives when >> is put back in targetMotorSpeed(0, nMotorEncoder[LeftSlide]) *
+			motor[RightSlide] = -SLIDE_HIGH * ANDYMARK_CONVERSION;		//targetMotorSpeed(0, nMotorEncoder[RightSlide]) *
 		}
 
 		motor[LeftSlide] = motor[RightSlide] = 0;		//Stop motors
