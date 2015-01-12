@@ -1,7 +1,7 @@
 #pragma config(Hubs,  S1, HTMotor,  HTMotor,  none,     none)
 #pragma config(Hubs,  S2, HTMotor,  HTServo,  none,     none)
-#pragma config(Sensor, S3,     Compass,        sensorI2CHiTechnicCompass)
-#pragma config(Sensor, S4,     Multi,          sensorI2CCustom)
+#pragma config(Sensor, S3,     IR_left,        sensorHiTechnicIRSeeker1200)
+#pragma config(Sensor, S4,     IR_right,       sensorHiTechnicIRSeeker1200)
 #pragma config(Motor,  mtr_S1_C1_1,     FrontRight,    tmotorTetrix, PIDControl, reversed, encoder)
 #pragma config(Motor,  mtr_S1_C1_2,     BackRight,     tmotorTetrix, PIDControl, reversed, encoder)
 #pragma config(Motor,  mtr_S1_C2_1,     FrontLeft,     tmotorTetrix, PIDControl, encoder)
@@ -77,13 +77,20 @@ task slideControl() {
 		}
 
 		//Protect slides unless button 5 is pressed
-		if(((y1 < 0 && nMotorEncoder[LeftSlide] <= SLIDE_BOTTOM) || (y1 < 0 && nMotorEncoder[RightSlide] <= SLIDE_BOTTOM) || (y1 > 0 && nMotorEncoder[LeftSlide] >= SLIDE_TOP) || (y1 > 0 && nMotorEncoder[LeftSlide] >= SLIDE_TOP)) && !joy2Btn(5))
+		//if(((y1 < 0 && nMotorEncoder[LeftSlide] <= SLIDE_BOTTOM) || (y1 < 0 && nMotorEncoder[RightSlide] <= SLIDE_BOTTOM) || (y1 > 0 && nMotorEncoder[LeftSlide] >= SLIDE_TOP) || (y1 > 0 && nMotorEncoder[RightSlide] >= SLIDE_TOP)) && !joy2Btn(5))
+		//	y1 = 0;
+
+		if(((y1 < 0 && nMotorEncoder[RightSlide] <= SLIDE_BOTTOM) || (y1 > 0 && nMotorEncoder[RightSlide] >= SLIDE_TOP)) && !joy2Btn(5))
 			y1 = 0;
 
 		//writeDebugStream("Slides:\n\tLeft Slide:\t%d\n\tRight Slide:\t%d\n", nMotorEncoder[LeftSlide], nMotorEncoder[RightSlide]);
 
 		//Set the motors to scale
-		if(joy2Btn(9)){		//If button nine is pressed, only move the left side
+		if(joystick.joy2_TopHat == 0) { //Hold the lift up
+			motor[LeftSlide] = BUMP;
+			motor[RightSlide] = BUMP;
+		}
+		else if(joy2Btn(9)){		//If button nine is pressed, only move the left side
 			motor[LeftSlide] = slide_scale * y1 * ANDYMARK_CONVERSION;
 			motor[RightSlide] = 0;
 		}
@@ -99,9 +106,9 @@ task slideControl() {
 		//Home
 		if(joy2Btn(2)) {
 			motor[LeftSlide] = motor[RightSlide] = 0;
-			while((nMotorEncoder[LeftSlide] > ENCODER_PRECISION || nMotorEncoder[RightSlide] > ENCODER_PRECISION) && !joy2Btn(5)) {
-				motor[LeftSlide] = targetMotorSpeed(0, nMotorEncoder[LeftSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
-				motor[RightSlide] = targetMotorSpeed(0, nMotorEncoder[RightSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
+			while((nMotorEncoder[RightSlide] > ENCODER_PRECISION) && !joy2Btn(5)){ 		//nMotorEncoder[LeftSlide] > ENCODER_PRECISION ||
+				motor[LeftSlide] = -SLIDE_HIGH * ANDYMARK_CONVERSION;		//targetMotorSpeed(0, nMotorEncoder[LeftSlide]) * 
+				motor[RightSlide] = -SLIDE_HIGH * ANDYMARK_CONVERSION;			//targetMotorSpeed(0, nMotorEncoder[RightSlide]) * 
 				//writeDebugStream("LeftSlide:\t%d\t%d\RightSlide:\t%d\t%d\n", nMotorEncoder[LeftSlide], nMotorEncoder[RightSlide]);
 			}
 			motor[LeftSlide] = motor[RightSlide] = 0;
@@ -110,7 +117,7 @@ task slideControl() {
 		//Low Rolling Goal
 		if(joy2Btn(1)) {
 			motor[LeftSlide] = motor[RightSlide] = 0;
-			while((abs(nMotorEncoder[LeftSlide] - LOW_GOAL) > ENCODER_PRECISION || abs(nMotorEncoder[RightSlide] - LOW_GOAL) > ENCODER_PRECISION) && !joy2Btn(5)) {
+			while((abs(nMotorEncoder[RightSlide] - LOW_GOAL) > ENCODER_PRECISION) && !joy2Btn(5)) {		//abs(nMotorEncoder[LeftSlide] - LOW_GOAL) > ENCODER_PRECISION ||
 				motor[LeftSlide] = targetMotorSpeed(LOW_GOAL, nMotorEncoder[LeftSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
 				motor[RightSlide] = targetMotorSpeed(LOW_GOAL, nMotorEncoder[RightSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
 				//writeDebugStream("LeftSlide:\t%d\t%d\RightSlide:\t%d\t%d\n", nMotorEncoder[LeftSlide], nMotorEncoder[RightSlide]);
@@ -121,7 +128,7 @@ task slideControl() {
 		//Medium Rolling Goal
 		if(joy2Btn(3)) {
 			motor[LeftSlide] = motor[RightSlide] = 0;
-			while((abs(nMotorEncoder[LeftSlide] - MEDIUM_GOAL) > ENCODER_PRECISION || abs(nMotorEncoder[RightSlide] - MEDIUM_GOAL) > ENCODER_PRECISION) && !joy2Btn(5)) {
+			while((abs(nMotorEncoder[RightSlide] - MEDIUM_GOAL) > ENCODER_PRECISION) && !joy2Btn(5)) {		//(abs(nMotorEncoder[LeftSlide] - MEDIUM_GOAL) > ENCODER_PRECISION ||
 				motor[LeftSlide] = targetMotorSpeed(MEDIUM_GOAL, nMotorEncoder[LeftSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
 				motor[RightSlide] = targetMotorSpeed(MEDIUM_GOAL, nMotorEncoder[RightSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
 				//writeDebugStream("LeftSlide:\t%d\t%d\RightSlide:\t%d\t%d\n", nMotorEncoder[LeftSlide], nMotorEncoder[RightSlide]);
@@ -132,7 +139,7 @@ task slideControl() {
 		//High Rolling Goal
 		if(joy2Btn(4)) {
 			motor[LeftSlide] = motor[RightSlide] = 0;
-			while((abs(nMotorEncoder[LeftSlide] - HIGH_GOAL) > ENCODER_PRECISION || abs(nMotorEncoder[RightSlide] - HIGH_GOAL) > ENCODER_PRECISION) && !joy2Btn(5)) {
+			while((abs(nMotorEncoder[RightSlide] - HIGH_GOAL) > ENCODER_PRECISION) && !joy2Btn(5)) {		//(abs(nMotorEncoder[LeftSlide] - HIGH_GOAL) > ENCODER_PRECISION ||
 				motor[LeftSlide] = targetMotorSpeed(HIGH_GOAL, nMotorEncoder[LeftSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
 				motor[RightSlide] = targetMotorSpeed(HIGH_GOAL, nMotorEncoder[RightSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
 				//writeDebugStream("LeftSlide:\t%d\t%d\RightSlide:\t%d\t%d\n", nMotorEncoder[LeftSlide], nMotorEncoder[RightSlide]);
@@ -143,7 +150,7 @@ task slideControl() {
 		//Center Goal
 		if(joy2Btn(7)) {
 			motor[LeftSlide] = motor[RightSlide] = 0;
-			while((abs(nMotorEncoder[LeftSlide] - CENTER_GOAL) > ENCODER_PRECISION || abs(nMotorEncoder[RightSlide] - CENTER_GOAL) > ENCODER_PRECISION) && !joy2Btn(5)) {
+			while((abs(nMotorEncoder[RightSlide] - CENTER_GOAL) > ENCODER_PRECISION) && !joy2Btn(5)) {		//(abs(nMotorEncoder[LeftSlide] - CENTER_GOAL) > ENCODER_PRECISION ||
 				motor[LeftSlide] = targetMotorSpeed(CENTER_GOAL, nMotorEncoder[LeftSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
 				motor[RightSlide] = targetMotorSpeed(CENTER_GOAL, nMotorEncoder[RightSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
 				//writeDebugStream("LeftSlide:\t%d\t%d\RightSlide:\t%d\t%d\n", nMotorEncoder[LeftSlide], nMotorEncoder[RightSlide]);
@@ -204,7 +211,7 @@ task main() {
 
 		//Goal Grabbers
 		if(joy1Btn(2)) {		//Both grabbers go into the down position
-			servo[leftGrab] = 190;
+			servo[leftGrab] = 180;
 			servo[rightGrab] = 60;
 		}
 		if(joy1Btn(4)) {		//Both grabbers go into the up position
@@ -212,7 +219,7 @@ task main() {
 			servo[rightGrab] = 270;
 		}
 		if(joy1Btn(1) && joy1Btn(2)) {		//Left grabber goes into the down position
-			servo[leftGrab] = 190;
+			servo[leftGrab] = 180;
    	}
    	if(joy1Btn(1) && joy1Btn(4)) {		//Left grabber goes into the up position
     	servo[leftGrab] = 0;
@@ -223,7 +230,7 @@ task main() {
   	if(joy1Btn(3) && joy1Btn(4)) {		//Right grabber goes into the up position
    		servo[rightGrab] = 270;
   	}
-  	
+
   	//Joystick 2 - Operator
 		if(joy2Btn(6)) //If the operator is pressing button 6, scale down the slide movements
 			slide_scale = SLIDE_LOW;
