@@ -24,6 +24,10 @@
 #define MEDIUM_GOAL 4400
 #define HIGH_GOAL 6500
 #define CENTER_GOAL 7000
+#define LEFT_GRAB_UP 0
+#define RIGHT_GRAB_UP 270
+#define LEFT_GRAB_DOWN 180
+#define RIGHT_GRAB_DOWN 60
 
 //Autonomous
 #define WAIT 30
