@@ -9,10 +9,11 @@
 #define DRIVE_LOW 40
 #define SLIDE_HIGH -100
 #define SLIDE_LOW -50
+#define BUMP 15
 
 //Robot Constants
 #define ENCODER_PRECISION 80
-#define ANGLE_PRECISION 3
+#define ANGLE_PRECISION 2
 #define ANDYMARK_CONVERSION -78.0/100.0
 #define SLIDE_TOP 7000
 #define SLIDE_BOTTOM 0
