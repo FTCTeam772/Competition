@@ -78,13 +78,13 @@ void turn(float amount){		//If amount is positive, a right turn is made.
 }
 
 void releaseGoal(){
-	servo[leftGrab] = 0;
-	servo[rightGrab] = 270;
+	servo[leftGrab] = LEFT_GRAB_UP;
+	servo[rightGrab] = RIGHT_GRAB_UP;
 }
 
 void grabGoal(){
-	servo[leftGrab] = 180;
-	servo[rightGrab] = 60;
+	servo[leftGrab] = LEFT_GRAB_DOWN;
+	servo[rightGrab] = RIGHT_GRAB_DOWN;
 }
 
 void setGrabbers(){
