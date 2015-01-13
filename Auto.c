@@ -79,7 +79,6 @@ void kickCenter(bool kick, bool center){
 
 			if (irvalue == 0) { //center goal is facing the box
 				//knock over kickstand
-				irvalue = 0;
 				oneSideTurn(-1300, false);
 				oneSideTurn(-1300, true);
 				drive(-4000);
@@ -87,19 +86,19 @@ void kickCenter(bool kick, bool center){
 
 			if (irvalue == 1) { //center goal is facing at a 45 degree angle
 				//knock over kickstand
-				irvalue = 1;
-				oneSideTurn(-1300, false);
-				oneSideTurn(-1300, true);
-				drive(-4000);
+				turn(-3500);
+				drive(2000);
+				turn(-1500);
+				drive(-5000);
 			}
 
 			if (irvalue == 2) { //center goal is facing toward the side of the ramp
 				//knock over kickstand
-				irvalue = 2;
-				oneSideTurn(-2000, false);
-				drive(-1400);
-				turn(-4685);
-				drive(-4000);
+				drive(-1000);
+				turn(-3500);
+				drive(-2000);
+				drive(1000);
+				drive(-2000);
 		  }
 		}
 	}
@@ -179,7 +178,4 @@ task main() {
 
  execute(RAMP, DEF, KICK, CENTER, ROLLING);
 
-	//writeDebugStream("IR:\t%d\n", SensorValue[IR]);
-  //writeDebugStream("LeftSlide:\t%d\n", nMotorEncoder[LeftSlide]);
-  //writeDebugStream("RightSlide:\t%d\n", nMotorEncoder[RightSlide]);
 }
