@@ -21,8 +21,8 @@
 
 //Presets
 #define LOW_GOAL 2000
-#define MEDIUM_GOAL 4400
-#define HIGH_GOAL 6500
+#define MEDIUM_GOAL 4600
+#define HIGH_GOAL 6700
 #define CENTER_GOAL 7000
 #define LEFT_GRAB_UP 0
 #define RIGHT_GRAB_UP 270
