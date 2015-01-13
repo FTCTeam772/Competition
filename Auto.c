@@ -32,15 +32,15 @@ void kickCenter(bool kick, bool center){
 		//Get IR Values
 		int irvalue = -1;
 
-		if ((SensorValue[IR_left] == 7 && SensorValue[IR_right] == 5) || (SensorValue[IR_left] == 5 && SensorValue[IR_right] == 5)) { //center goal is facing the box
+		if (SensorValue[IR_left] == 5 && SensorValue[IR_right] == 5) { //center goal is facing the box
 			irvalue = 0;
 		}
 
-		if (SensorValue[IR_left] == 5 && SensorValue[IR_right] == 5) { //center goal is facing at a 45 degree angle between the box and side of the ramp
+		if (SensorValue[IR_left] == 6 && SensorValue[IR_right] == 7) { //center goal is facing at a 45 degree angle between the box and side of the ramp
 			irvalue = 1;
 		}
 
-		if ((SensorValue[IR_left] == 5 && SensorValue[IR_right] == 6) || (SensorValue[IR_left] == 7 && SensorValue[IR_right] == 7)) { //center goal is facing toward the side of the ramp
+		if (SensorValue[IR_left] == 5 && SensorValue[IR_right] == 6) { //center goal is facing toward the side of the ramp
 			irvalue = 2;
 		}
 
@@ -55,7 +55,7 @@ void kickCenter(bool kick, bool center){
 
 			}
 		}
-		
+
 		if (irvalue == 1) { //center goal is facing at a 45 degree angle between the box and side of the ramp
 			//score in the centergoal
 
@@ -131,32 +131,30 @@ void execute(bool ramp, bool def, bool kick, bool center, int roll) {			//I feel
 			}
 			if (def == false) {
 
-				if (roll == 0) {		//If not scoring in center goal
+				if (roll == 0) {		//If not scoring in rolling goals
 					drive(-300);
 				}
 
 				if (roll == 1) {
 					//score in medium goal and bring it back
-					drive(300);
-					turn(10);
+					drive(400);
+					turn(500);
 					drive(10000);
 					liftScore(MEDIUM_GOAL);
 					grabGoal();
-					turn(40);
 					drive(-10000);
-					turn(130);
+					turn(5000);
 					releaseGoal();
 					}
 					if (roll == 2) {
 					//score in tallest goal and bring it back
-					drive(300);
-					turn(10);
-					drive(10000);
-					liftScore(MEDIUM_GOAL);
+					drive(400);
+					turn(300);
+					drive(12000);
+					liftScore(HIGH_GOAL);
 					grabGoal();
-					turn(40);
-					drive(-10000);
-					turn(130);
+					drive(-12000);
+					turn(6000);
 					releaseGoal();
 					}
 				}
