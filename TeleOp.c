@@ -4,11 +4,11 @@
 #pragma config(Sensor, S4,     IR_right,       sensorHiTechnicIRSeeker1200)
 #pragma config(Motor,  mtr_S1_C1_1,     FrontRight,    tmotorTetrix, PIDControl, reversed, encoder)
 #pragma config(Motor,  mtr_S1_C1_2,     BackRight,     tmotorTetrix, PIDControl, reversed, encoder)
-#pragma config(Motor,  mtr_S1_C2_1,     FrontLeft,     tmotorTetrix, PIDControl, encoder)
-#pragma config(Motor,  mtr_S1_C2_2,     BackLeft,      tmotorTetrix, PIDControl, encoder)
+#pragma config(Motor,  mtr_S1_C2_1,     LeftWheels,    tmotorTetrix, PIDControl, encoder)
+#pragma config(Motor,  mtr_S1_C2_2,     zipties,       tmotorTetrix, PIDControl, encoder)
 #pragma config(Motor,  mtr_S2_C1_1,     LeftSlide,     tmotorTetrix, PIDControl, encoder)
 #pragma config(Motor,  mtr_S2_C1_2,     RightSlide,    tmotorTetrix, PIDControl, reversed, encoder)
-#pragma config(Servo,  srvo_S2_C2_1,    zipties,              tServoContinuousRotation)
+#pragma config(Servo,  srvo_S2_C2_1,    servo1,               tServoNone)
 #pragma config(Servo,  srvo_S2_C2_2,    leftGrab,             tServoStandard)
 #pragma config(Servo,  srvo_S2_C2_3,    rightGrab,            tServoStandard)
 #pragma config(Servo,  srvo_S2_C2_4,    servo4,               tServoNone)
@@ -56,7 +56,7 @@ task driveControl() { //Asynchronous task for critical drive control
 			y2 = 0;
 
 		//Set the motors to scale
-		motor[BackLeft] = motor[FrontLeft] = drive_scale * y1 * ANDYMARK_CONVERSION;
+		motor[LeftWheels] = drive_scale * y1 * ANDYMARK_CONVERSION;
 		motor[BackRight] = motor[FrontRight] = drive_scale * y2 * ANDYMARK_CONVERSION;
 
 		//writeDebugStream("Wheels:\n\tFront Left:\t%d\n\tFront Right:\t%d\n\tBack Left:\t%d\n\tBack Right:\t%d\n", nMotorEncoder[FrontLeft], nMotorEncoder[FrontRight], nMotorEncoder[BackLeft], nMotorEncoder[BackRight]);
@@ -99,7 +99,7 @@ task slideControl() {
 			motor[RightSlide] = slide_scale * y1 * ANDYMARK_CONVERSION;
 		}
 		else {		//Else move both
-		motor[LeftSlide] = motor[RightSlide] = slide_scale * y1 * ANDYMARK_CONVERSION;
+			motor[LeftSlide] = motor[RightSlide] = slide_scale * y1 * ANDYMARK_CONVERSION;
 		}
 		//Preset Positions
 
@@ -107,8 +107,8 @@ task slideControl() {
 		if(joy2Btn(2)) {
 			motor[LeftSlide] = motor[RightSlide] = 0;
 			while((nMotorEncoder[RightSlide] > ENCODER_PRECISION) && !joy2Btn(5)){ 		//nMotorEncoder[LeftSlide] > ENCODER_PRECISION ||
-				motor[LeftSlide] = -SLIDE_HIGH * ANDYMARK_CONVERSION;		//targetMotorSpeed(0, nMotorEncoder[LeftSlide]) * 
-				motor[RightSlide] = -SLIDE_HIGH * ANDYMARK_CONVERSION;			//targetMotorSpeed(0, nMotorEncoder[RightSlide]) * 
+				motor[LeftSlide] = -SLIDE_HIGH * ANDYMARK_CONVERSION;		//targetMotorSpeed(0, nMotorEncoder[LeftSlide]) *
+				motor[RightSlide] = -SLIDE_HIGH * ANDYMARK_CONVERSION;			//targetMotorSpeed(0, nMotorEncoder[RightSlide]) *
 				//writeDebugStream("LeftSlide:\t%d\t%d\RightSlide:\t%d\t%d\n", nMotorEncoder[LeftSlide], nMotorEncoder[RightSlide]);
 			}
 			motor[LeftSlide] = motor[RightSlide] = 0;
@@ -212,7 +212,7 @@ task main() {
 		//Goal Grabbers
 		int leftpos = 0;		//Keeps track of the position of the left servo
 		int rightpos = 0;		//Keeps track of the position of the right servo
-		
+
 		if(joy1Btn(2)) {		//Both grabbers go into the down position
 			servo[leftGrab] = LEFT_GRAB_DOWN;
 			servo[rightGrab] = RIGHT_GRAB_DOWN;
@@ -250,9 +250,9 @@ task main() {
 
 		//Zip Ties
 		if(joystick.joy2_y2 > DEADBAND || joystick.joy2_y2 < -DEADBAND)		//If the operator is putting in a value on the x-axis of the right stick
-			servo[zipties] = joystick.joy2_y2 + CONT_SERVO_CENTER;					//Make the servo spin accordingly
+			motor[zipties] = sgn(joystick.joy2_y2) * DRIVE_HIGH;					//Make the servo spin accordingly
 		else
-			servo[zipties] = CONT_SERVO_CENTER;					//If within DEADBAND, remain stopped
+			motor[zipties] = 0;					//If within DEADBAND, remain stopped
 
 		writeDebugStream("IR_left:\t%d\n", SensorValue[IR_left]);
 		writeDebugStream("IR_right:\t%d\n" ,SensorValue[IR_right]);
