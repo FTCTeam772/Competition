@@ -17,7 +17,6 @@
 #define ANDYMARK_CONVERSION -78.0/100.0
 #define SLIDE_TOP 7000
 #define SLIDE_BOTTOM 0
-#define CONT_SERVO_CENTER 128
 
 //Presets
 #define LOW_GOAL 2000
