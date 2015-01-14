@@ -4,11 +4,11 @@
 #pragma config(Sensor, S4,     IR_right,       sensorHiTechnicIRSeeker1200)
 #pragma config(Motor,  mtr_S1_C1_1,     FrontRight,    tmotorTetrix, PIDControl, reversed, encoder)
 #pragma config(Motor,  mtr_S1_C1_2,     BackRight,     tmotorTetrix, PIDControl, reversed, encoder)
-#pragma config(Motor,  mtr_S1_C2_1,     FrontLeft,     tmotorTetrix, PIDControl, encoder)
-#pragma config(Motor,  mtr_S1_C2_2,     BackLeft,      tmotorTetrix, PIDControl, encoder)
+#pragma config(Motor,  mtr_S1_C2_1,     LeftWheels,    tmotorTetrix, PIDControl, encoder)
+#pragma config(Motor,  mtr_S1_C2_2,     zipties,       tmotorTetrix, PIDControl, encoder)
 #pragma config(Motor,  mtr_S2_C1_1,     LeftSlide,     tmotorTetrix, PIDControl, encoder)
 #pragma config(Motor,  mtr_S2_C1_2,     RightSlide,    tmotorTetrix, PIDControl, reversed, encoder)
-#pragma config(Servo,  srvo_S2_C2_1,    zipties,              tServoContinuousRotation)
+#pragma config(Servo,  srvo_S2_C2_1,    servo1,               tServoNone)
 #pragma config(Servo,  srvo_S2_C2_2,    leftGrab,             tServoStandard)
 #pragma config(Servo,  srvo_S2_C2_3,    rightGrab,            tServoStandard)
 #pragma config(Servo,  srvo_S2_C2_4,    servo4,               tServoNone)
@@ -176,6 +176,6 @@ task main() {
 
 	//wait10Msec(delay * 100);
 
- execute(RAMP, DEF, KICK, CENTER, ROLLING);
+ 	execute(RAMP, DEF, KICK, CENTER, ROLLING);
 
 }
