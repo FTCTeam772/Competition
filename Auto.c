@@ -1,11 +1,13 @@
 #pragma config(Hubs,  S1, HTMotor,  HTMotor,  none,     none)
 #pragma config(Hubs,  S2, HTMotor,  HTServo,  none,     none)
+#pragma config(Sensor, S1,     ,               sensorI2CMuxController)
+#pragma config(Sensor, S2,     ,               sensorI2CMuxController)
 #pragma config(Sensor, S3,     IR_left,        sensorHiTechnicIRSeeker1200)
 #pragma config(Sensor, S4,     IR_right,       sensorHiTechnicIRSeeker1200)
 #pragma config(Motor,  mtr_S1_C1_1,     FrontRight,    tmotorTetrix, PIDControl, reversed, encoder)
 #pragma config(Motor,  mtr_S1_C1_2,     BackRight,     tmotorTetrix, PIDControl, reversed, encoder)
 #pragma config(Motor,  mtr_S1_C2_1,     LeftWheels,    tmotorTetrix, PIDControl, encoder)
-#pragma config(Motor,  mtr_S1_C2_2,     zipties,       tmotorTetrix, PIDControl, encoder)
+#pragma config(Motor,  mtr_S1_C2_2,     zipties,       tmotorTetrix, PIDControl, reversed, encoder)
 #pragma config(Motor,  mtr_S2_C1_1,     LeftSlide,     tmotorTetrix, PIDControl, encoder)
 #pragma config(Motor,  mtr_S2_C1_2,     RightSlide,    tmotorTetrix, PIDControl, reversed, encoder)
 #pragma config(Servo,  srvo_S2_C2_1,    servo1,               tServoNone)
@@ -32,7 +34,7 @@ void kickCenter(bool kick, bool center){
 		//Get IR Values
 		int irvalue = -1;
 
-		if (SensorValue[IR_left] == 5 && SensorValue[IR_right] == 5) { //center goal is facing the box
+		if ((SensorValue[IR_left] == 5 && SensorValue[IR_right] == 6) || (SensorValue[IR_left] == 5 && SensorValue[IR_right] == 0)) { //center goal is facing the box
 			irvalue = 0;
 		}
 
@@ -40,7 +42,7 @@ void kickCenter(bool kick, bool center){
 			irvalue = 1;
 		}
 
-		if (SensorValue[IR_left] == 5 && SensorValue[IR_right] == 6) { //center goal is facing toward the side of the ramp
+		if (SensorValue[IR_left] == 5 && SensorValue[IR_right] == 5) { //center goal is facing toward the side of the ramp
 			irvalue = 2;
 		}
 
@@ -75,30 +77,30 @@ void kickCenter(bool kick, bool center){
 		}
 	}
 
-		else if (kick == true){		//center is false & kickstand is true
+		if (kick == true){		//center is false & kickstand is true
 
 			if (irvalue == 0) { //center goal is facing the box
 				//knock over kickstand
-				oneSideTurn(-1300, false);
-				oneSideTurn(-1300, true);
-				drive(-4000);
+				oneSideTurn(-1900, false);
+				oneSideTurn(-1700, true);
+				drive(-6000);
 			}
 
 			if (irvalue == 1) { //center goal is facing at a 45 degree angle
 				//knock over kickstand
-				turn(-3500);
-				drive(2000);
-				turn(-1500);
-				drive(-5000);
+				turn(3000);
+				drive(3100);
+				turn(-2300);
+				drive(-7000);
 			}
 
 			if (irvalue == 2) { //center goal is facing toward the side of the ramp
 				//knock over kickstand
-				drive(-1000);
-				turn(-3500);
-				drive(-2000);
-				drive(1000);
-				drive(-2000);
+				drive(-3500);
+				turn(-3000);
+				drive(-3000);
+				drive(2000);
+				drive(-4000);
 		  }
 		}
 	}
@@ -131,36 +133,38 @@ void execute(bool ramp, bool def, bool kick, bool center, int roll) {			//I feel
 			if (def == false) {
 
 				if (roll == 0) {		//If not scoring in rolling goals
-					drive(-300);
+					drive(-2400);
 				}
 
 				if (roll == 1) {
 					//score in medium goal and bring it back
-					drive(400);
-					turn(500);
-					drive(10000);
+					drive(1000);
+					turn(1050);
+					drive(12000);
 					liftScore(MEDIUM_GOAL);
 					grabGoal();
-					drive(-10000);
-					turn(5000);
+					wait();
+					drive(-9000);
+					turn(6000);
 					releaseGoal();
-					}
-					if (roll == 2) {
+				}
+				if (roll == 2) {
 					//score in tallest goal and bring it back
-					drive(400);
-					turn(300);
-					drive(12000);
+					drive(1000);
+					turn(970);
+					drive(14500);
 					liftScore(HIGH_GOAL);
 					grabGoal();
+					wait();
 					drive(-12000);
 					turn(6000);
 					releaseGoal();
-					}
 				}
-
+			
 				kickCenter(kick, center);
 			}
 		}
+	}
 
 task main() {
 
