@@ -8,10 +8,10 @@ void initialize() {
 	//Initialize motors and encoders
 	motor[LeftWheels] = motor[FrontRight] = motor[BackRight] = motor[LeftSlide] = motor[RightSlide] = motor[zipties] = 0; //Turn off the motors
 	nMotorEncoder[LeftWheels] = nMotorEncoder[FrontRight] = nMotorEncoder[BackRight] = nMotorEncoder[LeftSlide] = nMotorEncoder[RightSlide] = 0; //Might as well reset the encoders too
-	servo[leftGrab] = 0;
-	servo[rightGrab] = 270;
+	servo[leftGrab] = LEFT_GRAB_UP;
+	servo[rightGrab] = RIGHT_GRAB_UP;
 	//Display the robot's name
-	nxtDisplayCenteredTextLine(0, "Rock 1.3");
+	nxtDisplayCenteredTextLine(0, "Rock 1.4");
 }
 
 float targetMotorSpeed(int target, int current) {
