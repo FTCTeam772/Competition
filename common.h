@@ -1,8 +1,8 @@
-//#include "drivers/hitechnic-sensormux.h"
-//#include "drivers/hitechnic-irseeker-v2.h"
+#include "drivers/hitechnic-sensormux.h"
+#include "drivers/hitechnic-irseeker-v2.h"
 
-//const tMUXSensor IR_left = msensor_S4_1;
-//const tMUXSensor IR_right = msensor_S4_2;
+const tMUXSensor IR_left = msensor_S4_1;
+const tMUXSensor IR_right = msensor_S4_2;
 
 void initialize() {
 	//Initialize motors and encoders
@@ -45,28 +45,45 @@ void halfDrive(float amount) {
 		motor[LeftWheels] = motor[FrontRight] = motor[BackRight] = 0;
 }
 
-//void turnBy(float amount){
-//		float originalValue = SensorValue[Compass];
-//		float targetValue = originalValue + amount;
+void turnBy(float amount){
+		float originalValue = SensorValue[Compass];
+		float targetValue = originalValue + amount;
 
-//		if(targetValue > 359){			//correct targetValue if it is too large
-//			targetValue = targetValue - 360;
-//		}
-//		else if(targetValue < 0){		//correct targetValue if it is too small
-//			targetValue = targetValue + 360;
-//		}
-
-//		while(abs(SensorValue[Compass] - targetValue) > ANGLE_PRECISION){
-//			if(amount < 0){						//turn left (negative)
-//				motor[FrontLeft] = motor[BackLeft] = DRIVE_HIGH * ANDYMARK_CONVERSION * -1;
-//				motor[FrontRight] = motor[BackRight] = DRIVE_HIGH * ANDYMARK_CONVERSION;
-//			}
-//			else {		//turn right
-//				motor[FrontLeft] = motor[BackLeft] = DRIVE_HIGH * ANDYMARK_CONVERSION;
-//				motor[FrontRight] = motor[BackRight] = DRIVE_HIGH * ANDYMARK_CONVERSION * -1;
-//			}
-//		}
-//}
+		if(targetValue > 359){			//correct targetValue if it is too large
+			targetValue = targetValue - 360;
+		}
+		else if(targetValue < 0){		//correct targetValue if it is too small
+			targetValue = targetValue + 360;
+		}
+		
+		if(abs(amount) <= 90){		//For small turns...
+			
+			while(abs(SensorValue[Compass] - targetValue) > SMALL_ANGLE_PRECISION){
+				if(amount < 0){						//turn left (negative)
+					motor[LeftWheels] = DRIVE_HIGH * ANDYMARK_CONVERSION * -1;
+					motor[FrontRight] = motor[BackRight] = DRIVE_HIGH * ANDYMARK_CONVERSION;
+				}
+				else {		//turn right
+					motor[LeftWheels] = DRIVE_HIGH * ANDYMARK_CONVERSION;
+					motor[FrontRight] = motor[BackRight] = DRIVE_HIGH * ANDYMARK_CONVERSION * -1;
+				}
+			}
+		}
+		
+		if(abs(amount) > 90){			//For large turns...
+			
+			while(abs(SensorValue[Compass] - targetValue) > LARGE_ANGLE_PRECISION){
+				if(amount < 0){						//turn left (negative)
+					motor[LeftWheels] = DRIVE_HIGH * ANDYMARK_CONVERSION * -1;
+					motor[FrontRight] = motor[BackRight] = DRIVE_HIGH * ANDYMARK_CONVERSION;
+				}
+				else {		//turn right
+					motor[LeftWheels] = DRIVE_HIGH * ANDYMARK_CONVERSION;
+					motor[FrontRight] = motor[BackRight] = DRIVE_HIGH * ANDYMARK_CONVERSION * -1;
+				}
+			}
+		}
+}
 
 void turn(float amount){		//If amount is positive, a right turn is made.
 		nMotorEncoder[LeftWheels] = nMotorEncoder[FrontRight] = nMotorEncoder[BackRight] = 0; 	//Reset encoders
