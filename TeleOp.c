@@ -1,11 +1,11 @@
 #pragma config(Hubs,  S1, HTMotor,  HTMotor,  none,     none)
 #pragma config(Hubs,  S2, HTMotor,  HTServo,  none,     none)
-#pragma config(Sensor, S3,     IR_left,        sensorHiTechnicIRSeeker1200)
-#pragma config(Sensor, S4,     IR_right,       sensorHiTechnicIRSeeker1200)
+#pragma config(Sensor, S3,     Compass,        sensorI2CHiTechnicCompass)
+#pragma config(Sensor, S4,     Multi,          sensorI2CCustom)
 #pragma config(Motor,  mtr_S1_C1_1,     FrontRight,    tmotorTetrix, PIDControl, reversed, encoder)
 #pragma config(Motor,  mtr_S1_C1_2,     BackRight,     tmotorTetrix, PIDControl, reversed, encoder)
 #pragma config(Motor,  mtr_S1_C2_1,     LeftWheels,    tmotorTetrix, PIDControl, encoder)
-#pragma config(Motor,  mtr_S1_C2_2,     zipties,       tmotorTetrix, PIDControl, encoder)
+#pragma config(Motor,  mtr_S1_C2_2,     zipties,       tmotorTetrix, PIDControl, reversed, encoder)
 #pragma config(Motor,  mtr_S2_C1_1,     LeftSlide,     tmotorTetrix, PIDControl, encoder)
 #pragma config(Motor,  mtr_S2_C1_2,     RightSlide,    tmotorTetrix, PIDControl, reversed, encoder)
 #pragma config(Servo,  srvo_S2_C2_1,    servo1,               tServoNone)
@@ -91,15 +91,15 @@ task slideControl() {
 			motor[RightSlide] = BUMP;
 		}
 		else if(joy2Btn(9)){		//If button nine is pressed, only move the left side
-			motor[LeftSlide] = slide_scale * y1 * ANDYMARK_CONVERSION;
+			motor[LeftSlide] = SLIDE_HIGH * y1 * ANDYMARK_CONVERSION;
 			motor[RightSlide] = 0;
 		}
 		else if(joy2Btn(10)){		//If button ten is pressed, only move the right side
 			motor[LeftSlide] = 0;
-			motor[RightSlide] = slide_scale * y1 * ANDYMARK_CONVERSION;
+			motor[RightSlide] = SLIDE_HIGH * y1 * ANDYMARK_CONVERSION;
 		}
 		else {		//Else move both
-			motor[LeftSlide] = motor[RightSlide] = slide_scale * y1 * ANDYMARK_CONVERSION;
+			motor[LeftSlide] = motor[RightSlide] = SLIDE_HIGH * y1 * ANDYMARK_CONVERSION;
 		}
 		//Preset Positions
 
@@ -148,7 +148,7 @@ task slideControl() {
 		}
 
 		//Center Goal
-		if(joy2Btn(7)) {
+		if(joy2Btn(6)) {
 			motor[LeftSlide] = motor[RightSlide] = 0;
 			while((abs(nMotorEncoder[RightSlide] - CENTER_GOAL) > ENCODER_PRECISION) && !joy2Btn(5)) {		//(abs(nMotorEncoder[LeftSlide] - CENTER_GOAL) > ENCODER_PRECISION ||
 				motor[LeftSlide] = targetMotorSpeed(CENTER_GOAL, nMotorEncoder[LeftSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
@@ -243,11 +243,6 @@ task main() {
   	}
 
   	//Joystick 2 - Operator
-		if(joy2Btn(6)) //If the operator is pressing button 6, scale down the slide movements
-			slide_scale = SLIDE_LOW;
-		else
-			slide_scale = SLIDE_HIGH;
-
 		//Zip Ties
 		if(joystick.joy2_y2 > DEADBAND || joystick.joy2_y2 < -DEADBAND)		//If the operator is putting in a value on the x-axis of the right stick
 			motor[zipties] = sgn(joystick.joy2_y2) * DRIVE_HIGH;					//Make the servo spin accordingly
