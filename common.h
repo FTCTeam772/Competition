@@ -11,10 +11,10 @@ void initialize() {
 	servo[leftGrab] = LEFT_GRAB_UP;
 	servo[rightGrab] = RIGHT_GRAB_UP;
 	//Display the robot's name
-	nxtDisplayCenteredTextLine(0, "Rock 1.4");
+	nxtDisplayCenteredTextLine(0, "Rock 1.5");
 }
 
-float targetMotorSpeed(int target, int current) {
+float targetMotorSpeed(int target, int current) {      //non-linear speed function using encoders
 	#ifdef NONLINEARTARGET
 	if(abs(current - target) > 400)
 		return sgn(target - current);
@@ -46,7 +46,7 @@ void halfDrive(float amount) {
 }
 
 void turnBy(float amount){
-		float originalValue = SensorValue[Compass];
+		float originalValue = SensorValue[Compass];      //The value of the compass before the turn
 		float targetValue = originalValue + amount;
 
 		if(targetValue > 359){			//correct targetValue if it is too large
@@ -94,17 +94,17 @@ void turn(float amount){		//If amount is positive, a right turn is made.
 		motor[LeftWheels] = motor[FrontRight] = motor[BackRight] = 0;
 }
 
-void releaseGoal(){
+void releaseGoal(){          //Release the goal by putting the grabbers up
 	servo[leftGrab] = LEFT_GRAB_UP;
 	servo[rightGrab] = RIGHT_GRAB_UP;
 }
 
-void grabGoal(){
+void grabGoal(){             //Grab the goal by putting the grabbers down
 	servo[leftGrab] = LEFT_GRAB_DOWN;
 	servo[rightGrab] = RIGHT_GRAB_DOWN;
 }
 
-void setGrabbers(){
+void setGrabbers(){          //The grabbers go to a middle position so lift doesn't hit it
 	servo[leftGrab] = 140;
 	servo[rightGrab] = 100;
 }
