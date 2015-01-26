@@ -55,9 +55,9 @@ void turnBy(float amount){
 		else if(targetValue < 0){		//correct targetValue if it is too small
 			targetValue = targetValue + 360;
 		}
-		
+
 		if(abs(amount) <= 90){		//For small turns...
-			
+
 			while(abs(SensorValue[Compass] - targetValue) > SMALL_ANGLE_PRECISION){
 				if(amount < 0){						//turn left (negative)
 					motor[LeftWheels] = DRIVE_HIGH * ANDYMARK_CONVERSION * -1;
@@ -69,9 +69,9 @@ void turnBy(float amount){
 				}
 			}
 		}
-		
+
 		if(abs(amount) > 90){			//For large turns...
-			
+
 			while(abs(SensorValue[Compass] - targetValue) > LARGE_ANGLE_PRECISION){
 				if(amount < 0){						//turn left (negative)
 					motor[LeftWheels] = DRIVE_HIGH * ANDYMARK_CONVERSION * -1;
