@@ -213,13 +213,13 @@ task main() {
 		int leftpos = 0;		//Keeps track of the position of the left servo
 		int rightpos = 0;		//Keeps track of the position of the right servo
 
-		if(joy1Btn(2)) {		//Both grabbers go into the down position
+		if(joy1Btn(4)) {		//Both grabbers go into the down position
 			servo[leftGrab] = LEFT_GRAB_DOWN;
 			servo[rightGrab] = RIGHT_GRAB_DOWN;
 			leftpos = 1;
 			rightpos = 1;
 		}
-		if(joy1Btn(4)) {		//Both grabbers go into the up position
+		if(joy1Btn(2)) {		//Both grabbers go into the up position
 			servo[leftGrab] = LEFT_GRAB_UP;
 			servo[rightGrab] = RIGHT_GRAB_UP;
 			leftpos = 0;
