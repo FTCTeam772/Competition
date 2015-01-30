@@ -36,7 +36,7 @@ void kickCenter(bool kick, bool center){
 			irvalue = 0;
 		}
 
-		if (HTIRS2readACDir(IR_left) == 6 && HTIRS2readACDir(IR_right) == 7) { //center goal is facing at a 45 degree angle between the box and side of the ramp
+		if ((HTIRS2readACDir(IR_left) == 6 && HTIRS2readACDir(IR_right) == 7) || (HTIRS2readACDir(IR_left) == 0 && HTIRS2readACDir(IR_right) == 0)) { //center goal is facing at a 45 degree angle between the box and side of the ramp
 			irvalue = 1;
 		}
 
@@ -93,15 +93,15 @@ void kickCenter(bool kick, bool center){
 
 			if (irvalue == 0) { //center goal is facing the box
 				//knock over kickstand
-				oneSideTurn(-1900, true);
-				oneSideTurn(-1700, false);
+				oneSideTurn(-1800, false);
+				oneSideTurn(-1800, true);
 				drive(-6000);
 			}
 
 			if (irvalue == 1) { //center goal is facing at a 45 degree angle
 				//knock over kickstand
 				turn(3000);
-				drive(3100);
+				drive(3300);
 				turn(-2300);
 				drive(-7000);
 			}
@@ -129,7 +129,7 @@ void execute(bool ramp, bool def, bool kick, bool center, int roll) {			//I feel
 				setGrabbers();
 				liftScore(MEDIUM_GOAL);
 				grabGoal();
-				turn(1000);
+				turn(1100);
 				drive(-10700);
 				turn(5500);
 				releaseGoal();
@@ -146,7 +146,7 @@ void execute(bool ramp, bool def, bool kick, bool center, int roll) {			//I feel
 			if (def == false) {
 
 				if (roll == 0) {		//If not scoring in rolling goals
-					drive(-2400);
+					drive(-2700);
 				}
 
 				if (roll == 1) {
@@ -155,6 +155,7 @@ void execute(bool ramp, bool def, bool kick, bool center, int roll) {			//I feel
 					//turn(1050);
 					turnBy(5);
 					drive(11300);
+					setGrabbers();
 					liftScore(MEDIUM_GOAL);
 					grabGoal();
 					wait();
@@ -164,18 +165,18 @@ void execute(bool ramp, bool def, bool kick, bool center, int roll) {			//I feel
 				}
 				if (roll == 2) {
 					//score in tallest goal and bring it back
-					drive(2000);
-					turnBy(5);
-					drive(7500);
-					oneSideTurn(5300, true);
-					oneSideTurn(4000, false);
-					drive(4300);
+					drive(1800);
+					turn(1000);
+					drive(8600);
+					oneSideTurn(1300, true);
+					drive(5000);
+					setGrabbers();
 					liftScore(HIGH_GOAL);
 					grabGoal();
 					wait();
-					drive(-8000);
-					oneSideTurn(-1000, false);
-					drive(-3000);
+					drive(-4500);
+					oneSideTurn(-1500, true);
+					drive(-7000);
 					turn(9000);
 					releaseGoal();
 				}
