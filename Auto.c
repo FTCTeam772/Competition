@@ -61,7 +61,7 @@ void kickCenter(bool kick, bool center){
 				}
 			}
 
-			if (irvalue == 1) { //center goal is facing at a 45 degree angle between the box and side of the ramp
+			if (irvalue == 1) { //center goal is facing at a 45 degree angle
 				//score in the centergoal
 				turn(-1200);
 				drive(-5000);
@@ -118,12 +118,12 @@ void kickCenter(bool kick, bool center){
 	}
 
 
-void execute(bool ramp, bool def, bool kick, bool center, int roll) {			//I feel like this should be outside of task main()
+void execute(bool ramp, bool def, bool kick, bool center, int roll) {
 
 		if (ramp == true) {			//If starting from ramp
 
 			if (roll == 1) {
-				//score in medium goal and bring it back (bring it back can be a common.h method) to parking zone
+				//score in medium goal and bring it back to parking zone
 				drive(11400);
 				oneSideTurn(300, false);
 				setGrabbers();
