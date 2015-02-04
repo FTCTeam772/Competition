@@ -5,13 +5,13 @@ const tMUXSensor IR_left = msensor_S4_1;
 const tMUXSensor IR_right = msensor_S4_2;
 
 void initialize() {
-	//Initialize motors and encoders
+	//Initialize motorsa and encoders
 	motor[LeftWheels] = motor[FrontRight] = motor[BackRight] = motor[LeftSlide] = motor[RightSlide] = motor[zipties] = 0; //Turn off the motors
 	nMotorEncoder[LeftWheels] = nMotorEncoder[FrontRight] = nMotorEncoder[BackRight] = nMotorEncoder[LeftSlide] = nMotorEncoder[RightSlide] = 0; //Might as well reset the encoders too
 	servo[leftGrab] = LEFT_GRAB_UP;
 	servo[rightGrab] = RIGHT_GRAB_UP;
 	//Display the robot's name
-	nxtDisplayCenteredTextLine(0, "Rock 1.5");
+	nxtDisplayCenteredTextLine(0, "Rock 2.0");
 }
 
 float targetMotorSpeed(int target, int current) {      //non-linear speed function using encoders
@@ -135,10 +135,10 @@ void liftScore(int targetHeight){
 		}
 		motor[LeftSlide] = motor[RightSlide] = 0;		//Stop lift motors after they have reached the desired height
 
-		halfDrive(500);
+		halfDrive(700);
 		wait();
 		wait();
-		motor[zipties] = DRIVE_HIGH;		//Score balls
+		motor[zipties] = -50;		//Score balls
 		wait10Msec(ZIPTIE_WAIT);
 		motor[zipties] = 0;			//Stop servo after wait
 
