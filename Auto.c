@@ -53,7 +53,7 @@ void kickCenter(bool kick, bool center){
 				drive(-2500);
 				turn(-2200);
 				drive(2100);
-				//liftScore(CENTER_GOAL);
+				liftScore(CENTER_GOAL);
 
 				if (kick == true){
 					//knock over kickstand
@@ -67,7 +67,7 @@ void kickCenter(bool kick, bool center){
 				drive(-5000);
 				turn(-3500);
 				drive(-500);
-				//liftScore(CENTER_GOAL);
+				liftScore(CENTER_GOAL);
 
 				if (kick == true){
 					//knock over kickstand
@@ -80,7 +80,7 @@ void kickCenter(bool kick, bool center){
 				turn(-1400);
 				drive(-7300);
 				turn(-2200);
-				//liftScore(CENTER_GOAL);
+				liftScore(CENTER_GOAL);
 
 				if (kick == true){
 					//knock over kickstand
@@ -124,7 +124,7 @@ void execute(bool ramp, bool def, bool kick, bool center, int roll) {
 
 			if (roll == 1) {
 				//score in medium goal and bring it back to parking zone
-				drive(11400);
+				drive(11800);
 				oneSideTurn(300, false);
 				setGrabbers();
 				liftScore(MEDIUM_GOAL);
