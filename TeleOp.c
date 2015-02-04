@@ -29,7 +29,6 @@
 
 //Initialize our globals
 byte drive_scale = DRIVE_HIGH; 		//Used to scale down robot movements
-byte slide_scale = SLIDE_HIGH;
 
 //Declare large constants as longs
 task driveControl() { //Asynchronous task for critical drive control
