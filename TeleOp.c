@@ -113,6 +113,17 @@ task slideControl() {
 			motor[LeftSlide] = motor[RightSlide] = 0;
 		}
 
+		//Goal Grab Position
+		if(joystick.joy2_TopHat == 4) {
+			motor[LeftSlide] = motor[RightSlide] = 0;
+			while((abs(nMotorEncoder[RightSlide] - GOAL_GRAB_LIFT) > ENCODER_PRECISION) && !joy2Btn(5)) {		//abs(nMotorEncoder[LeftSlide] - GOAL_GRAB_LIFT) > ENCODER_PRECISION ||
+				motor[LeftSlide] = targetMotorSpeed(GOAL_GRAB_LIFT, nMotorEncoder[RightSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
+				motor[RightSlide] = targetMotorSpeed(GOAL_GRAB_LIFT, nMotorEncoder[RightSlide]) * SLIDE_HIGH * ANDYMARK_CONVERSION;
+				//writeDebugStream("LeftSlide:\t%d\t%d\RightSlide:\t%d\t%d\n", nMotorEncoder[LeftSlide], nMotorEncoder[RightSlide]);
+			}
+			motor[LeftSlide] = motor[RightSlide] = 0;
+		}
+		
 		//Low Rolling Goal
 		if(joy2Btn(1)) {
 			motor[LeftSlide] = motor[RightSlide] = 0;
