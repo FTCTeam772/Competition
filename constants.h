@@ -20,6 +20,7 @@
 #define SLIDE_BOTTOM 0
 
 //Presets
+#define GOAL_GRAB_LIFT 750
 #define LOW_GOAL 2400
 #define MEDIUM_GOAL 4600
 #define HIGH_GOAL 6700
