@@ -5,7 +5,7 @@ const tMUXSensor IR_left = msensor_S4_1;
 const tMUXSensor IR_right = msensor_S4_2;
 
 void initialize() {
-	//Initialize motorsa and encoders
+	//Initialize motors and encoders
 	motor[LeftWheels] = motor[FrontRight] = motor[BackRight] = motor[LeftSlide] = motor[RightSlide] = motor[zipties] = 0; //Turn off the motors
 	nMotorEncoder[LeftWheels] = nMotorEncoder[FrontRight] = nMotorEncoder[BackRight] = nMotorEncoder[LeftSlide] = nMotorEncoder[RightSlide] = 0; //Might as well reset the encoders too
 	servo[leftGrab] = LEFT_GRAB_UP;
@@ -144,7 +144,7 @@ void liftScore(int targetHeight){
 
 		halfDrive(-400);
 
-		while(nMotorEncoder[LeftSlide] > ENCODER_PRECISION || (nMotorEncoder[RightSlide] - 100) > ENCODER_PRECISION){
+		while((nMotorEncoder[RightSlide] - GOAL_GRAB_LIFT) > ENCODER_PRECISION){
 			motor[LeftSlide] = -SLIDE_HIGH * ANDYMARK_CONVERSION;		//REMEMBER to take out negatives when >> is put back in targetMotorSpeed(0, nMotorEncoder[LeftSlide]) *
 			motor[RightSlide] = -SLIDE_HIGH * ANDYMARK_CONVERSION;		//targetMotorSpeed(0, nMotorEncoder[RightSlide]) *
 		}
