@@ -45,46 +45,6 @@ void halfDrive(float amount) {
 		motor[LeftWheels] = motor[FrontRight] = motor[BackRight] = 0;
 }
 
-void turnBy(float amount){
-		float originalValue = SensorValue[Compass];      //The value of the compass before the turn
-		float targetValue = originalValue + amount;
-
-		if(targetValue > 359){			//correct targetValue if it is too large
-			targetValue = targetValue - 360;
-		}
-		else if(targetValue < 0){		//correct targetValue if it is too small
-			targetValue = targetValue + 360;
-		}
-
-		if(abs(amount) <= 90){		//For small turns...
-
-			while(abs(SensorValue[Compass] - targetValue) > SMALL_ANGLE_PRECISION){
-				if(amount < 0){						//turn left (negative)
-					motor[LeftWheels] = DRIVE_HIGH * ANDYMARK_CONVERSION * -1;
-					motor[FrontRight] = motor[BackRight] = DRIVE_HIGH * ANDYMARK_CONVERSION;
-				}
-				else {		//turn right
-					motor[LeftWheels] = DRIVE_HIGH * ANDYMARK_CONVERSION;
-					motor[FrontRight] = motor[BackRight] = DRIVE_HIGH * ANDYMARK_CONVERSION * -1;
-				}
-			}
-		}
-
-		if(abs(amount) > 90){			//For large turns...
-
-			while(abs(SensorValue[Compass] - targetValue) > LARGE_ANGLE_PRECISION){
-				if(amount < 0){						//turn left (negative)
-					motor[LeftWheels] = DRIVE_HIGH * ANDYMARK_CONVERSION * -1;
-					motor[FrontRight] = motor[BackRight] = DRIVE_HIGH * ANDYMARK_CONVERSION;
-				}
-				else {		//turn right
-					motor[LeftWheels] = DRIVE_HIGH * ANDYMARK_CONVERSION;
-					motor[FrontRight] = motor[BackRight] = DRIVE_HIGH * ANDYMARK_CONVERSION * -1;
-				}
-			}
-		}
-}
-
 void turn(float amount){		//If amount is positive, a right turn is made.
 		nMotorEncoder[LeftWheels] = nMotorEncoder[FrontRight] = nMotorEncoder[BackRight] = 0; 	//Reset encoders
 		while((abs(nMotorEncoder[LeftWheels] + amount) > ENCODER_PRECISION && abs(nMotorEncoder[FrontRight] - amount) > ENCODER_PRECISION) && abs(nMotorEncoder[BackRight] - amount) > ENCODER_PRECISION) {
@@ -129,7 +89,7 @@ void wait() {
 }
 
 void liftScore(int targetHeight){
-		while(abs(nMotorEncoder[RightSlide] - targetHeight) > ENCODER_PRECISION){ //abs(nMotorEncoder[LeftSlide] - targetHeight) > ENCODER_PRECISION ||
+		while(abs(nMotorEncoder[LeftSlide] - targetHeight) > ENCODER_PRECISION || abs(nMotorEncoder[RightSlide] - targetHeight) > ENCODER_PRECISION){ //
 			motor[LeftSlide] = SLIDE_HIGH * ANDYMARK_CONVERSION;		//targetMotorSpeed(targetHeight, nMotorEncoder[LeftSlide]) *
 			motor[RightSlide] = SLIDE_HIGH * ANDYMARK_CONVERSION;		//targetMotorSpeed(targetHeight, nMotorEncoder[RightSlide]) *
 		}
