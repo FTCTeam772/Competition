@@ -1,6 +1,6 @@
 #pragma config(Hubs,  S1, HTMotor,  HTMotor,  none,     none)
 #pragma config(Hubs,  S2, HTMotor,  HTServo,  none,     none)
-#pragma config(Sensor, S3,     Compass,        sensorI2CHiTechnicCompass)
+#pragma config(Sensor, S3,     Ultrasonic,     sensorSONAR)
 #pragma config(Sensor, S4,     Multi,          sensorI2CCustom)
 #pragma config(Motor,  mtr_S1_C1_1,     FrontRight,    tmotorTetrix, PIDControl, reversed, encoder)
 #pragma config(Motor,  mtr_S1_C1_2,     BackRight,     tmotorTetrix, PIDControl, reversed, encoder)
@@ -39,9 +39,9 @@ task driveControl() { //Asynchronous task for critical drive control
 		//Scale linearly for all other values
 		float y1, y2;
 
-		//writeDebugStream("IR sensor:\t%d\n", SensorValue[IR]);
-		writeDebugStream("LeftSlide:\t%d\n", nMotorEncoder[LeftSlide]);
- 		writeDebugStream("RightSlide:\t%d\n", nMotorEncoder[RightSlide]);
+		writeDebugStream("Ultrasonic:\t%d\n", SensorValue[Ultrasonic]);
+		//writeDebugStream("LeftSlide:\t%d\n", nMotorEncoder[LeftSlide]);
+ 		//writeDebugStream("RightSlide:\t%d\n", nMotorEncoder[RightSlide]);
 
 		//Tank Drive
 		if(joystick.joy1_y1 > DEADBAND || joystick.joy1_y1 < -DEADBAND)		//Left stick controls left wheels
@@ -105,8 +105,8 @@ task slideControl() {
 		//Home
 		if(joy2Btn(2)) {
 			motor[LeftSlide] = motor[RightSlide] = 0;
-			while(abs(nMotorEncoder[LeftSlide]) > (ENCODER_PRECISION * 1.5) || (nMotorEncoder[RightSlide] > (ENCODER_PRECISION * 1.5)) && !joy2Btn(5)){ 		//
-				motor[LeftSlide] = -SLIDE_HIGH * ANDYMARK_CONVERSION * .85;		//targetMotorSpeed(0, nMotorEncoder[LeftSlide]) *
+			while((nMotorEncoder[RightSlide] > (ENCODER_PRECISION * 1.4)) && !joy2Btn(5)){ 		//
+				motor[LeftSlide] = -SLIDE_HIGH * ANDYMARK_CONVERSION * .70;		//targetMotorSpeed(0, nMotorEncoder[LeftSlide]) *
 				motor[RightSlide] = -SLIDE_HIGH * ANDYMARK_CONVERSION;			//targetMotorSpeed(0, nMotorEncoder[RightSlide]) *
 				//writeDebugStream("LeftSlide:\t%d\t%d\RightSlide:\t%d\t%d\n", nMotorEncoder[LeftSlide], nMotorEncoder[RightSlide]);
 			}
@@ -123,7 +123,7 @@ task slideControl() {
 			}
 			motor[LeftSlide] = motor[RightSlide] = 0;
 		}
-		
+
 		//Low Rolling Goal
 		if(joy2Btn(1)) {
 			motor[LeftSlide] = motor[RightSlide] = 0;
