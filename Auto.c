@@ -1,6 +1,6 @@
 #pragma config(Hubs,  S1, HTMotor,  HTMotor,  none,     none)
 #pragma config(Hubs,  S2, HTMotor,  HTServo,  none,     none)
-#pragma config(Sensor, S3,     Compass,        sensorI2CHiTechnicCompass)
+#pragma config(Sensor, S3,     Ultrasonic,     sensorSONAR)
 #pragma config(Sensor, S4,     Multi,          sensorI2CCustom)
 #pragma config(Motor,  mtr_S1_C1_1,     FrontRight,    tmotorTetrix, PIDControl, reversed, encoder)
 #pragma config(Motor,  mtr_S1_C1_2,     BackRight,     tmotorTetrix, PIDControl, reversed, encoder)
@@ -31,7 +31,7 @@ void kickCenter(bool kick, bool center){
 
 		//Get IR Values
 		int irvalue = -1;
-
+		/*
 		if ((HTIRS2readACDir(IR_left) == 5 && HTIRS2readACDir(IR_right) == 6) || (HTIRS2readACDir(IR_left) == 5 && HTIRS2readACDir(IR_right) == 0)) { //center goal is facing the box
 			irvalue = 0;
 		}
@@ -42,6 +42,15 @@ void kickCenter(bool kick, bool center){
 
 		if (HTIRS2readACDir(IR_left) == 5 && HTIRS2readACDir(IR_right) == 5) { //center goal is facing toward the side of the ramp
 			irvalue = 2;
+		}*/
+
+		int distance = 1;
+
+		if ((SensorValue[Ultrasonic] - 52) <= ULTRASONIC_PRECISION) { //center goal is facing the box
+			distance = 0;
+		}
+		else if ((SensorValue[Ultrasonic] - 71) <= ULTRASONIC_PRECISION) { //center goal is facing toward the side of the ramp
+			distance = 2;
 		}
 
 		if (center == true) {
@@ -91,29 +100,27 @@ void kickCenter(bool kick, bool center){
 
 		if (kick == true){		//center is false & kickstand is true
 
-			if (irvalue == 0) { //center goal is facing the box
+			if (distance == 0) { //center goal is facing the box
 				//knock over kickstand
-				oneSideTurn(-1800, false);
-				oneSideTurn(-1800, true);
-				drive(-6000);
+				turn(1000);
+				drive(-1500);
+				turn(-1500);
+				drive(-5000);
 			}
 
-			if (irvalue == 1) { //center goal is facing at a 45 degree angle
+			if (distance == 1) { //center goal is facing at a 45 degree angle
 				//knock over kickstand
-				turn(3000);
-				drive(3300);
-				turn(-2300);
-				drive(-7000);
-			}
-
-			if (irvalue == 2) { //center goal is facing toward the side of the ramp
-				//knock over kickstand
-				drive(-2500);
-				turn(-3000);
+				drive(-700);
+				oneSideTurn(-2200, false);
 				drive(-3000);
-				drive(2000);
-				drive(-4000);
-		  }
+			}
+
+			if (distance == 2) { //center goal is facing toward the side of the ramp
+				//knock over kickstand
+				drive(-1800);
+				turn(-3500);
+				drive(-2000);
+			}
 		}
 	}
 
@@ -142,18 +149,21 @@ void execute(bool ramp, bool def, bool kick, bool center, int roll) {
 
 			if (def == true) {
 				//run defense program for floor beginning
+				oneSideTurn(-1000, true);
+				drive(-8000);
 			}
 			if (def == false) {
 
 				if (roll == 0) {		//If not scoring in rolling goals
-					drive(-2700);
+					drive(-3000);
+					wait();
+					wait();
 				}
 
 				if (roll == 1) {
 					//score in medium goal and bring it back
 					drive(1600);
-					//turn(1050);
-					turnBy(5);
+					turn(1050);
 					drive(11300);
 					setGrabbers();
 					liftScore(MEDIUM_GOAL);
