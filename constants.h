@@ -13,7 +13,7 @@
 
 //Robot Constants
 #define ENCODER_PRECISION 80
-#define ULTRASONIC_PRECISION 7
+#define ULTRASONIC_PRECISION 6
 #define ANDYMARK_CONVERSION -78.0/100.0
 #define SLIDE_TOP 8800
 #define SLIDE_BOTTOM 0
@@ -30,10 +30,11 @@
 #define RIGHT_GRAB_DOWN 180
 
 //Autonomous
-#define WAIT 30
+#define DELAY 0     //Delay at beginning of autonomous
+#define WAIT 30       //Used in wait()
 #define ZIPTIE_WAIT 170
 #define RAMP false    //Will the robot start on the ramp?
-#define DEF true     //Will the robot do defense?
+#define DEF true     //Will the robot play defence?
 #define KICK false    //Will the robot knock down the kick stand?
-#define CENTER false  //Will the robot go for the center goal?
+#define CENTER false  //Will the robot attempt to score in center goal?
 #define ROLLING 0    //Which rolling goal will the robot go for?  (0 = no rolling goals, 1 = medium goal only, 2 = high goal only)
