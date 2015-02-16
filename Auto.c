@@ -30,20 +30,6 @@
 void kickCenter(bool kick, bool center){
 
 		//Get IR Values
-		int irvalue = -1;
-		/*
-		if ((HTIRS2readACDir(IR_left) == 5 && HTIRS2readACDir(IR_right) == 6) || (HTIRS2readACDir(IR_left) == 5 && HTIRS2readACDir(IR_right) == 0)) { //center goal is facing the box
-			irvalue = 0;
-		}
-
-		if ((HTIRS2readACDir(IR_left) == 6 && HTIRS2readACDir(IR_right) == 7) || (HTIRS2readACDir(IR_left) == 0 && HTIRS2readACDir(IR_right) == 0)) { //center goal is facing at a 45 degree angle between the box and side of the ramp
-			irvalue = 1;
-		}
-
-		if (HTIRS2readACDir(IR_left) == 5 && HTIRS2readACDir(IR_right) == 5) { //center goal is facing toward the side of the ramp
-			irvalue = 2;
-		}*/
-
 		int distance = 1;
 
 		if ((SensorValue[Ultrasonic] - 52) <= ULTRASONIC_PRECISION) { //center goal is facing the box
@@ -56,7 +42,7 @@ void kickCenter(bool kick, bool center){
 		if (center == true) {
 			//run kickstand method for ramp start
 
-			if (irvalue == 0) { //center goal is facing the box
+			if (distance == 0) { //center goal is facing the box
 				//score in the centergoal
 				turn(-2000);
 				drive(-2500);
@@ -70,7 +56,7 @@ void kickCenter(bool kick, bool center){
 				}
 			}
 
-			if (irvalue == 1) { //center goal is facing at a 45 degree angle
+			if (distance == 1) { //center goal is facing at a 45 degree angle
 				//score in the centergoal
 				turn(-1200);
 				drive(-5000);
@@ -84,7 +70,7 @@ void kickCenter(bool kick, bool center){
 				}
 			}
 
-			if (irvalue == 2) { //center goal is facing toward the side of the ramp
+			if (distance == 2) { //center goal is facing toward the side of the ramp
 				//score in the centergoal
 				turn(-1400);
 				drive(-7300);
@@ -208,7 +194,7 @@ task main() {
 	//setSong("ImperialMarch.nms");
 	//play();
 
-	//wait10Msec(delay * 100);
+	wait10Msec(DELAY * 100);
 
  	execute(RAMP, DEF, KICK, CENTER, ROLLING);
 
