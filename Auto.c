@@ -48,7 +48,7 @@ void kickCenter(bool kick, bool center){
 				drive(-2500);
 				turn(-2200);
 				drive(2100);
-				liftScore(CENTER_GOAL);
+				liftScoreCenter();
 
 				if (kick == true){
 					//knock over kickstand
@@ -62,7 +62,7 @@ void kickCenter(bool kick, bool center){
 				drive(-5000);
 				turn(-3500);
 				drive(-500);
-				liftScore(CENTER_GOAL);
+				liftScoreCenter();
 
 				if (kick == true){
 					//knock over kickstand
@@ -75,7 +75,7 @@ void kickCenter(bool kick, bool center){
 				turn(-1400);
 				drive(-7300);
 				turn(-2200);
-				liftScore(CENTER_GOAL);
+				liftScoreCenter();
 
 				if (kick == true){
 					//knock over kickstand
