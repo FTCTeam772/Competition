@@ -11,7 +11,7 @@ void initialize() {
 	servo[leftGrab] = LEFT_GRAB_UP;
 	servo[rightGrab] = RIGHT_GRAB_UP;
 	//Display the robot's name
-	nxtDisplayCenteredTextLine(0, "Rock 2.0");
+	nxtDisplayCenteredTextLine(0, "Rock 2.2");
 }
 
 float targetMotorSpeed(int target, int current) {      //non-linear speed function using encoders
@@ -88,8 +88,33 @@ void wait() {
 	wait10Msec(WAIT);
 }
 
-void liftScore(int targetHeight){
+void liftScore(int targetHeight){				//Do NOT use for center goal
 		while(abs(nMotorEncoder[LeftSlide] - targetHeight) > ENCODER_PRECISION || abs(nMotorEncoder[RightSlide] - targetHeight) > ENCODER_PRECISION){ //
+			motor[LeftSlide] = SLIDE_HIGH * ANDYMARK_CONVERSION;		//targetMotorSpeed(targetHeight, nMotorEncoder[LeftSlide]) *
+			motor[RightSlide] = SLIDE_HIGH * ANDYMARK_CONVERSION;		//targetMotorSpeed(targetHeight, nMotorEncoder[RightSlide]) *
+		}
+		motor[LeftSlide] = motor[RightSlide] = 0;		//Stop lift motors after they have reached the desired height
+
+		halfDrive(700);
+		wait();
+		wait();
+		motor[zipties] = -50;		//Score balls
+		wait10Msec(ZIPTIE_WAIT);
+		motor[zipties] = 0;			//Stop servo after wait
+
+		halfDrive(-50);
+
+		while((nMotorEncoder[RightSlide] - GOAL_GRAB_LIFT) > ENCODER_PRECISION){
+			motor[LeftSlide] = -SLIDE_HIGH * ANDYMARK_CONVERSION;		//REMEMBER to take out negatives when >> is put back in targetMotorSpeed(0, nMotorEncoder[LeftSlide]) *
+			motor[RightSlide] = -SLIDE_HIGH * ANDYMARK_CONVERSION;		//targetMotorSpeed(0, nMotorEncoder[RightSlide]) *
+		}
+
+		motor[LeftSlide] = motor[RightSlide] = 0;		//Stop motors
+
+}
+
+void liftScoreCenter(){			//Method ONLY works for scoring in the center goal
+		while(abs(nMotorEncoder[LeftSlide] - CENTER_GOAL) > ENCODER_PRECISION || abs(nMotorEncoder[RightSlide] - CENTER_GOAL) > ENCODER_PRECISION){ //
 			motor[LeftSlide] = SLIDE_HIGH * ANDYMARK_CONVERSION;		//targetMotorSpeed(targetHeight, nMotorEncoder[LeftSlide]) *
 			motor[RightSlide] = SLIDE_HIGH * ANDYMARK_CONVERSION;		//targetMotorSpeed(targetHeight, nMotorEncoder[RightSlide]) *
 		}
@@ -104,7 +129,7 @@ void liftScore(int targetHeight){
 
 		halfDrive(-400);
 
-		while((nMotorEncoder[RightSlide] - GOAL_GRAB_LIFT) > ENCODER_PRECISION){
+		while(nMotorEncoder[RightSlide] > ENCODER_PRECISION){
 			motor[LeftSlide] = -SLIDE_HIGH * ANDYMARK_CONVERSION;		//REMEMBER to take out negatives when >> is put back in targetMotorSpeed(0, nMotorEncoder[LeftSlide]) *
 			motor[RightSlide] = -SLIDE_HIGH * ANDYMARK_CONVERSION;		//targetMotorSpeed(0, nMotorEncoder[RightSlide]) *
 		}
