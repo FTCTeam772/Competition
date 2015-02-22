@@ -1,9 +1,6 @@
 #include "drivers/hitechnic-sensormux.h"
 #include "drivers/hitechnic-irseeker-v2.h"
 
-const tMUXSensor IR_left = msensor_S4_1;
-const tMUXSensor IR_right = msensor_S4_2;
-
 void initialize() {
 	//Initialize motors and encoders
 	motor[LeftWheels] = motor[FrontRight] = motor[BackRight] = motor[LeftSlide] = motor[RightSlide] = motor[zipties] = 0; //Turn off the motors
@@ -102,15 +99,35 @@ void liftScore(int targetHeight){				//Do NOT use for center goal
 		wait10Msec(ZIPTIE_WAIT);
 		motor[zipties] = 0;			//Stop servo after wait
 
-		halfDrive(-50);
+		halfDrive(-400);
 
 		while((nMotorEncoder[RightSlide] - GOAL_GRAB_LIFT) > ENCODER_PRECISION){
 			motor[LeftSlide] = -SLIDE_HIGH * ANDYMARK_CONVERSION;		//REMEMBER to take out negatives when >> is put back in targetMotorSpeed(0, nMotorEncoder[LeftSlide]) *
 			motor[RightSlide] = -SLIDE_HIGH * ANDYMARK_CONVERSION;		//targetMotorSpeed(0, nMotorEncoder[RightSlide]) *
 		}
-
+		
+		drive(200);
 		motor[LeftSlide] = motor[RightSlide] = 0;		//Stop motors
 
+}
+
+void goHome(){
+	motor[LeftSlide] = motor[RightSlide] = 0;
+			while(((nMotorEncoder[LeftSlide] > (ENCODER_PRECISION * 1.6)) || (nMotorEncoder[RightSlide] > (ENCODER_PRECISION * 1.6))) && !joy2Btn(5)){ 		//
+				motor[LeftSlide] = -SLIDE_HIGH * ANDYMARK_CONVERSION * .95;		//targetMotorSpeed(0, nMotorEncoder[LeftSlide]) *
+				motor[RightSlide] = -SLIDE_HIGH * ANDYMARK_CONVERSION;			//targetMotorSpeed(0, nMotorEncoder[RightSlide]) *
+				//writeDebugStream("LeftSlide:\t%d\t%d\RightSlide:\t%d\t%d\n", nMotorEncoder[LeftSlide], nMotorEncoder[RightSlide]);
+			}
+			motor[LeftSlide] = motor[RightSlide] = 0;
+			wait();
+			while((nMotorEncoder[LeftSlide] < (ENCODER_PRECISION * .2)) && !joy2Btn(5)){		//Correct the left side
+				motor[LeftSlide] = SLIDE_LOW * ANDYMARK_CONVERSION;
+			}
+			motor[LeftSlide] = 0;
+			while((nMotorEncoder[RightSlide] < (ENCODER_PRECISION * .2)) && !joy2Btn(5)){	//Correct the right side
+				motor[RightSlide] = SLIDE_LOW * ANDYMARK_CONVERSION;
+			}
+			motor[RightSlide] = 0;
 }
 
 void liftScoreCenter(){			//Method ONLY works for scoring in the center goal
