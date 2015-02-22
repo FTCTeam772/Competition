@@ -29,7 +29,13 @@
 
 void kickCenter(bool kick, bool center){
 
-		//Get IR Values
+		if (RAMP == true && center == true){		//Correct if the robot started on the ramp
+			turn(-3500);
+			drive(-800);
+			turn(3500);
+    }
+    
+    //Get IR Values
 		int distance = 1;
 
 		if ((SensorValue[Ultrasonic] - 52) <= ULTRASONIC_PRECISION) { //center goal is facing the box
@@ -126,6 +132,8 @@ void execute(bool ramp, bool def, bool kick, bool center, int roll) {
 				drive(-10700);
 				turn(5500);
 				releaseGoal();
+				drive(-750);
+				goHome();
 				}
 
 			kickCenter(kick, center);
