@@ -82,7 +82,7 @@ task slideControl() {
 		if(((y1 < 0 && nMotorEncoder[RightSlide] <= SLIDE_BOTTOM) || (y1 > 0 && nMotorEncoder[RightSlide] >= SLIDE_TOP)) && !joy2Btn(5))
 			y1 = 0;
 
-		//writeDebugStream("Slides:\n\tLeft Slide:\t%d\n\tRight Slide:\t%d\n", nMotorEncoder[LeftSlide], nMotorEncoder[RightSlide]);
+		writeDebugStream("Slides:\n\tLeft Slide:\t%d\n\tRight Slide:\t%d\n", nMotorEncoder[LeftSlide], nMotorEncoder[RightSlide]);
 
 		//Set the motors to scale
 		if(joystick.joy2_TopHat == 0) { //Hold the lift up
@@ -104,13 +104,7 @@ task slideControl() {
 
 		//Home
 		if(joy2Btn(2)) {
-			motor[LeftSlide] = motor[RightSlide] = 0;
-			while((nMotorEncoder[RightSlide] > (ENCODER_PRECISION * 1.4)) && !joy2Btn(5)){ 		//
-				motor[LeftSlide] = -SLIDE_HIGH * ANDYMARK_CONVERSION * .70;		//targetMotorSpeed(0, nMotorEncoder[LeftSlide]) *
-				motor[RightSlide] = -SLIDE_HIGH * ANDYMARK_CONVERSION;			//targetMotorSpeed(0, nMotorEncoder[RightSlide]) *
-				//writeDebugStream("LeftSlide:\t%d\t%d\RightSlide:\t%d\t%d\n", nMotorEncoder[LeftSlide], nMotorEncoder[RightSlide]);
-			}
-			motor[LeftSlide] = motor[RightSlide] = 0;
+			goHome();
 		}
 
 		//Goal Grab Position
@@ -258,8 +252,10 @@ task main() {
 			motor[zipties] = sgn(joystick.joy2_y2) * DRIVE_HIGH;					//Make the servo spin accordingly
 		else
 			motor[zipties] = 0;					//If within DEADBAND, remain stopped
+	
+		if(joy2Btn(5) && joy2Btn(7) && joy2Btn(8)){		//If buttons 5, 7, & 8 are pressed: reset the home position value
+			nMotorEncoder[LeftSlide] = nMotorEncoder[RightSlide] = 0;
+		}
 
-		writeDebugStream("IR_left:\t%d\n", SensorValue[IR_left]);
-		writeDebugStream("IR_right:\t%d\n" ,SensorValue[IR_right]);
 	}
 }
