@@ -6,10 +6,17 @@ Below is a list of all of the files and their purposes.
 
 Competition Files
 -----------------
-- Auto.c: Autonomous mode program containing an autonomous script
 - TeleOp.c: Tele-Operated mode program containing main drive and arm control functions
-- common.h: Various functions useful between Auto.c and TeleOp.c
-- constants.h: Constants to calibrate the programs to the robot and the field
+- Auto.h: Autonomous mode program containing the body of the autonomous code (used by the Auto folder)
+- common.h: Contains various functions that are used by TeleOp.c and Auto.h
+- constants.h: Contains constants calibrate the programs to the robot and the field
+
+Auto Folder
+------------
+- Defence.c: Autonomous mode program that is designed to disrupt the opposing alliance
+- EmerRamp.c: Autonomous mode program that drives off of the ramp and drages the medium rolling goal into the parking zone
+- Kickstand.c: Autonomous mode program that detects the orientation of the center structure and knocks over the kickstand
+- RampScore.c: Autonomous mode program that scores in the medium rolling goal and brings it back to the parking zone
 
 Music Files
 -----------
@@ -21,11 +28,6 @@ Music Folder
 - Makefile: A makefile for building the music compiler and compiling the music files into NXT music files
 - make.bat: A build script that compiles music files on Windows using a prebuilt binary
 
-Auto Folder
-------------
-- Defence.c: Autonomous mode program designed to disrupt the opposing alliance
-- EmerRamp.c: Autonomous mode program designed for a scenario where the robot's lift has failed
-- Kickstand.c: Autonomous mode program that detects the orientation of the center structure and knocks over the kickstand.
 
 ### Files ###
 - SuperMario.mus: Super Mario Bros. theme song
