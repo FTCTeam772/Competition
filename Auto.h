@@ -189,21 +189,3 @@ void execute(bool ramp, bool def, bool kick, bool center, int roll) {
 			}
 		}
 	}
-
-task main() {
-
-	//Initialize
-	initialize();
-
-	//Go time!
-	waitForStart();
-
-	//Play the Imperial March
-	//setSong("ImperialMarch.nms");
-	//play();
-
-	wait10Msec(DELAY * 100);
-
- 	execute(RAMP, DEF, KICK, CENTER, ROLLING);
-
-}
