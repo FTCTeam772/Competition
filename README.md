@@ -21,6 +21,12 @@ Music Folder
 - Makefile: A makefile for building the music compiler and compiling the music files into NXT music files
 - make.bat: A build script that compiles music files on Windows using a prebuilt binary
 
+Auto Folder
+------------
+- Defence.c: Autonomous mode program designed to disrupt the opposing alliance
+- EmerRamp.c: Autonomous mode program designed for a scenario where the robot's lift has failed
+- Kickstand.c: Autonomous mode program that detects the orientation of the center structure and knocks over the kickstand.
+
 ### Files ###
 - SuperMario.mus: Super Mario Bros. theme song
 - ImperialMarch.mus: The Imperial March (Darth Vader's Theme)
