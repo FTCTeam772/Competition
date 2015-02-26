@@ -1,5 +1,4 @@
-#include "drivers/hitechnic-sensormux.h"
-#include "drivers/hitechnic-irseeker-v2.h"
+int gyroNumber;
 
 void initialize() {
 	//Initialize motors and encoders
@@ -8,7 +7,7 @@ void initialize() {
 	servo[leftGrab] = LEFT_GRAB_UP;
 	servo[rightGrab] = RIGHT_GRAB_UP;
 	//Display the robot's name
-	nxtDisplayCenteredTextLine(0, "Rock 2.2");
+	nxtDisplayCenteredTextLine(0, "Rock 2.4");
 }
 
 float targetMotorSpeed(int target, int current) {      //non-linear speed function using encoders
@@ -49,6 +48,29 @@ void turn(float amount){		//If amount is positive, a right turn is made.
 				motor[FrontRight] = motor[BackRight] = DRIVE_HIGH * ANDYMARK_CONVERSION * -sgn(amount);
 		}
 		motor[LeftWheels] = motor[FrontRight] = motor[BackRight] = 0;
+}
+
+
+
+void turnGyro(float amount){
+		int gyroValue = SensorValue[Gyro];
+		nMotorEncoder[LeftWheels] = nMotorEncoder[FrontRight] = nMotorEncoder[BackRight] = 0; 	//Reset encoders
+		while((abs(nMotorEncoder[LeftWheels] + amount) > ENCODER_PRECISION && abs(nMotorEncoder[FrontRight] - amount) > ENCODER_PRECISION) && abs(nMotorEncoder[BackRight] - amount) > ENCODER_PRECISION) {
+				motor[LeftWheels] = DRIVE_HIGH * ANDYMARK_CONVERSION * sgn(amount);
+				motor[FrontRight] = motor[BackRight] = DRIVE_HIGH * ANDYMARK_CONVERSION * -sgn(amount);
+				if(amount > 0 && SensorValue[Gyro] > gyroValue){
+					gyroValue = SensorValue[Gyro];
+				}
+				if(amount < 0 && SensorValue[Gyro] < gyroValue){
+					gyroValue = SensorValue[Gyro];
+				}
+			gyroNumber = gyroValue;
+		}
+		motor[LeftWheels] = motor[FrontRight] = motor[BackRight] = 0;
+}
+
+int getGyroNumber(){
+    return gyroNumber;
 }
 
 void releaseGoal(){          //Release the goal by putting the grabbers up
@@ -105,7 +127,7 @@ void liftScore(int targetHeight){				//Do NOT use for center goal
 			motor[LeftSlide] = -SLIDE_HIGH * ANDYMARK_CONVERSION;		//REMEMBER to take out negatives when >> is put back in targetMotorSpeed(0, nMotorEncoder[LeftSlide]) *
 			motor[RightSlide] = -SLIDE_HIGH * ANDYMARK_CONVERSION;		//targetMotorSpeed(0, nMotorEncoder[RightSlide]) *
 		}
-		
+
 		drive(200);
 		motor[LeftSlide] = motor[RightSlide] = 0;		//Stop motors
 
