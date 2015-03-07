@@ -7,7 +7,7 @@ void initialize() {
 	servo[leftGrab] = LEFT_GRAB_UP;
 	servo[rightGrab] = RIGHT_GRAB_UP;
 	//Display the robot's name
-	nxtDisplayCenteredTextLine(0, "Rock 2.4");
+	nxtDisplayCenteredTextLine(0, "Rock 3.0");
 }
 
 float targetMotorSpeed(int target, int current) {      //non-linear speed function using encoders
