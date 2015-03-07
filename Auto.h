@@ -112,9 +112,9 @@ void execute(bool ramp, bool def, bool kick, bool center, int roll) {
 				grabGoal();
 				turnGyro(1100);
 				
-				if(getGyroNumber() > 630){		//Only continue the program if the gyro value is greater than 630
+				if(getGyroNumber() > 650){		//Only continue the program if the gyro value is greater than 630
 						drive(-10700);
-						turn(5500);
+						turn(6500);
 						releaseGoal();
 						drive(-750);
 						goHome();
