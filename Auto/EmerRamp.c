@@ -30,10 +30,15 @@
 void executeGrab() {
 		//bring the medium goal back to the parking zone
 		drive(11800);
-		oneSideTurn(300, false);
-		setGrabbers();
 		grabGoal();
-		turn(1100);
+		turnGyro(1200);
+				if(getGyroNumber() > 650){		//Only continue the program if the gyro value is greater than 630
+						drive(-10700);
+						turn(5500);
+						releaseGoal();
+						drive(-750);
+						goHome();
+					}
 		drive(-10700);
 		turn(5500);
 		releaseGoal();
