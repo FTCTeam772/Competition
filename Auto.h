@@ -23,7 +23,7 @@ void kickCenter(bool kick, bool center){
 		if ((SensorValue[Ultrasonic] - 52) <= ULTRASONIC_PRECISION) { //center goal is facing the box
 			distance = 0;
 		}
-		else if ((SensorValue[Ultrasonic] - 71) <= ULTRASONIC_PRECISION) { //center goal is facing toward the side of the ramp
+		else if ((SensorValue[Ultrasonic] - 81) <= ULTRASONIC_PRECISION) { //center goal is facing toward the side of the ramp
 			distance = 2;
 		}
 
@@ -60,7 +60,7 @@ void kickCenter(bool kick, bool center){
 
 			if (distance == 2) { //center goal is facing toward the side of the ramp
 				//score in the centergoal
-				turn(-1400);
+				turn(-1500);
 				drive(-7300);
 				turn(-2200);
 				liftScoreCenter();
@@ -78,7 +78,7 @@ void kickCenter(bool kick, bool center){
 				//knock over kickstand
 				turn(1000);
 				drive(-1500);
-				turn(-1500);
+				turn(-1700);
 				drive(-5000);
 			}
 
@@ -91,9 +91,9 @@ void kickCenter(bool kick, bool center){
 
 			if (distance == 2) { //center goal is facing toward the side of the ramp
 				//knock over kickstand
-				drive(-1800);
-				turn(-3500);
-				drive(-2000);
+				drive(-2300);
+				turn(-3000);
+				drive(-3000);
 			}
 		}
 	}
@@ -105,19 +105,21 @@ void execute(bool ramp, bool def, bool kick, bool center, int roll) {
 
 			if (roll == 1) {
 				//score in medium goal and bring it back to parking zone
-				drive(11800);
-				oneSideTurn(300, false);
+				drive(11600);
+				oneSideTurn(300, true);
 				setGrabbers();
 				liftScore(MEDIUM_GOAL);
 				grabGoal();
-				turnGyro(1100);
-				
+				turnGyro(1150);
+
+				//writeDebugStream("Gyro Value:\t%d\n", getGyroNumber());
+
 				if(getGyroNumber() > 650){		//Only continue the program if the gyro value is greater than 630
-						drive(-10700);
-						turn(6500);
+						drive(-11500);
+						turn(5800);
 						releaseGoal();
-						drive(-750);
-						goHome();
+						//drive(-750);
+						//goHome();
 					}
 				}
 			kickCenter(kick, center);
@@ -133,7 +135,7 @@ void execute(bool ramp, bool def, bool kick, bool center, int roll) {
 			if (def == false) {
 
 				if (roll == 0) {		//If not scoring in rolling goals
-					drive(-3000);
+					drive(-2600);
 					wait();
 					wait();
 				}
