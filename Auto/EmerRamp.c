@@ -36,12 +36,7 @@ void executeGrab() {
 						drive(-10700);
 						turn(5500);
 						releaseGoal();
-						drive(-750);
-						goHome();
 					}
-		drive(-10700);
-		turn(5500);
-		releaseGoal();
 	}
 
 task main() {
