@@ -33,3 +33,8 @@
 #define DELAY 0     //Delay at beginning of autonomous
 #define WAIT 30       //Used in wait()
 #define ZIPTIE_WAIT 170
+#define RAMP true    //Will the robot start on the ramp?
+#define DEF false     //Will the robot play defence?
+#define KICK false    //Will the robot knock down the kick stand?
+#define CENTER false  //Will the robot attempt to score in center goal?
+#define ROLLING 1    //Which rolling goal will the robot go for?  (0 = no rolling goals, 1 = medium goal only, 2 = high goal only)
