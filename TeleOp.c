@@ -1,7 +1,7 @@
 #pragma config(Hubs,  S1, HTMotor,  HTMotor,  none,     none)
 #pragma config(Hubs,  S2, HTMotor,  HTServo,  none,     none)
 #pragma config(Sensor, S3,     Ultrasonic,     sensorSONAR)
-#pragma config(Sensor, S4,     Multi,          sensorI2CCustom)
+#pragma config(Sensor, S4,     Gyro,           sensorI2CHiTechnicGyro)
 #pragma config(Motor,  mtr_S1_C1_1,     FrontRight,    tmotorTetrix, PIDControl, reversed, encoder)
 #pragma config(Motor,  mtr_S1_C1_2,     BackRight,     tmotorTetrix, PIDControl, reversed, encoder)
 #pragma config(Motor,  mtr_S1_C2_1,     LeftWheels,    tmotorTetrix, PIDControl, encoder)
@@ -42,6 +42,7 @@ task driveControl() { //Asynchronous task for critical drive control
 		writeDebugStream("Ultrasonic:\t%d\n", SensorValue[Ultrasonic]);
 		//writeDebugStream("LeftSlide:\t%d\n", nMotorEncoder[LeftSlide]);
  		//writeDebugStream("RightSlide:\t%d\n", nMotorEncoder[RightSlide]);
+		writeDebugStream("Gyro:\t%d\n", SensorValue[Gyro]);
 
 		//Tank Drive
 		if(joystick.joy1_y1 > DEADBAND || joystick.joy1_y1 < -DEADBAND)		//Left stick controls left wheels
@@ -252,7 +253,7 @@ task main() {
 			motor[zipties] = sgn(joystick.joy2_y2) * DRIVE_HIGH;					//Make the servo spin accordingly
 		else
 			motor[zipties] = 0;					//If within DEADBAND, remain stopped
-	
+
 		if(joy2Btn(5) && joy2Btn(7) && joy2Btn(8)){		//If buttons 5, 7, & 8 are pressed: reset the home position value
 			nMotorEncoder[LeftSlide] = nMotorEncoder[RightSlide] = 0;
 		}
