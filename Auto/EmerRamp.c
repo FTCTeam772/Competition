@@ -33,7 +33,7 @@ void executeGrab() {
 		grabGoal();
 		turnGyro(1200);
 				if(getGyroNumber() > 650){		//Only continue the program if the gyro value is greater than 630
-						drive(-10700);
+						drive(-11000);
 						turn(5500);
 						releaseGoal();
 					}
