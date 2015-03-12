@@ -135,8 +135,8 @@ void liftScore(int targetHeight){				//Do NOT use for center goal
 
 void goHome(){
 	motor[LeftSlide] = motor[RightSlide] = 0;
-			while(((nMotorEncoder[LeftSlide] > (ENCODER_PRECISION * 1.6)) || (nMotorEncoder[RightSlide] > (ENCODER_PRECISION * 1.6))) && !joy2Btn(5)){ 		//
-				motor[LeftSlide] = -SLIDE_HIGH * ANDYMARK_CONVERSION * .95;		//targetMotorSpeed(0, nMotorEncoder[LeftSlide]) *
+			while(((nMotorEncoder[LeftSlide] > (ENCODER_PRECISION * 1.7)) || (nMotorEncoder[RightSlide] > (ENCODER_PRECISION * 1.7))) && !joy2Btn(5)){ 		//
+				motor[LeftSlide] = -SLIDE_HIGH * ANDYMARK_CONVERSION * .9;		//targetMotorSpeed(0, nMotorEncoder[LeftSlide]) *
 				motor[RightSlide] = -SLIDE_HIGH * ANDYMARK_CONVERSION;			//targetMotorSpeed(0, nMotorEncoder[RightSlide]) *
 				//writeDebugStream("LeftSlide:\t%d\t%d\RightSlide:\t%d\t%d\n", nMotorEncoder[LeftSlide], nMotorEncoder[RightSlide]);
 			}
