@@ -77,8 +77,8 @@ void kickCenter(bool kick, bool center){
 			if (distance == 0) { //center goal is facing the box
 				//knock over kickstand
 				turn(1000);
-				drive(-1500);
-				turn(-1700);
+				drive(-1800);
+				turn(-1800);
 				drive(-5000);
 			}
 
@@ -115,7 +115,7 @@ void execute(bool ramp, bool def, bool kick, bool center, int roll) {
 				//writeDebugStream("Gyro Value:\t%d\n", getGyroNumber());
 
 				if(getGyroNumber() > 650){		//Only continue the program if the gyro value is greater than 630
-						drive(-11500);
+						drive(-11700);
 						turn(5800);
 						releaseGoal();
 						//drive(-750);
