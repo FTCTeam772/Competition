@@ -121,14 +121,14 @@ void liftScore(int targetHeight){				//Do NOT use for center goal
 		wait10Msec(ZIPTIE_WAIT);
 		motor[zipties] = 0;			//Stop servo after wait
 
-		halfDrive(-400);
+		halfDrive(-700);
 
-		while((nMotorEncoder[RightSlide] - GOAL_GRAB_LIFT) > ENCODER_PRECISION){
+		while((nMotorEncoder[RightSlide]) > ENCODER_PRECISION){
 			motor[LeftSlide] = -SLIDE_HIGH * ANDYMARK_CONVERSION;		//REMEMBER to take out negatives when >> is put back in targetMotorSpeed(0, nMotorEncoder[LeftSlide]) *
 			motor[RightSlide] = -SLIDE_HIGH * ANDYMARK_CONVERSION;		//targetMotorSpeed(0, nMotorEncoder[RightSlide]) *
 		}
 
-		drive(200);
+		halfDrive(500);
 		motor[LeftSlide] = motor[RightSlide] = 0;		//Stop motors
 
 }
