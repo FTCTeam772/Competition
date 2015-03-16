@@ -129,8 +129,9 @@ void execute(bool ramp, bool def, bool kick, bool center, int roll) {
 
 			if (def == true) {
 				//run defense program for floor beginning
-				oneSideTurn(-1000, true);
-				drive(-8000);
+				oneSideTurn(-500, true);
+				drive(-7000);
+				turn(5000);
 			}
 			if (def == false) {
 
