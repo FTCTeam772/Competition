@@ -107,32 +107,6 @@ void wait() {
 	wait10Msec(WAIT);
 }
 
-void liftScore(int targetHeight){				//Do NOT use for center goal
-		while(abs(nMotorEncoder[LeftSlide] - targetHeight) > ENCODER_PRECISION || abs(nMotorEncoder[RightSlide] - targetHeight) > ENCODER_PRECISION){ //
-			motor[LeftSlide] = SLIDE_HIGH * ANDYMARK_CONVERSION;		//targetMotorSpeed(targetHeight, nMotorEncoder[LeftSlide]) *
-			motor[RightSlide] = SLIDE_HIGH * ANDYMARK_CONVERSION;		//targetMotorSpeed(targetHeight, nMotorEncoder[RightSlide]) *
-		}
-		motor[LeftSlide] = motor[RightSlide] = 0;		//Stop lift motors after they have reached the desired height
-
-		halfDrive(700);
-		wait();
-		wait();
-		motor[zipties] = -50;		//Score balls
-		wait10Msec(ZIPTIE_WAIT);
-		motor[zipties] = 0;			//Stop servo after wait
-
-		halfDrive(-700);
-
-		while((nMotorEncoder[RightSlide]) > ENCODER_PRECISION){
-			motor[LeftSlide] = -SLIDE_HIGH * ANDYMARK_CONVERSION;		//REMEMBER to take out negatives when >> is put back in targetMotorSpeed(0, nMotorEncoder[LeftSlide]) *
-			motor[RightSlide] = -SLIDE_HIGH * ANDYMARK_CONVERSION;		//targetMotorSpeed(0, nMotorEncoder[RightSlide]) *
-		}
-
-		halfDrive(500);
-		motor[LeftSlide] = motor[RightSlide] = 0;		//Stop motors
-
-}
-
 void goHome(){
 	motor[LeftSlide] = motor[RightSlide] = 0;
 			while(((nMotorEncoder[LeftSlide] > (ENCODER_PRECISION * 1.7)) || (nMotorEncoder[RightSlide] > (ENCODER_PRECISION * 1.7))) && !joy2Btn(5)){ 		//
@@ -150,6 +124,34 @@ void goHome(){
 				motor[RightSlide] = SLIDE_LOW * ANDYMARK_CONVERSION;
 			}
 			motor[RightSlide] = 0;
+}
+
+void liftScore(int targetHeight){				//Do NOT use for center goal
+		while(abs(nMotorEncoder[LeftSlide] - targetHeight) > ENCODER_PRECISION || abs(nMotorEncoder[RightSlide] - targetHeight) > ENCODER_PRECISION){ //
+			motor[LeftSlide] = SLIDE_HIGH * ANDYMARK_CONVERSION;		//targetMotorSpeed(targetHeight, nMotorEncoder[LeftSlide]) *
+			motor[RightSlide] = SLIDE_HIGH * ANDYMARK_CONVERSION;		//targetMotorSpeed(targetHeight, nMotorEncoder[RightSlide]) *
+		}
+		motor[LeftSlide] = motor[RightSlide] = 0;		//Stop lift motors after they have reached the desired height
+
+		halfDrive(700);
+		wait();
+		wait();
+		motor[zipties] = -50;		//Score balls
+		wait10Msec(ZIPTIE_WAIT);
+		motor[zipties] = 0;			//Stop servo after wait
+
+		halfDrive(-700);
+
+		/*while((nMotorEncoder[RightSlide]) > ENCODER_PRECISION){
+			motor[LeftSlide] = -SLIDE_HIGH * ANDYMARK_CONVERSION;		//REMEMBER to take out negatives when >> is put back in targetMotorSpeed(0, nMotorEncoder[LeftSlide]) *
+			motor[RightSlide] = -SLIDE_HIGH * ANDYMARK_CONVERSION;		//targetMotorSpeed(0, nMotorEncoder[RightSlide]) *
+		}*/
+
+		goHome();
+
+		halfDrive(500);
+		motor[LeftSlide] = motor[RightSlide] = 0;		//Stop motors
+
 }
 
 void liftScoreCenter(){			//Method ONLY works for scoring in the center goal
